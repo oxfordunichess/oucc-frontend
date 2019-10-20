@@ -28,7 +28,7 @@ export default class App extends React.Component {
 						'main',
 						'membership',
 						'termcard',
-						'varsiyy'
+						'varsity'
 					].map(path => <Route exact key={path + '_route'} path={'/' + path} render={(props) => <Page {...props} page={path} />} />)}
 					<Route path='*' component={NotFound} status={404} />
 				</Switch>
