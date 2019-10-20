@@ -1,0 +1,350 @@
+/* GENERIC SELECTORS */
+
+* {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	text-decoration: none;
+}
+
+body {
+	background-color: #f0f0f0;
+	font-family: trebuchet ms, trebuchet, arial, helvetica, geneva, sans-serif;
+}
+
+#header {
+	height: 140px;
+	z-index: 1;
+}
+
+#inner_header {
+	height: 90px;
+}
+
+#banner {
+	height: 90px;
+	background: #002147;
+	position: relative;
+	width: 1040px;
+	margin: auto;
+	border-bottom: 1px solid gray;
+}
+
+#facebook_pane {
+	display: flex;
+	background: white;
+}
+
+#facebook_pane > a > img {
+	height: 100%;
+	width: 100%;
+}
+
+#oucc_logo {
+	float: left;
+	width: 140px;
+	height: 140px;
+	display: block;
+	background: url('/images/oucclogo.jpg') center top no-repeat;
+	background-position: 0px 0px;
+	cursor: pointer;
+}
+
+#oucc_logo:hover {
+	background-position: 0px -141px;
+}
+
+#title {
+	position: absolute;
+	bottom: 10;
+	left: 200;
+	color: white;
+}
+
+#nav {
+	list-style-type: none;
+	height: 65px;
+	font-size: 0;
+	width: 1040px;
+	background: #ff2200;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none; 
+}
+
+#nav li {
+	padding: 20px 20px 5px;
+	display: inline-block;
+	font-size: 24px;
+	line-height: 40px;
+	cursor: pointer;
+}
+
+#nav li a {	
+	border: none;
+	outline: none;
+	text-decoration: none;
+	color: white;
+	-webkit-tap-highlight-color: white;
+}
+
+#nav li:hover {
+	background: #002147;
+}
+
+#sidebar {
+	width: 280px;
+	padding: 10px;
+	position: absolute;
+	right: 20px;
+	overflow: hidden;
+	background: white;
+	z-index: 1;
+}
+
+#puzzle_pane {
+	width: 280px;
+	margin: auto;
+	background: white;
+	padding-top: 10px;
+	text-align: center;
+	margin-top: 10px;
+	border-radius: 5px;
+}
+
+#main {
+	margin-left: 30px;
+	margin-right: 340px;
+}
+
+#content {
+	background: white;
+	padding-left: 20px;
+	border-radius: 5px;
+}
+
+#page {
+	margin: auto;
+	width: 1040px;
+	background: white;
+	padding-top: 10px;
+	min-height: 800px;
+	position: relative;
+	overflow: hidden;
+}
+
+/* http://stackoverflow.com/questions/211383/which-method-of-clearfix-is-best */
+
+/* For modern browsers */
+#page:before,
+#page:after {
+	content: "";
+	display: table;
+}
+#page:after {
+	clear: both;
+}
+
+#nav li.selected {
+	background: #002147;
+}
+
+#subnav {
+	list-style-type: none;
+	height: 49px;
+	font-size: 0;
+	position: absolute;
+	left: 140px;
+	width: 900px;
+	border-bottom: 1px solid gray;
+	background: #f8f8f8;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none; 
+}
+
+#subnav li {
+	padding: 9px 20px 0;
+	display: inline-block;
+	color: black;
+	font-size: 18px;
+	line-height: 40px;
+	border-right: 1px solid gray;
+	cursor: pointer;
+}
+
+#subnav li:hover {
+	background: white;
+}
+
+#subnav li.selected {
+	background: white;
+	padding-bottom: 1px;
+}
+
+#subnav #empty {
+	width: 860px;
+	background: white;
+	border-right: 0;
+	cursor: auto;
+}
+
+#subnav_container {
+	position: relative;
+	width: 1040px;
+	margin: auto;
+}
+
+/* Main area styling */
+
+#main h1 {
+	margin-top: 20px;
+	margin-bottom: 10px;
+	font-size: 30px;
+}
+
+#main h1:first-child {
+	margin-top: 15px;
+}
+
+#main h2 {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	font-size: 24px;
+}
+
+#main h3 {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	font-size: 18px;
+	font-style: italic;
+}
+
+#main p {
+	margin-bottom: 10px;
+}
+
+#main ul,
+#main ol {
+	margin-left: 30px;
+	margin-bottom: 10px;
+}
+
+#main table {
+	margin-bottom: 10px;
+	width: 100%;
+}
+
+#main td {
+	background: #e8e8e8;
+	padding: 3px;
+	text-align: center;
+}
+
+#main th {
+	background: #dddddd;
+	padding: 5px;
+	text-align: center;
+}
+
+/* News styling */
+
+#feed {
+	border-top: 1px solid gray;
+}
+
+div.article {
+	padding-bottom: 20px;
+	border-bottom: 1px solid gray;
+}
+
+div.article:last {
+	border-bottom: 0;
+}
+
+ul.links {
+	display: none;
+}
+
+#next_event {
+	padding: 10px;
+}
+
+#next_event h2,
+#next_event h3 {
+	margin-left: 20px;
+}
+
+#news_hlines {
+	padding: 10px 10px 30px;
+	position: relative;
+}
+
+#news_hlines ul {
+	font-size: 90%;
+	margin-left: 20px;
+}
+
+#news_hlines a {
+	position: absolute;
+	right: 10px;
+	font-size: 90%;
+}
+
+#news_hlines li {
+	margin-bottom: 2px;
+}
+
+input,
+textarea {
+	border: 1px solid gray;
+}
+
+#contact_table th {
+	width: 25%;
+}
+
+#contact_table input {
+	width: 100%;
+	height: 100%;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+}
+
+#contact_table textarea {
+	width: 100%;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	resize: none;
+}
+#foot {
+	background: #f0f0f0;
+	width: 100%;
+	height: 120px;
+	bottom: 0;
+	z-index: 100;
+}
+#sponsors {
+	width: 1040px;
+	margin: auto;
+	border-top: 1px solid gray;
+	text-align: center;
+	background: white;
+}
+#sp {
+	margin: auto;
+	list-style-type: none;
+	height: 90px;
+	width: 1040px;
+}
+
+#sp li {
+	height: 90px;
+	width: 200px;
+	margin: auto;
+	display: inline-block;
+	line-height: 40px;
+	cursor: pointer;
+}
