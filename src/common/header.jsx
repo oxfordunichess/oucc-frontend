@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import styles from '../css/header.module.css';
+import oucc_logo from '../assets/images/oucclogo.jpg';
 
 //[link, name, wide, display]
 const navigation = {
@@ -134,7 +135,7 @@ export default class Header extends React.Component {
 
 	componentDidMount() {
 		Object.entries(navigation).forEach(([k, v]) => {
-			if (window.location.pathname.slice(1).startsWith(k)) {
+			if (window.location.pathname.slice(1).includes(k)) {
 				this.setState({subnav: v})
 			}
 		})
@@ -145,7 +146,9 @@ export default class Header extends React.Component {
 			<div className={styles.header}>
 				<div className={styles.inner_header}>
 					<div className={styles.banner}>
-						<Link className={styles.oucc_logo} to="/"/>
+						<Link className={styles.oucc_logo} style={{
+							backgroundImage: process.env.PUBLIC_URL + '/images/oucclogo.jpg'
+						}} to="/"/>
 						<ul className={styles.nav}>
 							{Object.entries(pages).map(([link, name]) => <li key={link}><Link to={'/' + link}>{name}</Link></li>)}
 						</ul>
