@@ -6,7 +6,7 @@ import Header from '../common/header';
 import Sidebar from '../common/sidebar';
 
 import axios from 'axios';
-axios.defaults.baseURL = 'https://oxfordunichess.github.io/oucc-backend/pages/';
+axios.defaults.baseURL = 'https://oxfordunichess.github.io/oucc-backend/';
 
 export default class Page extends React.Component {
 
@@ -19,7 +19,7 @@ export default class Page extends React.Component {
 
 	static async getPage(path = 'main') {
 		try {
-			let url = `${path + '.md'}?token=${Math.random().toString(36).slice(2)}`;
+			let url = `pages/${path + '.md'}?token=${Math.random().toString(36).slice(2)}`;
 			let req = await axios(url);
 			return req.data;
 		} catch (e) {

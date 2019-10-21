@@ -12,22 +12,11 @@ body {
 	font-family: trebuchet ms, trebuchet, arial, helvetica, geneva, sans-serif;
 }
 
-#header {
-	height: 140px;
-	z-index: 1;
-}
-
-#inner_header {
-	height: 90px;
-}
-
-#banner {
-	height: 90px;
-	background: #002147;
-	position: relative;
-	width: 1040px;
-	margin: auto;
-	border-bottom: 1px solid gray;
+#title {
+	position: absolute;
+	bottom: 10;
+	left: 200;
+	color: white;
 }
 
 #facebook_pane {
@@ -38,59 +27,6 @@ body {
 #facebook_pane > a > img {
 	height: 100%;
 	width: 100%;
-}
-
-#oucc_logo {
-	float: left;
-	width: 140px;
-	height: 140px;
-	display: block;
-	background: url('/images/oucclogo.jpg') center top no-repeat;
-	background-position: 0px 0px;
-	cursor: pointer;
-}
-
-#oucc_logo:hover {
-	background-position: 0px -141px;
-}
-
-#title {
-	position: absolute;
-	bottom: 10;
-	left: 200;
-	color: white;
-}
-
-#nav {
-	list-style-type: none;
-	height: 65px;
-	font-size: 0;
-	width: 1040px;
-	background: #ff2200;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none; 
-}
-
-#nav li {
-	padding: 20px 20px 5px;
-	display: inline-block;
-	font-size: 24px;
-	line-height: 40px;
-	cursor: pointer;
-}
-
-#nav li a {	
-	border: none;
-	outline: none;
-	text-decoration: none;
-	color: white;
-	-webkit-tap-highlight-color: white;
-}
-
-#nav li:hover {
-	background: #002147;
 }
 
 #sidebar {
@@ -126,7 +62,7 @@ body {
 
 #page {
 	margin: auto;
-	width: 1040px;
+	width: 1080px;
 	background: white;
 	padding-top: 10px;
 	min-height: 800px;
@@ -148,53 +84,6 @@ body {
 
 #nav li.selected {
 	background: #002147;
-}
-
-#subnav {
-	list-style-type: none;
-	height: 49px;
-	font-size: 0;
-	position: absolute;
-	left: 140px;
-	width: 900px;
-	border-bottom: 1px solid gray;
-	background: #f8f8f8;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none; 
-}
-
-#subnav li {
-	padding: 9px 20px 0;
-	display: inline-block;
-	color: black;
-	font-size: 18px;
-	line-height: 40px;
-	border-right: 1px solid gray;
-	cursor: pointer;
-}
-
-#subnav li:hover {
-	background: white;
-}
-
-#subnav li.selected {
-	background: white;
-	padding-bottom: 1px;
-}
-
-#subnav #empty {
-	width: 860px;
-	background: white;
-	border-right: 0;
-	cursor: auto;
-}
-
-#subnav_container {
-	position: relative;
-	width: 1040px;
-	margin: auto;
 }
 
 /* Main area styling */
@@ -264,10 +153,6 @@ div.article:last {
 	border-bottom: 0;
 }
 
-ul.links {
-	display: none;
-}
-
 #next_event {
 	padding: 10px;
 }
@@ -327,7 +212,7 @@ textarea {
 	z-index: 100;
 }
 #sponsors {
-	width: 1040px;
+	width: 1080px;
 	margin: auto;
 	border-top: 1px solid gray;
 	text-align: center;
@@ -337,7 +222,7 @@ textarea {
 	margin: auto;
 	list-style-type: none;
 	height: 90px;
-	width: 1040px;
+	width: 1080px;
 }
 
 #sp li {
