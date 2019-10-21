@@ -8,7 +8,7 @@ export default class Sidebar extends React.Component {
 			<div id="sidebar">
 				<div id="facebook_pane">
 					<a href="https://www.facebook.com/groups/oxford.chess.club/">
-						<img alt="Find us on facebook button" id="fb_logo" src={'/images/fblogo.png'}/>
+						<img alt="Find us on facebook button" id="fb_logo" src={process.env.PUBLIC_URL + 'images/fblogo.png'}/>
 					</a>
 				</div>
 				<div id="next_event">
@@ -35,7 +35,7 @@ export default class Sidebar extends React.Component {
 						height="293"
 						frameBorder="0"
 						title="puzzle"
-						src="http://www.shredderchess.com/online/playshredder/gdailytactics.php?mylang=en&mysize=26"
+						src="https://www.shredderchess.com/online/playshredder/gdailytactics.php?mylang=en&mysize=26"
 					/>
 				</div>
 			</div>
