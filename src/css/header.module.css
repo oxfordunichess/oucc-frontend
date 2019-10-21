@@ -16,7 +16,7 @@
 	width: 140px;
 	height: 140px;
 	display: block;
-	background: url('/images/oucclogo.jpg') center top no-repeat;
+	background: url('/oucc-frontend/images/oucclogo.jpg') center top no-repeat;
 	background-position: 0px 0px;
 	cursor: pointer;
 }
