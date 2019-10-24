@@ -45,6 +45,7 @@ export default class App extends React.Component {
 						'classes',
 						'curr_news',
 						'old_news',
+						'other_events',
 						'leagues',
 						'maillists',
 						'main',
