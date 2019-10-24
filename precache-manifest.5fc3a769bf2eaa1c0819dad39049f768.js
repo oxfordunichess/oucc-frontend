@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "c5b4b868519a50323b8387ef36ff2ff5",
+    "revision": "fc5c2cd05538dba05f8ef92364dfe141",
     "url": "/oucc-frontend/index.html"
   },
   {
-    "revision": "53f1933467b1b13ea7c3",
+    "revision": "ff5cc596ab336cfa21b3",
     "url": "/oucc-frontend/static/css/main.533eb78b.chunk.css"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/oucc-frontend/static/js/2.a87f41f3.chunk.js"
   },
   {
-    "revision": "53f1933467b1b13ea7c3",
-    "url": "/oucc-frontend/static/js/main.6aa9b765.chunk.js"
+    "revision": "ff5cc596ab336cfa21b3",
+    "url": "/oucc-frontend/static/js/main.d850b42a.chunk.js"
   },
   {
     "revision": "8833e4877213f454dead",
