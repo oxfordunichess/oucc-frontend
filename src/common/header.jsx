@@ -36,10 +36,10 @@ export default class Header extends React.Component {
 		return (
 			<div className={styles.header}>
 				<div className={styles.inner_header}>
-					<div className={styles.banner} style={{
-							backgroundImage: process.env.PUBLIC_URL + '/images/oucclogo.jpg'
-						}}>
-						<Link className={styles.oucc_logo} to="/"/>
+					<div className={styles.banner} >
+						<Link className={styles.oucc_logo} to='/' style={{
+							backgroundImage: `url(${process.env.PUBLIC_URL}/images/oucclogo.jpg`
+						}}/>
 						<ul className={styles.nav}>
 							{Object.entries(pages).map(([link, name]) => <li key={link}><Link to={'/' + link}>{name}</Link></li>)}
 						</ul>
