@@ -50,7 +50,6 @@ export default class App extends React.Component {
 					})}
 					<Route exact path='/' render={() => <Page page='main' />} />
 					<Route exact path='/contact' render={() => <Contact title='Contact' parent='contact'/>}/>
-					<Route exact path='/committee' render={(props) => <Table {...props} file={'committee2019'} title='Committee' parent='members'/>} />
 					{/*[
 						'committee'
 					].map(path => <Route exact key={path + '_route'} path={'/' + path} render={(props) => <Table {...props} file={path} />} />)*/}
