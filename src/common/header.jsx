@@ -1,118 +1,9 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import styles from '../css/header.module.css';
-import oucc_logo from '../assets/images/oucclogo.jpg';
 
 //[link, name, wide, display]
-const navigation = {
-    news: [
-        [
-            "/curr_news",
-            "Current News",
-            false,
-            true
-        ],
-        [
-            "/old_news",
-            "News Archive",
-            false,
-            true
-        ]
-    ],
-    leagues: [
-        [
-            "/boxleague",
-            "Club League",
-            true,
-            false
-        ],
-        [
-            "/leagues",
-            "Teams",
-            false,
-            true
-        ],
-        [
-            "/termcard",
-            "Termcard",
-            true,
-            true
-        ],
-        [
-            "/1stTeam",
-            "1st Team",
-            false,
-            true
-        ],
-        [
-            "/2ndTeam",
-            "2nd Team",
-            false,
-            true
-        ],
-        [
-            "/3rdTeam",
-            "3rd Team",
-            false,
-            true
-        ],
-        [
-            "/classes",
-            "Classes",
-            false,
-            true
-        ]
-    ],
-    members: [
-        [
-            "/membership",
-            "Membership",
-            false,
-            true
-        ],
-        [
-            "/committee",
-            "Current Committee",
-            false,
-            true
-        ],
-        [
-            "/historical_committee",
-            "Past Officers",
-            false,
-            true
-        ]
-    ],
-    contact: [
-        [
-            "/contact",
-            "Contact Us",
-            false,
-            true
-        ],
-        [
-            "/maillists",
-            "Join our Mailing Lists",
-            false,
-            true
-        ]
-	],
-	sponsors: [],
-    tournament: [
-        [
-            "/tournament",
-            "Tournament",
-            false,
-            true
-        ],
-        [
-            "/other_events",
-            "Alumni day",
-            false,
-            true
-        ]
-    ]
-};
+import navigation from './navigation.json';
 
 const pages = {
     news: 'News',
@@ -145,10 +36,10 @@ export default class Header extends React.Component {
 		return (
 			<div className={styles.header}>
 				<div className={styles.inner_header}>
-					<div className={styles.banner}>
-						<Link className={styles.oucc_logo} style={{
+					<div className={styles.banner} style={{
 							backgroundImage: process.env.PUBLIC_URL + '/images/oucclogo.jpg'
-						}} to="/"/>
+						}}>
+						<Link className={styles.oucc_logo} to="/"/>
 						<ul className={styles.nav}>
 							{Object.entries(pages).map(([link, name]) => <li key={link}><Link to={'/' + link}>{name}</Link></li>)}
 						</ul>
@@ -156,7 +47,14 @@ export default class Header extends React.Component {
 				</div>
 				<div className={styles.subnav_container}>
 					<ul className={styles.subnav}>
-						{this.state.subnav.map(([link, name, wide, display]) => display ? <li key={link.slice(1)}><Link to={link}>{name}</Link></li> : null)}
+						{(navigation[this.props.parent] || this.state.subnav).map(([link, name, wide, display]) => {
+							if (!display) return null;
+							return (
+								<li key={link.slice(1)}>
+									<Link to={link}>{name}</Link>
+								</li>
+							);
+						})}
 					</ul>
 				</div>
 			</div>

@@ -10,7 +10,7 @@ export default class Page extends React.Component {
 		return (
 			<>
 				<Title title={this.props.title ? this.props.title + ' | OUCC' : 'OUCC'} />
-				<Header/>
+				<Header parent={this.props.parent}/>
 				<div id="page">
 					<Sidebar/>
 					<div id="main">

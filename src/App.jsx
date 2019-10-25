@@ -15,47 +15,42 @@ export default class App extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			index: null
+			index: {}
 		}
 	}
 
-	componentDidMount() {
+	static async getIndex() {
+		try {
+			let url = 'index.json?token=' + Math.random().toString(36).slice(2);
+			let req = await axios(url);
+			return req.data;
+		} catch (e) {
+			console.error(e);
+			return {};
+		}
+	}
 
+	async componentDidMount() {
+		let index = await this.constructor.getIndex();
+		this.setState({index});
 	}
 
 	render() {
 		return (
 			<Router basename={process.env.PUBLIC_URL}>
 				<Switch>
+					{Object.entries(this.state.index).map(([k, v]) => {
+						return (
+							<Route exact path={'/' + k} key={k + '_route'} render={(props) => {
+								if (v.open) window.open(v.open);
+								if (v.redirect) return <Redirect to={v.redirect} />;
+								return <Page {...props} page={k} title={v.title} parent={v.parent} />;
+							}} />
+						)
+					})}
 					<Route exact path='/' render={() => <Page page='main' />} />
-					<Route exact path='/contact' render={() => <Contact />}/>
-					<Route exact path='/members' render={() => <Redirect to='/membership' />} />
-					<Route exact path='/index.html' render={() => <Redirect to='/' />} />
-					<Route exact path='/news' render={() => <Redirect to='/curr_news' />} />
-					<Route path='/termcard' render={() => {
-						window.open('https://unioxfordnexus-my.sharepoint.com/:x:/g/personal/chri5551_ox_ac_uk/EQAUw-Mpt6pMoKx93Y8MFM0BQSwz7Xsqx1vJ54r5SILOrA')
-						return <Redirect to='/leagues'/>
-					}} />
-					{[
-						'1stTeam',
-						'2ndTeam',
-						'3rdTeam',
-						'archive',
-						'archive2',
-						'classes',
-						'curr_news',
-						'old_news',
-						'other_events',
-						'leagues',
-						'maillists',
-						'main',
-						'membership',
-						'sponsors',
-						//'termcard',
-						'tournament',
-						'varsity'
-					].map(path => <Route exact key={path + '_route'} path={'/' + path} render={(props) => <Page {...props} page={path} />} />)}
-					<Route exact path='/committee' render={(props) => <Table {...props} file={'committee2019'} />} />
+					<Route exact path='/contact' render={() => <Contact title='Contact' parent='contact'/>}/>
+					<Route exact path='/committee' render={(props) => <Table {...props} file={'committee2019'} title='Committee' parent='members'/>} />
 					{/*[
 						'committee'
 					].map(path => <Route exact key={path + '_route'} path={'/' + path} render={(props) => <Table {...props} file={path} />} />)*/}

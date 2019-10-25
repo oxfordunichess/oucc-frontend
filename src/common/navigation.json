@@ -1,0 +1,109 @@
+{
+    "news": [
+        [
+            "/curr_news",
+            "Current News",
+            false,
+            true
+        ],
+        [
+            "/old_news",
+            "News Archive",
+            false,
+            true
+        ]
+    ],
+    "leagues": [
+        [
+            "/boxleague",
+            "Club League",
+            true,
+            false
+        ],
+        [
+            "/leagues",
+            "Teams",
+            false,
+            true
+        ],
+        [
+            "/termcard",
+            "Termcard",
+            true,
+            true
+        ],
+        [
+            "/1stTeam",
+            "1st Team",
+            false,
+            true
+        ],
+        [
+            "/2ndTeam",
+            "2nd Team",
+            false,
+            true
+        ],
+        [
+            "/3rdTeam",
+            "3rd Team",
+            false,
+            true
+        ],
+        [
+            "/classes",
+            "Classes",
+            false,
+            true
+        ]
+    ],
+    "members": [
+        [
+            "/membership",
+            "Membership",
+            false,
+            true
+        ],
+        [
+            "/committee",
+            "Current Committee",
+            false,
+            true
+        ],
+        [
+            "/historical_committee",
+            "Past Officers",
+            false,
+            true
+        ]
+    ],
+    "contact": [
+        [
+            "/contact",
+            "Contact Us",
+            false,
+            true
+        ],
+        [
+            "/maillists",
+            "Join our Mailing Lists",
+            false,
+            true
+        ]
+	],
+	"sponsors": [],
+    "tournament": [
+        [
+            "/tournament",
+            "Tournament",
+            false,
+            true
+        ],
+        [
+            "/other_events",
+            "Alumni day",
+            false,
+            true
+        ]
+    ]
+}

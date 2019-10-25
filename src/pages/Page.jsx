@@ -37,11 +37,11 @@ export default class Page extends React.Component {
 		return (
 			<>
 				<Title title={this.props.title ? this.props.title + ' | OUCC' : 'OUCC'} />
-				<Header/>
+				<Header parent={this.props.parent} />
 				<div id="page">
-					<Sidebar/>
+					<Sidebar />
 					<div id="main">
-						{this.state.page ? <Markdown source={this.state.page.trim()}/> : null}
+						{this.state.page ? <Markdown source={this.state.page.trim()} /> : null}
 					</div>
 				</div>
 			</>
