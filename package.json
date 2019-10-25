@@ -7,6 +7,7 @@
   "dependencies": {
     "axios": "^0.19.0",
     "create-react-app": "^3.2.0",
+    "html-to-react": "^1.4.2",
     "node-sass": "^4.12.0",
     "react": "^16.10.2",
     "react-document-title": "^2.0.3",
@@ -20,9 +21,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-	"eject": "react-scripts eject",
-	"predeploy": "yarn build",
-	"deploy": "gh-pages -d build"
+    "eject": "react-scripts eject",
+    "predeploy": "yarn build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"

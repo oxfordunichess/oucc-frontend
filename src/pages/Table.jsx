@@ -16,52 +16,35 @@ export default class Table extends React.Component {
 		}
 	}
 
-	static async generateTable(subtitle, file) {
-		console.log(subtitle, file);
+	static async generateTable(file) {
 		let data = await axios(file);
 		let body = data.data;
 		let keys = Object.keys(body[0]);
 		return (
-			<>
-				<h2 id={subtitle + '-sub'}>{subtitle}</h2>
-				<table>
-					<thead>
-						{keys.map(key => <th key={key} scope='column'>{key}</th>)}
-					</thead>
-					<tbody>
-						{body.map(line => <tr>{
-							keys.map(key => <td>{key in line ? line[key] : null}</td>)
-						}</tr>)}
-					</tbody>
-				</table>
-			</>
+			<table>
+				<thead>
+					{keys.map(key => <th key={key} scope='column'>{capitalise(key)}</th>)}
+				</thead>
+				<tbody>
+					{body.map(line => <tr>{
+						keys.map(key => <td>{key in line ? line[key] : null}</td>)
+					}</tr>)}
+				</tbody>
+			</table>
 		)
 	}
 
 	async componentDidMount() {
-		if (!this.props.file) return;
-		let table = await Table.generateTable(this.props.subtitle || capitalise(this.props.file), 'data/' + this.props.file + '.json');
+		if (!this.props.src) return;
+		let table = await Table.generateTable('data/' + this.props.src);
 		this.setState({table});
 	}
 
 	render() {
-		return (
-			<>
-				<Title title={this.props.title ? this.props.title + ' | OUCC' : 'OUCC'} />
-				<Header parent={this.props.parent} />
-				<div id="page">
-					<Sidebar />
-					<div id="main">
-					<h1>{this.props.subtitle || capitalise(this.props.file)}</h1>
-					<br/>
-					{this.state.table}
-					</div>
-				</div>
-			</>
-		)
+		return this.state.table;
 	}
 }
-		
+
 function capitalise(str) {
 	if (typeof str !== 'string') throw new TypeError();
 	return str.slice(0, 1).toUpperCase() + str.slice(1).toLowerCase();

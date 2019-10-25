@@ -5,8 +5,38 @@ import Title from 'react-document-title';
 import Header from '../common/header';
 import Sidebar from '../common/sidebar';
 
+import htmlParser from 'react-markdown/plugins/html-parser';
+import HtmlToReact from 'html-to-react';
+import Table from './Table';
+
 import axios from 'axios';
 axios.defaults.baseURL = 'https://oxfordunichess.github.io/oucc-backend/';
+
+// See https://github.com/aknuds1/html-to-react#with-custom-processing-instructions
+// for more info on the processing instructions
+const  processNodeDefinitions = new HtmlToReact.ProcessNodeDefinitions(React);
+const parseHtml = htmlParser({
+	isValidNode: node => node.type !== 'script',
+	processingInstructions: [
+		{
+			// Custom <Table> processing
+			shouldProcessNode: function (node) {
+				console.log(node);
+				return node.name && node.name === 'data-table';
+			},
+			processNode: function (node, children) {
+				return <Table {...node.attribs}/>;
+			}
+		},
+		{
+			// Anything else
+			shouldProcessNode: function (node) {
+				return true;
+			},
+			processNode: processNodeDefinitions.processDefaultNode
+		}
+	]
+})
 
 export default class Page extends React.Component {
 
@@ -41,7 +71,11 @@ export default class Page extends React.Component {
 				<div id="page">
 					<Sidebar />
 					<div id="main">
-						{this.state.page ? <Markdown source={this.state.page.trim()} /> : null}
+						{this.state.page ? <Markdown
+							source={this.state.page.trim()}
+							escapeHtml={false}
+							astPlugins={[parseHtml]}
+						/> : null}
 					</div>
 				</div>
 			</>
