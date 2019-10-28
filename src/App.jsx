@@ -50,9 +50,6 @@ export default class App extends React.Component {
 					})}
 					<Route exact path='/' render={() => <Page page='main' />} />
 					<Route exact path='/contact' render={() => <Contact title='Contact' parent='contact'/>}/>
-					{/*[
-						'committee'
-					].map(path => <Route exact key={path + '_route'} path={'/' + path} render={(props) => <Table {...props} file={path} />} />)*/}
 					<Route path='*' component={NotFound} status={404} />
 				</Switch>
 			</Router>
