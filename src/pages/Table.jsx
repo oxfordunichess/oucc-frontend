@@ -1,8 +1,4 @@
 import React from 'react';
-import Title from 'react-document-title';
-
-import Header from '../common/header';
-import Sidebar from '../common/sidebar';
 
 import axios from 'axios';
 axios.defaults.baseURL = 'https://oxfordunichess.github.io/oucc-backend/';

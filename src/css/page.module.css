@@ -1,0 +1,88 @@
+.main {
+	margin-left: 30px;
+	margin-right: 340px;
+}
+
+.main h1 {
+	margin-top: 20px;
+	margin-bottom: 10px;
+	font-size: 30px;
+}
+
+.main h1:first-child {
+	margin-top: 15px;
+}
+
+.main h2 {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	font-size: 24px;
+}
+
+.main h3 {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	font-size: 18px;
+	font-style: italic;
+}
+
+.main p {
+	margin-bottom: 10px;
+}
+
+.main ul, .main ol {
+	margin-left: 30px;
+	margin-bottom: 10px;
+}
+
+.main img {
+	display: block;
+	max-width: 100%;
+	max-height: 40vh;
+	margin: 20px auto;
+}
+
+.main hr {
+	height: 25px;
+	color: gray;
+	border-color: blue;
+	z-index: 1;
+}
+
+.main table {
+	margin-bottom: 10px;
+	width: 100%;
+}
+
+.main td {
+	background: #e8e8e8;
+	padding: 3px;
+	text-align: center;
+}
+
+.main th {
+	background: #dddddd;
+	padding: 5px;
+	text-align: center;
+}
+
+/* Page area styling */
+
+.page {
+	margin: auto;
+	width: 1080px;
+	background: white;
+	padding-top: 10px;
+	min-height: 800px;
+	position: relative;
+	overflow: hidden;
+}
+
+.page:before, .page:after {
+	content: "";
+	display: table;
+}
+
+.page:after {
+	clear: both;
+}

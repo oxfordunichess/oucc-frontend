@@ -3,7 +3,7 @@ import './App.scss';
 import {BrowserRouter as Router, Route, Redirect, Switch} from 'react-router-dom';
 
 import Page from './pages/Page';
-import Table from './pages/Table';
+import News from './pages/News';
 import Contact from './pages/Contact';
 import NotFound from './pages/NotFound';
 
@@ -49,6 +49,7 @@ export default class App extends React.Component {
 						)
 					})}
 					<Route exact path='/' render={() => <Page page='main' />} />
+					<Route exact path='/newsv2' render={() => <News title='Current News' parent='News'/>}/>
 					<Route exact path='/contact' render={() => <Contact title='Contact' parent='contact'/>}/>
 					<Route path='*' component={NotFound} status={404} />
 				</Switch>
