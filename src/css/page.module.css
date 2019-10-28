@@ -45,7 +45,7 @@
 .main hr {
 	height: 25px;
 	color: gray;
-	border-color: blue;
+	border-bottom: 1px solid #00f;
 	z-index: 1;
 }
 
