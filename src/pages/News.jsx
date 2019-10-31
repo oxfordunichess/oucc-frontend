@@ -21,7 +21,6 @@ const parseHtml = htmlParser({
 		{
 			// Custom <Table> processing
 			shouldProcessNode: function (node) {
-				console.log(node);
 				return node.name && node.name === 'data-table';
 			},
 			processNode: function (node, children) {
@@ -102,7 +101,7 @@ export default class Feed extends React.Component {
 					<div className={styles.main}>
 						{this.state.articles.map((text) => {
 							return (
-								<div className={styles.article}>
+								<div id={text.split('\n').shift().match(/\w+/g).join('-').toLowerCase()} className={styles.article}>
 									<Markdown
 										source={text}
 										escapeHtml={false}
