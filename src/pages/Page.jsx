@@ -21,7 +21,6 @@ const parseHtml = htmlParser({
 		{
 			// Custom <Table> processing
 			shouldProcessNode: function (node) {
-				console.log(node);
 				return node.name && node.name === 'data-table';
 			},
 			processNode: function (node, children) {
