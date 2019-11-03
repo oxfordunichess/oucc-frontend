@@ -1,6 +1,6 @@
 {
   "name": "oucc-react",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "private": false,
   "homepage2": "https://oxfordunichess.github.io/oucc-frontend/",
   "homepage": "http://users.ox.ac.uk/~chess/",
@@ -11,8 +11,8 @@
     "html-to-react": "^1.4.2",
     "node-sass": "^4.12.0",
     "react": "^16.10.2",
-    "react-document-title": "^2.0.3",
     "react-dom": "^16.10.2",
+    "react-helmet": "^5.2.1",
     "react-markdown": "^4.2.2",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.2.0"

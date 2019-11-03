@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import Markdown from 'react-markdown';
-import Title from 'react-document-title';
+import {Helmet} from 'react-helmet';
 
 import Header from '../common/header';
 import Sidebar from '../common/sidebar';
@@ -105,7 +105,9 @@ export default class Feed extends React.Component {
 	render() {
 		return (
 			<>
-				<Title title={this.props.title ? this.props.title + ' | OUCC' : 'OUCC'} />
+				<Helmet>
+					<title>{this.props.title ? this.props.title + ' | OUCC' : 'OUCC'}</title>
+				</Helmet>
 				<Header parent={this.props.parent} />
 				<div className={styles.page}>
 					<Sidebar />

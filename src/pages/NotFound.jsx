@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import Title from 'react-document-title';
+import {Helmet} from 'react-helmet';
 
 import Header from '../common/header';
 import Sidebar from '../common/sidebar';
@@ -8,8 +8,10 @@ import Sidebar from '../common/sidebar';
 export default class NotFound extends React.Component {
 	render() {
 		return (
-			<>
-				<Title title={this.props.title ? this.props.title + ' | OUCC' : 'OUCC'} />
+			<>				
+				<Helmet>
+					<title>{this.props.title ? this.props.title + ' | OUCC' : 'OUCC'}</title>
+				</Helmet>
 				<Header/>
 				<div id="page">
 					<Sidebar/>
