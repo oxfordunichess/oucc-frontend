@@ -21,10 +21,17 @@ const parseHtml = htmlParser({
 		{
 			// Custom <Table> processing
 			shouldProcessNode: function (node) {
-				return node.name && node.name === 'data-table';
+				if (!node.name) return false;
+				if (node.name === 'data-table') return true;
+				return false;
 			},
 			processNode: function (node, children) {
-				return <Table {...node.attribs}/>;
+				switch (node.name) {
+					case ('data-table'):
+						return <Table {...node.attribs}/>;
+					default:
+						return null;
+				}
 			}
 		},
 		{
@@ -100,10 +107,19 @@ export default class Feed extends React.Component {
 					<Sidebar />
 					<div className={styles.main}>
 						{this.state.articles.map((text) => {
+							let lines = text.split('\n');
+							let header = lines.shift().trim();
+							while (header.startsWith('#')) {
+								header = header.slice(1);
+							}
+							header = header.trim();
+							let id = header.match(/\w+/g).join('-').toLowerCase();
+							let intro = `## [${header}](${window.location.href.slice(0, -window.location.hash.length)}#${id})`;
+							let joined = [intro, ...lines].join('\n');
 							return (
-								<div id={text.split('\n').shift().match(/\w+/g).join('-').toLowerCase()} className={styles.article}>
+								<div id={id} className={styles.article}>
 									<Markdown
-										source={text}
+										source={joined}
 										escapeHtml={false}
 										astPlugins={[parseHtml]}
 									/>
