@@ -81,6 +81,10 @@ export default class Feed extends React.Component {
 		}
 	}
 
+	static setSection(location, id) {
+		return location.href.slice(0, -location.hash.length) + '#' + id;
+	}
+
 	async componentDidMount() {
 		let {data} = await Feed.getIndex();
 		let filenames = data.map(file => file.name);
@@ -114,7 +118,7 @@ export default class Feed extends React.Component {
 							}
 							header = header.trim();
 							let id = header.match(/\w+/g).join('-').toLowerCase();
-							let intro = `## [${header}](${window.location.href.slice(0, -window.location.hash.length)}#${id})`;
+							let intro = `## [${header}](${Feed.setSection(window.location, id)})`;
 							let joined = [intro, ...lines].join('\n');
 							return (
 								<div id={id} className={styles.article}>
