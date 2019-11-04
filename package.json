@@ -2,8 +2,7 @@
   "name": "oucc-react",
   "version": "1.0.10",
   "private": false,
-  "homepage": "./",
-  "homepage3": "https://oxfordunichess.github.io/oucc-frontend/",
+  "homepage": "https://oxfordunichess.github.io/oucc-frontend/",
   "homepage2": "http://users.ox.ac.uk/~chess/",
   "source": "https://github.com/oxfordunichess/oucc-frontend",
   "dependencies": {
