@@ -19,9 +19,17 @@ export default class App extends React.Component {
 		}
 	}
 
+	static isDev() {		
+		if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	static async getIndex() {
 		try {
-			let url = 'index.json?token=' + Math.random().toString(36).slice(2);
+			let url = 'index.json' + (App.isDev() ? '?token=' + Math.random().toString(36).slice(2) : '');
 			let req = await axios(url);
 			return req.data;
 		} catch (e) {
