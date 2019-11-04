@@ -111,9 +111,14 @@ export default class Feed extends React.Component {
 			// eslint-disable-next-line no-self-compare
 			if (b_date.getTime() !== b_date.getTime()) return -1;
 			return b_date - a_date;
-		})
-		let articles = await Promise.all(sorted.map(Feed.getArticle));
-		this.setState({articles});
+		});
+		let articles = new Array(sorted.length);
+		this.setState({articles})
+		sorted.map((names, i) => Feed.getArticle(names)
+			.then(data => articles[i] = data)
+			.then(() => this.setState({articles}))
+			.catch(console.error)
+		)
 	}
 
 	render() {
