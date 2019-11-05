@@ -6,6 +6,7 @@ import Page from './pages/Page';
 import News from './pages/News';
 import Contact from './pages/Contact';
 import NotFound from './pages/NotFound';
+import Calendar from './pages/Calendar';
 
 import axios from 'axios';
 axios.defaults.baseURL = 'https://oxfordunichess.github.io/oucc-backend/';
@@ -59,6 +60,7 @@ export default class App extends React.Component {
 					<Route exact path='/' render={() => <Page page='main' />} />
 					<Route exact path='/curr_news' render={() => <News title='Current News' parent='News'/>}/>
 					<Route exact path='/contact' render={() => <Contact title='Contact' parent='contact'/>}/>
+					<Route exact path='/calendar' render={() => <Calendar title='Calendar' parent='calendar'/>}/>
 					<Route path='*' component={NotFound} status={404} />
 				</Switch>
 			</Router>

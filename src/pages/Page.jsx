@@ -1,6 +1,7 @@
 import React from 'react';
 import Markdown from 'react-markdown';
 import {Helmet} from 'react-helmet';
+import path from 'path';
 
 import Header from '../common/header';
 import Sidebar from '../common/sidebar';
@@ -84,6 +85,11 @@ export default class Page extends React.Component {
 							source={this.state.page.trim()}
 							escapeHtml={false}
 							astPlugins={[parseHtml]}
+							transformLinkUri={(uri) => {
+								uri = Markdown.uriTransformer(uri);
+								if (uri.startsWith('/') || uri.startsWith('./')) uri = path.join(process.env.PUBLIC_URL, uri);
+								return uri;
+							}}
 						/> : null}
 					</div>
 				</div>

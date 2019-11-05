@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import Markdown from 'react-markdown';
 import {Helmet} from 'react-helmet';
+import path from 'path';
 
 import Header from '../common/header';
 import Sidebar from '../common/sidebar';
@@ -144,6 +145,11 @@ export default class Feed extends React.Component {
 						source={joined}
 						escapeHtml={false}
 						astPlugins={[parseHtml]}
+						transformLinkUri={(uri) => {
+							uri = Markdown.uriTransformer(uri);
+							if (uri.startsWith('/') || uri.startsWith('./')) uri = path.join(process.env.PUBLIC_URL, uri);
+							return uri;
+						}}
 					/>
 					<hr />
 				</div>
