@@ -1,4 +1,5 @@
 import React from 'react';
+import Papa from 'papaparse';
 
 import axios from 'axios';
 axios.defaults.baseURL = 'https://oxfordunichess.github.io/oucc-backend/';
@@ -12,9 +13,18 @@ export default class Table extends React.Component {
 		}
 	}
 
-	static async generateTable(file) {
-		let data = await axios(file);
-		let body = data.data;
+	static async getData(file) {
+		try {
+			let data = await axios(file);
+			let body = data.data;
+			return body;
+		} catch (e) {
+			if (e) console.error(e);
+			return [{}];
+		}
+	}
+
+	static async generateTablefromJSON(body) {
 		let keys = Object.keys(body[0]);
 		return (
 			<table>
@@ -22,9 +32,14 @@ export default class Table extends React.Component {
 					{keys.map(key => <th key={key} scope='column'>{capitalise(key)}</th>)}
 				</thead>
 				<tbody>
-					{body.map(line => <tr>{
-						keys.map(key => <td>{key in line ? line[key] : null}</td>)
-					}</tr>)}
+					{body.map(line => {
+						let id = Object.values(line)[0] ? Object.values(line)[0].toLowerCase().replace(/\s+/g, '-') : null;
+						return (
+							<tr key={id} id={id} >{
+								keys.map(key => <td>{key in line ? line[key] : null}</td>)
+							}</tr>
+						);
+					})}
 				</tbody>
 			</table>
 		)
@@ -32,7 +47,12 @@ export default class Table extends React.Component {
 
 	async componentDidMount() {
 		if (!this.props.src) return;
-		let table = await Table.generateTable('data/' + this.props.src);
+		let data = await Table.getData('data/' + this.props.src);
+		if (this.props.src.endsWith('.csv')) data = Papa.parse(data, {
+			header: true,
+			dynamicTyping: true
+		}).data;
+		let table = await Table.generateTablefromJSON(data);
 		this.setState({table});
 	}
 
