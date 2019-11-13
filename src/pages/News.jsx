@@ -84,12 +84,19 @@ export default class Feed extends React.Component {
 
 	static async getArticle(pathname) {
 		try {
-			console.log(Feed.isDev());
 			return await axios({
 				baseURL: 'https://oxfordunichess.github.io/oucc-backend/news/',
 				url: pathname + (Feed.isDev() ? '?token=' + Math.random().toString(36).slice(2) : ''),
 				method: 'GET',
 				maxRedirects: 5
+			})
+			.catch(async (e) => {
+				return Feed.isDev() ? e : await axios({
+					baseURL: 'https://oxfordunichess.github.io/oucc-backend/news/',
+					url: pathname + '?token=' + Math.random().toString(36).slice(2),
+					method: 'GET',
+					maxRedirects: 5
+				})
 			}).then(v => v.data);
 		} catch (e) {
 			if (e) console.error(e);
@@ -126,16 +133,16 @@ export default class Feed extends React.Component {
 	render() {
 		let articles = new Map();
 		let components = this.state.articles.map((text) => {
+			if (!header) {
+				console.error('Bad Markdown document:\n' + text);
+				return null;
+			}
 			let lines = text.split('\n');
 			let header = lines.shift().trim();
 			while (header.startsWith('#')) {
 				header = header.slice(1);
 			}
 			header = header.trim();
-			if (!header) {
-				console.error('Bad Markdown document:\n' + text);
-				return null;
-			}
 			let id = header.match(regexes.letters).join('-').toLowerCase();
 			let intro = `## [${header}](${Feed.setSection(window.location, id)})`;
 			let joined = [intro, ...lines].join('\n');
