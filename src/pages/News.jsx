@@ -84,6 +84,7 @@ export default class Feed extends React.Component {
 
 	static async getArticle(pathname) {
 		try {
+			console.log(Feed.isDev());
 			return await axios({
 				baseURL: 'https://oxfordunichess.github.io/oucc-backend/news/',
 				url: pathname + (Feed.isDev() ? '?token=' + Math.random().toString(36).slice(2) : ''),
@@ -131,6 +132,10 @@ export default class Feed extends React.Component {
 				header = header.slice(1);
 			}
 			header = header.trim();
+			if (!header) {
+				console.error('Bad Markdown document:\n' + text);
+				return null;
+			}
 			let id = header.match(regexes.letters).join('-').toLowerCase();
 			let intro = `## [${header}](${Feed.setSection(window.location, id)})`;
 			let joined = [intro, ...lines].join('\n');
