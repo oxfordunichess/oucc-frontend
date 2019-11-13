@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/~chess/static/css/main.cd5f379a.chunk.css",
-    "main.js": "/~chess/static/js/main.e763d60f.chunk.js",
-    "main.js.map": "/~chess/static/js/main.e763d60f.chunk.js.map",
-    "runtime~main.js": "/~chess/static/js/runtime~main.85f08ef3.js",
-    "runtime~main.js.map": "/~chess/static/js/runtime~main.85f08ef3.js.map",
-    "static/css/2.c1f9cd9a.chunk.css": "/~chess/static/css/2.c1f9cd9a.chunk.css",
-    "static/js/2.9d99ca26.chunk.js": "/~chess/static/js/2.9d99ca26.chunk.js",
-    "static/js/2.9d99ca26.chunk.js.map": "/~chess/static/js/2.9d99ca26.chunk.js.map",
-    "index.html": "/~chess/index.html",
-    "precache-manifest.d881c66b28f3c82ebb718c6726b39fca.js": "/~chess/precache-manifest.d881c66b28f3c82ebb718c6726b39fca.js",
-    "service-worker.js": "/~chess/service-worker.js",
-    "static/css/2.c1f9cd9a.chunk.css.map": "/~chess/static/css/2.c1f9cd9a.chunk.css.map",
-    "static/css/main.cd5f379a.chunk.css.map": "/~chess/static/css/main.cd5f379a.chunk.css.map"
+    "main.css": "/oucc-frontend/static/css/main.cd5f379a.chunk.css",
+    "main.js": "/oucc-frontend/static/js/main.cdc4cd65.chunk.js",
+    "main.js.map": "/oucc-frontend/static/js/main.cdc4cd65.chunk.js.map",
+    "runtime~main.js": "/oucc-frontend/static/js/runtime~main.a3a1317e.js",
+    "runtime~main.js.map": "/oucc-frontend/static/js/runtime~main.a3a1317e.js.map",
+    "static/css/2.c1f9cd9a.chunk.css": "/oucc-frontend/static/css/2.c1f9cd9a.chunk.css",
+    "static/js/2.74f6da09.chunk.js": "/oucc-frontend/static/js/2.74f6da09.chunk.js",
+    "static/js/2.74f6da09.chunk.js.map": "/oucc-frontend/static/js/2.74f6da09.chunk.js.map",
+    "index.html": "/oucc-frontend/index.html",
+    "precache-manifest.ff7a93dd8fc0d17929ee33706dae34d7.js": "/oucc-frontend/precache-manifest.ff7a93dd8fc0d17929ee33706dae34d7.js",
+    "service-worker.js": "/oucc-frontend/service-worker.js",
+    "static/css/2.c1f9cd9a.chunk.css.map": "/oucc-frontend/static/css/2.c1f9cd9a.chunk.css.map",
+    "static/css/main.cd5f379a.chunk.css.map": "/oucc-frontend/static/css/main.cd5f379a.chunk.css.map"
   }
 }
