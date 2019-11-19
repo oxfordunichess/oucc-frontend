@@ -60,6 +60,11 @@
 	font-size: 24px;
 	padding: 0 40px;
 	cursor: pointer;
+	border-right: 5px solid #ff2200;
+}
+
+.listing > div:hover {
+	border-right: 5px solid #002147;
 }
 
 .listing > div > a {
@@ -108,6 +113,7 @@
 	height: 65px;
 	padding: 9px 20px 0;
 	cursor: pointer;
+	border-right: 5px solid gray;
 }
 
 .subnav li a {
@@ -120,10 +126,7 @@
 
 .subnav li:hover {
 	background: #002147;
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	border-right: 5px solid #ff2200;
+	border-right: 5px solid red;
 }
 
 .subnav li.selected {
@@ -131,7 +134,7 @@
     box-sizing: border-box;
     -moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
-	border-right: 5px solid #ff2200;
+	border-right: 5px solid #002147;
 }
 
 .newsFeed {
@@ -144,7 +147,7 @@
 .newsFeed div.intro {
 	padding: 0 15px 0 30px;
 	min-width: 120px;
-	border-right: 1px solid gray;
+	border-right: 1px solid black;
 }
 
 .newsFeed div.runner {
@@ -154,7 +157,7 @@
 	white-space: nowrap;
 	margin: 0 30px 0 0;
 	font-size: 12;
-	border-right: 1px solid gray;
+	border-right: 1px solid black;
 	max-width: calc(100vw - 210px)
 }
 
