@@ -16,6 +16,7 @@ export default class Calendar extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			today: this.constructor.getEventDate(Date.now()),
 			start: new Date(props.start || '6 October 2019'),
 			finish: new Date(props.finish || '8 December 2019'),
 			events: {},
@@ -24,6 +25,11 @@ export default class Calendar extends React.Component {
 			locationReplacers: {},
 			mapsLink: ''
 		}
+		window.location = this.constructor.setSection(window.location, this.state.today);
+	}
+
+	static setSection(location, id) {
+		return location.href.slice(0, -location.hash.length) + '#' + id;
 	}
 
 	static getEventDate(date) {
@@ -69,11 +75,16 @@ export default class Calendar extends React.Component {
 							let date = new Date(week).setDate(week.getDate() + i);
 							date = this.constructor.getEventDate(new Date(date));
 							let today = false;
-							if (this.constructor.getEventDate(Date.now()) === date) today = true;
+							if (this.state.today === date) today = true;
 							days.push(<td id={date} key={date} style={today ? {
 								backgroundColor: 'PeachPuff'
 							} : {}}>
-								{(this.state.events[date] || []).map((event, i) => {
+								{(this.state.events[date] || [])
+								.sort((a, b) => {
+									if (a.start.getHours() !== b.start.getHours()) return a.start.getHours() - b.start.getHours();
+									else return a.start.getMinutes() - b.start.getMinutes();
+								})
+								.map((event, i) => {
 
 									let locationDisplay;
 									let l = event.location.split(',').shift();
@@ -163,7 +174,7 @@ export default class Calendar extends React.Component {
 						status: event.status,
 						start: new Date(event.start.dateTime),
 						end: new Date(event.end.dateTime),
-						location: event.location,
+						location: event.location || '',
 						description: he.decode(event.description || ''),
 						calendarName,
 						color
