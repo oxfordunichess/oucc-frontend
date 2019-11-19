@@ -10,6 +10,8 @@ import htmlParser from 'react-markdown/plugins/html-parser';
 import HtmlToReact from 'html-to-react';
 import Table from './Table';
 
+import {isDev} from '../utils/auth.ts';
+
 import axios from 'axios';
 axios.defaults.baseURL = 'https://oxfordunichess.github.io/oucc-backend/';
 
@@ -47,17 +49,9 @@ export default class Page extends React.Component {
 		}
 	}
 
-	static isDev() {		
-		if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
 	static async getPage(path = 'main') {
 		try {
-			let url = `pages/${path + '.md'}${Page.isDev() ? '?token=' + Math.random().toString(36).slice(2) : ''}`;
+			let url = `pages/${path + '.md'}${isDev() ? '?token=' + Math.random().toString(36).slice(2) : ''}`;
 			let req = await axios(url);
 			return req.data;
 		} catch (e) {
@@ -79,7 +73,6 @@ export default class Page extends React.Component {
 				</Helmet>
 				<Header parent={this.props.parent} />
 				<div id="page">
-					<Sidebar />
 					<div id="main">
 						{this.state.page ? <Markdown
 							source={this.state.page.trim()}

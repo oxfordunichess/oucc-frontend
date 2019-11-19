@@ -75,7 +75,7 @@
 
 .page {
 	margin: auto;
-	width: 1080px;
+	width: 100vw;
 	background: white;
 	padding-top: 10px;
 	min-height: 800px;

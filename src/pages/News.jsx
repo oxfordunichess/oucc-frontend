@@ -13,6 +13,8 @@ import Table from './Table';
 
 import styles from '../css/page.module.css';
 
+import {isDev} from '../utils/auth.ts';
+
 // See https://github.com/aknuds1/html-to-react#with-custom-processing-instructions
 // for more info on the processing instructions
 const  processNodeDefinitions = new HtmlToReact.ProcessNodeDefinitions(React);
@@ -74,24 +76,16 @@ export default class Feed extends React.Component {
 
 	}
 
-	static isDev() {		
-		if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
 	static async getArticle(pathname) {
 		try {
 			return await axios({
 				baseURL: 'https://oxfordunichess.github.io/oucc-backend/news/',
-				url: pathname + (Feed.isDev() ? '?token=' + Math.random().toString(36).slice(2) : ''),
+				url: pathname + (isDev() ? '?token=' + Math.random().toString(36).slice(2) : ''),
 				method: 'GET',
 				maxRedirects: 5
 			})
 			.catch(async (e) => {
-				return Feed.isDev() ? e : await axios({
+				return isDev() ? e : await axios({
 					baseURL: 'https://oxfordunichess.github.io/oucc-backend/news/',
 					url: pathname + '?token=' + Math.random().toString(36).slice(2),
 					method: 'GET',
@@ -182,7 +176,6 @@ export default class Feed extends React.Component {
 				</Helmet>
 				<Header parent={this.props.parent} />
 				<div className={styles.page}>
-					<Sidebar />
 					<div className={styles.main}>{components}</div>
 				</div>
 			</>
