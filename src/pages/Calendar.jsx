@@ -7,24 +7,10 @@ import Header from '../common/header';
 
 import styles from '../css/calendar.module.css';
 
-const mapsLink = 'https://www.google.com/maps/search/';
 const regexes = {
 	key: null,
 	space: /\s+/g,
 	facebook: /(?:(?:http|https):\/\/)?(?:www.)?facebook.com\/(?:events\/)?(?:[?\w-]*\/).+/
-}
-const locationReplacers = {
-	'Christ Church Cathedral': 'Christ Church'
-}
-
-const calendarIDs = {
-	'oxfordunichess@gmail.com': 'blue',	//events
-	'f8r5s6amq4momsc2s7nrt8vees@group.calendar.google.com': 'red',			//clubnights
-	'knp5bmtf8m80o02fa13c1a0j5c@group.calendar.google.com': 'orange',		//teaching
-	'frs8s1f9ue1kq7p1ht9oa93sv4@group.calendar.google.com': 'yellow',		//socials
-	'q46oqbjuu9f0hg68pehm961b9o@group.calendar.google.com': 'lawngreen',	//Uni1
-	'mliver9tvb2mv4pq1uifce3ed0@group.calendar.google.com': 'limegreen',	//Uni2
-	'vk8arnd9ol0hsjr26il70pjib8@group.calendar.google.com': 'forestgreen'	//Uni3
 }
 
 export default class Calendar extends React.Component {
@@ -71,11 +57,13 @@ export default class Calendar extends React.Component {
 		}	
 		return (
 			<table className={styles.table}>
-				<tr>
-					{['MT\'19', 'SUN', 'MON', 'TUES', 'WED', 'THURS', 'FRI', 'SAT'].map((day) => {
-						return <th scope='column' key={day}>{day}</th>
-					})}
-				</tr>
+				<thead>
+					<tr>
+						{['MT\'19', 'SUN', 'MON', 'TUES', 'WED', 'THURS', 'FRI', 'SAT'].map((day) => {
+							return <th scope='column' key={day}>{day}</th>
+						})}
+					</tr>
+				</thead>
 				<tbody>						
 					{weeks.map((week, i) => {
 						let days = [];
@@ -126,7 +114,7 @@ export default class Calendar extends React.Component {
 														{locationDisplay}
 													</a>
 													{'\n'}
-													{description || ''}
+													{description || null}
 												</h5>
 											</div>}
 										</div>
@@ -206,12 +194,12 @@ export default class Calendar extends React.Component {
 			if (a < b) return -1;
 			else if (a > b) return 1;
 			else return 0;
-		})
+		});
 		return <div className={styles.key}>
 			{sorted.map(([color, calendarName], i) => {
 				return <div className={styles.key} key={['keyElement', i].join('.')}>
 					{<span className={styles.status} style={{
-						color: color
+						color
 					}}>⬤</span>}
 					<h4>{'\u200b ' + calendarName}</h4>
 				</div>
@@ -237,12 +225,8 @@ export default class Calendar extends React.Component {
 				<Helmet>
 					<title>{this.props.title ? this.props.title + ' | OUCC' : 'OUCC'}</title>
 				</Helmet>
-				<Header parent={this.props.parent} />
 				<div id="page">
-					<div id='main' ref='main' style={{
-						marginLeft: 30,
-						marginRight: 30
-					}}>
+					<div id='main' ref='main'>
 						<h1>
 							Termcard
 						</h1>

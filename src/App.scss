@@ -11,7 +11,10 @@ body {
 	background-color: #f0f0f0;
 	font-family: trebuchet ms, trebuchet, arial, helvetica, geneva, sans-serif;
 	overflow-x: hidden;
-	overflow-y: scroll;
+}
+
+::-webkit-scrollbar {
+	display: none;
 }
 
 #title {
@@ -52,8 +55,8 @@ body {
 }
 
 #main {
-	margin-left: 30px;
-	margin-right: 340px;
+	margin: 0 30px;
+	overflow-x: auto;
 }
 
 #content {
@@ -64,7 +67,7 @@ body {
 
 #page {
 	margin: auto;
-	width: 1080px;
+	width: 100vw;
 	background: white;
 	padding-top: 10px;
 	min-height: 800px;
@@ -212,26 +215,4 @@ textarea {
 	height: 120px;
 	bottom: 0;
 	z-index: 100;
-}
-#sponsors {
-	width: 1080px;
-	margin: auto;
-	border-top: 1px solid gray;
-	text-align: center;
-	background: white;
-}
-#sp {
-	margin: auto;
-	list-style-type: none;
-	height: 90px;
-	width: 1080px;
-}
-
-#sp li {
-	height: 90px;
-	width: 200px;
-	margin: auto;
-	display: inline-block;
-	line-height: 40px;
-	cursor: pointer;
 }
