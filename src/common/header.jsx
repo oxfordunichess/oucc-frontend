@@ -52,10 +52,10 @@ export default class Header extends React.Component {
 	renderNav(side) {
 		return (
 			<div className={styles.nav + ' ' + styles[side]}>
-				{Object.entries(nav[side]).map(([link, name]) => {
+				{Object.entries(nav[side]).map(([link, name], i) => {
 					let parents = this.getParents(link);
 					return (
-						<div className={styles.listing} onMouseEnter={() => this.navEnter(link)} onMouseLeave={() => this.navLeave(link)}>
+						<div key={[name, i].join('.')} className={styles.listing} onMouseEnter={() => this.navEnter(link)} onMouseLeave={() => this.navLeave(link)}>
 							<div>
 								<Link
 									key={link} to={'/' + link}>{name}

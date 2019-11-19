@@ -55,12 +55,7 @@ export default class App extends React.Component {
 					<Route exact path='/' render={() => <Page page='main' />} />
 					<Route exact path='/curr_news' render={() => <News title='Current News' parent='News'/>}/>
 					<Route exact path='/contact' render={() => <Contact title='Contact' parent='contact'/>}/>
-					<Route exact path='/termcard' render={() => <Calendar
-						title='Termcard' parent='termcard'
-						start={(() => {
-							return this.state.index._start})()}
-						finish={this.state.index._finish}
-					/>}/>
+					<Route exact path='/termcard' render={() => <Calendar title='Termcard' parent='termcard'/>}/>
 					<Route path='*' component={NotFound} status={404} />
 				</Switch>
 			</Router>

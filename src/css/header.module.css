@@ -13,6 +13,7 @@
 	display: grid;
 	grid-template-columns: 1fr 140px 1fr;
 	z-index: 1;
+	box-shadow: 0 10px 5px rgba(0, 0, 0, 0.4);
 }
 
 .listing {
@@ -28,6 +29,7 @@
 	background: center top no-repeat;
 	background-position: 0px 0px;
 	cursor: pointer;
+	box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.4);
 }
 
 .oucc_logo:hover {
@@ -90,13 +92,12 @@
 	flex-direction: column;
 	grid-row: 2;
 	list-style-type: none;
-	border-bottom: 1px solid gray;
 	background: gray;
 	width: inherit;
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
-	user-select: none; 
+	user-select: none;
 }
 
 .subnav li {
