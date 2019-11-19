@@ -1,9 +1,6 @@
 import React from 'react';
 import {Helmet} from 'react-helmet';
 
-import Header from '../common/header';
-import Sidebar from '../common/sidebar';
-
 export default class Page extends React.Component {
 
 	render() {

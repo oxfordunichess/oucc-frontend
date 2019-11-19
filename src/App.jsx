@@ -2,7 +2,7 @@ import React from 'react';
 import './App.scss';
 import {BrowserRouter as Router, Route, Redirect, Switch} from 'react-router-dom';
 
-import Header from './common/header';
+import Header from './Header';
 import Page from './pages/Page';
 import News from './pages/News';
 import Contact from './pages/Contact';

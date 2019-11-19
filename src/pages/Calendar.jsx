@@ -3,8 +3,6 @@ import {Helmet} from 'react-helmet';
 import axios from 'axios';
 import he from 'he';
 
-import Header from '../common/header';
-
 import styles from '../css/calendar.module.css';
 
 const regexes = {

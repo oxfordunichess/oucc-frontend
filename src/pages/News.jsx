@@ -4,9 +4,6 @@ import Markdown from 'react-markdown';
 import {Helmet} from 'react-helmet';
 import path from 'path';
 
-import Header from '../common/header';
-import Sidebar from '../common/sidebar';
-
 import htmlParser from 'react-markdown/plugins/html-parser';
 import HtmlToReact from 'html-to-react';
 import Table from './Table';
