@@ -82,7 +82,11 @@ export default class Calendar extends React.Component {
 						for (let i = 0; i < 7; i++) {
 							let date = new Date(week).setDate(week.getDate() + i);
 							date = this.constructor.getEventDate(new Date(date));
-							days.push(<td id={date} key={date}>
+							let today = false;
+							if (this.constructor.getEventDate(Date.now()) === date) today = true;
+							days.push(<td id={date} key={date} style={today ? {
+								backgroundColor: 'PeachPuff'
+							} : {}}>
 								{(this.state.events[date] || []).map((event, i) => {
 
 									let locationDisplay;
@@ -144,9 +148,7 @@ export default class Calendar extends React.Component {
 
 	renderEvents() {
 		let colours = {};
-		console.log(this.state.calendarIDs, 'calendarIDs');
 		Object.keys(this.state.calendarIDs).forEach((calendarId) => {
-			console.log(calendarId);
 			axios({
 				url: 'https://clients6.google.com/calendar/v3/calendars/' + calendarId + '/events',
 				params: {
@@ -184,7 +186,6 @@ export default class Calendar extends React.Component {
 				return [colours, res];
 			})
 			.then(([colours, events]) => {
-				console.log(events);
 				let dates = this.state.events;
 				events.forEach((event) => {
 					let date = this.constructor.getEventDate(event.start);
@@ -194,7 +195,6 @@ export default class Calendar extends React.Component {
 				return [colours, dates];
 			})
 			.then(([colours, events]) => {
-				console.log(events);
 				this.setState({colours, events})
 			})
 			.catch(console.error);
