@@ -48,86 +48,19 @@ const parseHtml = htmlParser({
 })
 
 const regexes = {
-	date: /^[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}_/,
 	letters: /\w+/g,
 	image: /<img\s+.*?src=["'](.*).*?">/
 }
 
 export default class Feed extends React.Component {
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			articles: []
-		}
-	}
-
-	static async getIndex() {
-		try {
-			return await axios({
-				url: 'https://api.github.com/repos/oxfordunichess/oucc-backend/contents/news/',
-				method: 'get',
-				maxRedirects: 5
-			})
-		} catch (e) {
-			if (e) console.error(e);
-			return [];
-		}
-
-	}
-
-	static async getArticle(pathname) {
-		try {
-			return await axios({
-				baseURL: 'https://oxfordunichess.github.io/oucc-backend/news/',
-				url: pathname + (isDev() ? '?token=' + Math.random().toString(36).slice(2) : ''),
-				method: 'GET',
-				maxRedirects: 5
-			})
-			.catch(async (e) => {
-				return isDev() ? e : await axios({
-					baseURL: 'https://oxfordunichess.github.io/oucc-backend/news/',
-					url: pathname + '?token=' + Math.random().toString(36).slice(2),
-					method: 'GET',
-					maxRedirects: 5
-				})
-			})
-			.then(v => v.data);
-		} catch (e) {
-			if (e) console.error(e);
-			return '';
-		}
-	}
-
 	static setSection(location, id) {
 		return location.href.slice(0, -location.hash.length) + '#' + id;
 	}
 
-	async componentDidMount() {
-		let {data} = await Feed.getIndex();
-		let filenames = data.map(file => file.name);
-		let real = filenames.filter(name => name.endsWith('.md') && regexes.date.test(name));
-		let sorted = real.sort((a, b) => {
-			let a_date = new Date(a.split('_')[0]);
-			let b_date = new Date(b.split('_')[0]);
-			// eslint-disable-next-line no-self-compare
-			if (a_date.getTime() !== a_date.getTime()) return 1;
-			// eslint-disable-next-line no-self-compare
-			if (b_date.getTime() !== b_date.getTime()) return -1;
-			return b_date - a_date;
-		});
-		let articles = new Array(sorted.length);
-		this.setState({articles})
-		sorted.map((names, i) => Feed.getArticle(names)
-			.then(data => articles[i] = data)
-			.then(() => this.setState({articles}))
-			.catch(console.error)
-		)
-	}
-
 	render() {
 		let articles = new Map();
-		let components = this.state.articles.map((text) => {
+		let components = this.props.articles.map((text) => {
 			if (!text) {
 				console.error('Bad Markdown document:\n' + text);
 				return null;
@@ -174,7 +107,6 @@ export default class Feed extends React.Component {
     				{data.description ? <meta name='description' content={data.description} /> : null}
 					{data.image ? <meta property='og:image' content={data.image} /> : null}
 				</Helmet>
-				<Header parent={this.props.parent} />
 				<div className={styles.page}>
 					<div className={styles.main}>{components}</div>
 				</div>

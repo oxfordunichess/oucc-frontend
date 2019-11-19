@@ -33,12 +33,16 @@ export default class Header extends React.Component {
 
 	getParents(link) {
 		if (navigation[link]) return navigation[link];
-		Object.entries(navigation).forEach(([k, v]) => {
+		return [];
+	}
+
+	getCurrent() {
+		return (Object.entries(navigation).find(([k, v]) => {
 			if (window.location.pathname.slice(1).includes(k)) {
+				console.log(v);
 				return v;
 			}
-		});
-		return [];
+		}) || [, null])[0];
 	}
 
 	navEnter(subnav) {
@@ -65,7 +69,7 @@ export default class Header extends React.Component {
 								{(parents).map(([link, name, _wide, display]) => {
 									if (!display) return null;
 									return (
-										<li key={link.slice(1)}>
+										<li key={link.slice(1)} className={window.location.pathname.includes(link.slice(1)) ? styles.selected : ''}>
 											<Link to={link}>{name}</Link>
 										</li>
 									);
@@ -87,6 +91,11 @@ export default class Header extends React.Component {
 						backgroundImage: `url(${process.env.PUBLIC_URL}/images/oucclogo.jpg`
 					}}/>
 					{this.renderNav('right')}
+				</div>
+				<div className={styles.newsFeed}>
+					<div className={styles.intro}>
+						Latest News: 
+					</div>
 				</div>
 			</div>
 		)

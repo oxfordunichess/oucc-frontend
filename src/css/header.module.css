@@ -1,10 +1,13 @@
 .header {
 	height: 140px;
 	z-index: 1;
+	display: grid;
+	grid-template-rows: 90px 50px;
 }
 
 .banner {
 	height: 90px;
+	grid-row: 1;
 	background: #002147;
 	position: fixed;
 	width: 100vw;
@@ -128,4 +131,16 @@
     -moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	border-right: 5px solid #ff2200;
+}
+
+.newsFeed {
+	grid-row: 2;
+	height: 50px;
+	display: flex;
+	align-items: center;
+}
+
+.newsFeed div {
+	padding: 30px;
+	border-right: 1px solid gray;
 }

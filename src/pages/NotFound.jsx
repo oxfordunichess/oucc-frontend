@@ -12,7 +12,6 @@ export default class NotFound extends React.Component {
 				<Helmet>
 					<title>{this.props.title ? this.props.title + ' | OUCC' : 'OUCC'}</title>
 				</Helmet>
-				<Header/>
 				<div id="page">
 					<h1>404: Not found</h1>
 					<h3><Link to='/'>Return to home</Link></h3>

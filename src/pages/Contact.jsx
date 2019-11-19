@@ -12,7 +12,6 @@ export default class Page extends React.Component {
 				<Helmet>
 					<title>{this.props.title ? this.props.title + ' | OUCC' : 'OUCC'}</title>
 				</Helmet>
-				<Header parent={this.props.parent}/>
 				<div id="page">
 					<div id="main">
 					<h1>Contact Us</h1>
