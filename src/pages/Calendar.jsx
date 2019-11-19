@@ -9,6 +9,7 @@ import styles from '../css/calendar.module.css';
 
 const mapsLink = 'https://www.google.com/maps/search/';
 const regexes = {
+	key: null,
 	space: /\s+/g,
 	facebook: /(?:(?:http|https):\/\/)?(?:www.)?facebook.com\/(?:events\/)?(?:[?\w-]*\/).+/
 }
@@ -33,7 +34,11 @@ export default class Calendar extends React.Component {
 		this.state = {
 			start: new Date(props.start || '6 October 2019'),
 			finish: new Date(props.finish || '8 December 2019'),
-			events: {}
+			events: {},
+			colours: {},
+			calendarIDs: {},
+			locationReplacers: {},
+			mapsLink: ''
 		}
 	}
 
@@ -61,10 +66,10 @@ export default class Calendar extends React.Component {
 		let weeks = [];
 		for (let i = 0; i < 9; i++) {
 			let curr = new Date(this.state.start);
-			curr.setDate(this.state.start.getDate() + 7 * i);
+			curr.setDate(curr.getDate() + 7 * i);
 			weeks.push(curr);
 		}	
-		return this._frame = (
+		return (
 			<table className={styles.table}>
 				<thead>
 					{['MT\'19', 'SUN', 'MON', 'TUES', 'WED', 'THURS', 'FRI', 'SAT'].map((day) => {
@@ -82,7 +87,7 @@ export default class Calendar extends React.Component {
 
 									let locationDisplay;
 									let l = event.location.split(',').shift();
-									if (locationReplacers[l]) locationDisplay = locationReplacers[l];
+									if (this.state.locationReplacers[l]) locationDisplay = this.state.locationReplacers[l];
 									else locationDisplay = l;
 
 									let facebookEvent = '';
@@ -96,14 +101,13 @@ export default class Calendar extends React.Component {
 										description = description.slice(0, start) + description.slice(end);
 										start = description.indexOf('<a');
 									}
-									if (facebookEvent) console.log(facebookEvent, description, description.replace(facebookEvent, ''))
-									description = description.replace(facebookEvent, '').trim();
+									description = description.replace(facebookEvent, '').trim();								
 
 									return (
 										<div className={styles.event} key={[date, i].join('.')}>
 											<div className={styles.eventHeader}>
 												{<span className={styles.status} style={{
-													color: calendarIDs[event.calendarId]
+													color: event.color
 												}}>⬤ </span>}
 												{<span className='toolTip'>{/* TODO */}</span>}
 												{facebookEvent ? <a className={styles.eventTitle} href={facebookEvent}>
@@ -114,7 +118,7 @@ export default class Calendar extends React.Component {
 												<h5>
 													{this.constructor.getDisplayTime(event.start)}
 													{' '}
-													<a href={mapsLink + event.location.replace(regexes.space, '+')} rel='noopener noreferrer' target='_blank'>
+													<a href={this.state.mapsLink + event.location.replace(regexes.space, '+')} rel='noopener noreferrer' target='_blank'>
 														{locationDisplay}
 													</a>
 													{'\n'}
@@ -138,8 +142,11 @@ export default class Calendar extends React.Component {
 		)
 	}
 
-	renderCalendar() {
-		Object.keys(calendarIDs).map((calendarId) => {
+	renderEvents() {
+		let colours = {};
+		console.log(this.state.calendarIDs, 'calendarIDs');
+		Object.keys(this.state.calendarIDs).forEach((calendarId) => {
+			console.log(calendarId);
 			axios({
 				url: 'https://clients6.google.com/calendar/v3/calendars/' + calendarId + '/events',
 				params: {
@@ -149,8 +156,8 @@ export default class Calendar extends React.Component {
 					maxAttendees: 1,
 					maxResults: 250,
 					sanitizeHtml: true,
-					timeMin: this.state.start.toISOString(), //'2019-10-27T00:00:00Z',
-					timeMax: this.state.finish.toISOString(), //'2019-12-01T00:00:00Z',
+					timeMin: new Date(this.state.start).toISOString(), //'2019-10-27T00:00:00Z',
+					timeMax: new Date(this.state.finish).toISOString(), //'2019-12-01T00:00:00Z',
 					key: 'AIzaSyDahTZUtTKORUdsOY3H7BEeOXbwye0nBHI' //AIzaSyBNlYH01_9Hc5S1J9vuFmu2nUqBZJNAXxs'
 				}
 			})
@@ -158,7 +165,9 @@ export default class Calendar extends React.Component {
 				return [res.data.summary, res.data.items];
 			})
 			.then(([calendarName, events]) => {
-				return events.map((event) => {
+				let res = events.map((event) => {
+					let color = this.state.calendarIDs[calendarId];
+					if (!colours[color]) colours[color] = calendarName;
 					return {
 						created: event.created,
 						link: event.htmlLink,
@@ -168,29 +177,58 @@ export default class Calendar extends React.Component {
 						end: new Date(event.end.dateTime),
 						location: event.location,
 						description: he.decode(event.description || ''),
-						calendarId,
-						calendarName
+						calendarName,
+						color
 					}
 				});
+				return [colours, res];
 			})
-			.then((events) => {
+			.then(([colours, events]) => {
+				console.log(events);
 				let dates = this.state.events;
 				events.forEach((event) => {
 					let date = this.constructor.getEventDate(event.start);
 					if (!dates[date]) dates[date] = [];
 					dates[date].push(event);
 				});
-				return dates;
+				return [colours, dates];
 			})
-			.then((events) => {
-				this.setState({events})
+			.then(([colours, events]) => {
+				console.log(events);
+				this.setState({colours, events})
 			})
 			.catch(console.error);
 		})
 	}
 
-	async componentDidMount() {
-		if (this.state.start && this.state.finish) this.renderCalendar();
+	renderKey() {
+		let sorted = Object.entries(this.state.colours).sort((a, b) => {
+			if (a < b) return -1;
+			else if (a > b) return 1;
+			else return 0;
+		})
+		return <div className={styles.key}>
+			{sorted.map(([color, calendarName], i) => {
+				return <div className={styles.key} key={['keyElement', i].join('.')}>
+					{<span className={styles.status} style={{
+						color: color
+					}}>⬤</span>}
+					<h4>{'\u200b ' + calendarName}</h4>
+				</div>
+			})}
+		</div>
+	}
+
+	getSettings() {
+		return axios('https://oxfordunichess.github.io/oucc-backend/calendar.json')
+			.then(res => res.data)
+			.catch(console.error);
+	}
+
+	componentDidMount() {
+		this.getSettings()
+			.then((settings) => this.setState(Object.assign(this.state, settings)))
+			.then(() => this.renderEvents());
 	}
 
     render () {
@@ -208,8 +246,8 @@ export default class Calendar extends React.Component {
 						<h1>
 							Termcard
 						</h1>
+						{this.renderKey()}
 						{this.renderFrame()}
-						{this.state.calendar}
 					</div>
 				</div>
 			</>

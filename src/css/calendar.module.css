@@ -1,10 +1,14 @@
-.frame {
-	display: grid;
-	width: 100%;
-	min-height: 100px;
-	grid-template-columns: 9% repeat(7, 13px day);
-	grid-template-rows: 9% 13% 13% 13% 13% 13% 13% 13% 13%
+div.key {
+	display: flex;
+	flex-direction: row;
 }
+
+div.key > div {
+	display: flex;
+	flex-direction: row;
+	padding: 0 6px;
+}
+
 
 .event {
 	display: flex;
@@ -23,7 +27,6 @@ a.eventTitle:link {text-decoration: none}
 a.eventTitle:visited {text-decoration: none}
 a.eventTitle:hover {text-decoration: none}
 a.noEvent {color: black}
-
 .table {
 	white-space: pre;
 	table-layout: fixed;
