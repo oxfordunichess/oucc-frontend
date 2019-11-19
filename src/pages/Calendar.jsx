@@ -71,11 +71,11 @@ export default class Calendar extends React.Component {
 		}	
 		return (
 			<table className={styles.table}>
-				<thead>
+				<tr>
 					{['MT\'19', 'SUN', 'MON', 'TUES', 'WED', 'THURS', 'FRI', 'SAT'].map((day) => {
 						return <th scope='column' key={day}>{day}</th>
 					})}
-				</thead>
+				</tr>
 				<tbody>						
 					{weeks.map((week, i) => {
 						let days = [];
