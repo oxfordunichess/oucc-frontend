@@ -50,6 +50,7 @@
 	-ms-user-select: none;
 	user-select: none;
 	width: 100%;
+	/*: calc((100vw - 70px) / 2);*/
 }
 
 .listing > div {
@@ -65,7 +66,7 @@
 	display: flex;
 	align-items: center;
 	height: 65px;
-	margin: auto;
+	margin: 0;
 	vertical-align: top;
 }
 
@@ -157,6 +158,10 @@
 	max-width: calc(100vw - 210px)
 }
 
-.newsFeed div.runner span {
+.newsFeed div.runner > div {
+	display: inherit;
+}
+
+.newsFeed div.runner a {
 	padding: 0 20px;
 }

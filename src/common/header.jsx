@@ -46,10 +46,10 @@ export default class Header extends React.Component {
 	getCurrent() {
 		return (Object.entries(navigation).find(([k, v]) => {
 			if (window.location.pathname.slice(1).includes(k)) {
-				console.log(v);
 				return v;
 			}
-		}) || [, null])[0];
+			return false;
+		}) || [null, null])[1];
 	}
 
 	navEnter(subnav) {
@@ -91,14 +91,16 @@ export default class Header extends React.Component {
 
 	componentDidUpdate() {
 		if (this.state._width) return;
-		if (this.refs.dummy) this.state._width = this.refs.dummy.scrollWidth;
+		if (this.refs.dummy && this.refs.dummy.scrollWidth) this.setState({
+			_width: this.refs.dummy.scrollWidth
+		});
 	}
 
 	componentDidMount() {
 		setInterval(() => {
 			let feedPosition = this.state.feedPosition;
 			this.setState({
-				feedPosition: feedPosition + 0.5
+				feedPosition: feedPosition + 5
 			})
 		}, 1000 / fps)
 	}
@@ -107,27 +109,40 @@ export default class Header extends React.Component {
 		return process.env.PUBLIC_URL + '/curr_news#' + id;
 	}
 
-	getNewsFeed() {
+	getNewsFeed(inc, x, y) {
 		return this.props.articles.map((text, i) => {
+			let offsets = inc ? Object.entries(this.refs)
+				.filter(([k]) => k.startsWith('feed'))
+				.map(([_k, v]) => v.offsetLeft - this.state._width) : [];
+			let transformation = inc ? (inc + offsets[i] - y) % x + y - offsets[i] : 0;
 			if (typeof text !== 'string') return null;
 			if (!text || typeof text.split !== 'function') {
 				console.error('Bad Markdown document:\n', text);
 				return null;
 			}
+			;
 			let lines = text.split('\n');
 			let header = lines.shift().trim();
 			while (header.startsWith('#')) {
 				header = header.slice(1);
 			}
 			let id = header.match(regexes.letters).join('-').toLowerCase();
-			return [<a href={this.constructor.setSection(window.location, id)} key={id} style={{
-				left: -this.state.feedPosition
-			}}>{header}</a>, ' • ']
+			return [
+			<div key={id + '.container'} style={inc ? {
+				transform: `translate3d(${transformation}px, 0, 0)`
+			} : {}}>
+				<a href={this.constructor.setSection(window.location, id)} ref={'feed' + i} key={id}>
+					{header}
+				</a>
+				{' • '}
+			</div>]
 		})
 	}
 
 	render() {
-		let transformation = - this.state.feedPosition % this.state._width;
+		let inc = -this.state.feedPosition;
+		let x = this.state._width;
+		let y = window.innerWidth;
 		return (
 			<div className={styles.header}>
 				<div className={styles.banner}>
@@ -143,10 +158,8 @@ export default class Header extends React.Component {
 					</div>
 					<div></div>
 					<div className={styles.runner}>
-						<div ref='runner' style={{
-							transform: `translate3d(${transformation}px, 0, 0)`
-						}}>
-							{this.getNewsFeed()}
+						<div ref='runner'>
+							{this.getNewsFeed(inc, x, y)}
 						</div>
 						<div ref='dummy' style={{
 							visibility: 'hidden'

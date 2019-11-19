@@ -194,12 +194,12 @@ export default class Calendar extends React.Component {
 			if (a < b) return -1;
 			else if (a > b) return 1;
 			else return 0;
-		})
+		});
 		return <div className={styles.key}>
 			{sorted.map(([color, calendarName], i) => {
 				return <div className={styles.key} key={['keyElement', i].join('.')}>
 					{<span className={styles.status} style={{
-						color: color
+						color
 					}}>⬤</span>}
 					<h4>{'\u200b ' + calendarName}</h4>
 				</div>
