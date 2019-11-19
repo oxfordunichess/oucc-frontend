@@ -91,7 +91,7 @@ export default class Header extends React.Component {
 
 	componentDidUpdate() {
 		if (this.state._width) return;
-		if (this.refs.runner) this.state._width = this.refs.runner.scrollWidth;
+		if (this.refs.dummy) this.state._width = this.refs.dummy.scrollWidth;
 	}
 
 	componentDidMount() {
@@ -127,7 +127,7 @@ export default class Header extends React.Component {
 	}
 
 	render() {
-		let transformation = this.state.feedPosition > window.innerWidth ? this.state._width - this.state.feedPosition : -this.state.feedPosition;
+		let transformation = - this.state.feedPosition % this.state._width;
 		return (
 			<div className={styles.header}>
 				<div className={styles.banner}>
@@ -141,13 +141,20 @@ export default class Header extends React.Component {
 					<div className={styles.intro}>
 						Latest News: 
 					</div>
+					<div></div>
 					<div className={styles.runner}>
 						<div ref='runner' style={{
 							transform: `translate3d(${transformation}px, 0, 0)`
 						}}>
 							{this.getNewsFeed()}
 						</div>
+						<div ref='dummy' style={{
+							visibility: 'hidden'
+						}}>
+							{this.getNewsFeed()}
+						</div>
 					</div>
+					<div></div>
 				</div>
 			</div>
 		)
