@@ -28,7 +28,7 @@ a.eventTitle:visited {text-decoration: none}
 a.eventTitle:hover {text-decoration: none}
 a.noEvent {color: black}
 .table {
-	white-space: pre;
+	white-space: pre-wrap;
 	table-layout: fixed;
 	max-width: 100%;
 }
