@@ -226,10 +226,7 @@ export default class Calendar extends React.Component {
 					<title>{this.props.title ? this.props.title + ' | OUCC' : 'OUCC'}</title>
 				</Helmet>
 				<div id="page">
-					<div id='main' ref='main' style={{
-						marginLeft: 30,
-						marginRight: 30
-					}}>
+					<div id='main' ref='main'>
 						<h1>
 							Termcard
 						</h1>

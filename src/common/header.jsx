@@ -100,7 +100,7 @@ export default class Header extends React.Component {
 		setInterval(() => {
 			let feedPosition = this.state.feedPosition;
 			this.setState({
-				feedPosition: feedPosition + 5
+				feedPosition: feedPosition + 0.5
 			})
 		}, 1000 / fps)
 	}

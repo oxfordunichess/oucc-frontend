@@ -31,8 +31,10 @@ a.noEvent {color: black}
 	white-space: pre-wrap;
 	table-layout: fixed;
 	max-width: 100%;
+	min-width: 800px;
 }
 
-.table td {
+.table td > div {
 	word-wrap: break-word;
+	height: 100%;
 }
