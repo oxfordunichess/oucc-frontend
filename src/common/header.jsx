@@ -4,7 +4,13 @@ import styles from '../css/header.module.css';
 
 //[link, name, wide, display]
 import navigation from './navigation.json';
-import { normalize } from 'path';
+
+const regexes = {
+	space: /\s+/g,
+	letters: /\w+/g
+}
+
+const fps = 60;
 
 const nav = {
 		left: {
@@ -27,7 +33,8 @@ export default class Header extends React.Component {
 		this.navEnter = this.navEnter.bind(this);
 		this.navLeave = this.navLeave.bind(this);
 		this.state = {
-			subnav: ''
+			subnav: '',
+			feedPosition: 0
 		}
 	}
 
@@ -82,7 +89,45 @@ export default class Header extends React.Component {
 		);
 	}
 
+	componentDidUpdate() {
+		if (this.state._width) return;
+		if (this.refs.runner) this.state._width = this.refs.runner.scrollWidth;
+	}
+
+	componentDidMount() {
+		setInterval(() => {
+			let feedPosition = this.state.feedPosition;
+			this.setState({
+				feedPosition: feedPosition + 0.5
+			})
+		}, 1000 / fps)
+	}
+
+	static setSection(location, id) {
+		return process.env.PUBLIC_URL + '/curr_news#' + id;
+	}
+
+	getNewsFeed() {
+		return this.props.articles.map((text, i) => {
+			if (typeof text !== 'string') return null;
+			if (!text || typeof text.split !== 'function') {
+				console.error('Bad Markdown document:\n', text);
+				return null;
+			}
+			let lines = text.split('\n');
+			let header = lines.shift().trim();
+			while (header.startsWith('#')) {
+				header = header.slice(1);
+			}
+			let id = header.match(regexes.letters).join('-').toLowerCase();
+			return [<a href={this.constructor.setSection(window.location, id)} key={id} style={{
+				left: -this.state.feedPosition
+			}}>{header}</a>, ' • ']
+		})
+	}
+
 	render() {
+		let transformation = this.state.feedPosition > window.innerWidth ? this.state._width - this.state.feedPosition : -this.state.feedPosition;
 		return (
 			<div className={styles.header}>
 				<div className={styles.banner}>
@@ -95,6 +140,13 @@ export default class Header extends React.Component {
 				<div className={styles.newsFeed}>
 					<div className={styles.intro}>
 						Latest News: 
+					</div>
+					<div className={styles.runner}>
+						<div ref='runner' style={{
+							transform: `translate3d(${transformation}px, 0, 0)`
+						}}>
+							{this.getNewsFeed()}
+						</div>
 					</div>
 				</div>
 			</div>

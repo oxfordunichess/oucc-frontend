@@ -140,7 +140,23 @@
 	align-items: center;
 }
 
-.newsFeed div {
-	padding: 30px;
+.newsFeed div.intro {
+	padding: 0 15px 0 30px;
+	min-width: 120px;
 	border-right: 1px solid gray;
+}
+
+.newsFeed div.runner {
+	display: flex;
+	flex-direction: row;
+	overflow: scroll;
+	white-space: nowrap;
+	margin: 0 30px 0 0;
+	font-size: 12;
+	border-right: 1px solid gray;
+	max-width: calc(100vw - 210px)
+}
+
+.newsFeed div.runner span {
+	padding: 0 20px;
 }

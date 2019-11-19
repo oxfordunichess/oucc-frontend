@@ -106,7 +106,7 @@ export default class App extends React.Component {
 	render() {
 		return (
 			<Router basename={process.env.PUBLIC_URL}>
-				<Header />
+				<Header articles={this.state.articles} 	/>
 				<Switch>
 					{Object.entries(this.state.index).map(([k, v]) => {
 						if (k.startsWith('_') || typeof v !== 'object') return null;
