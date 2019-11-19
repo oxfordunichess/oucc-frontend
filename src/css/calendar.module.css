@@ -1,0 +1,35 @@
+.frame {
+	display: grid;
+	width: 100%;
+	min-height: 100px;
+	grid-template-columns: 9% repeat(7, 13px day);
+	grid-template-rows: 9% 13% 13% 13% 13% 13% 13% 13% 13%
+}
+
+.event {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 5px 0;
+}
+
+.eventHeader {
+	display: flex;
+	flex-direction: row;
+}
+
+a.eventTitle {text-decoration: none}
+a.eventTitle:link {text-decoration: none}
+a.eventTitle:visited {text-decoration: none}
+a.eventTitle:hover {text-decoration: none}
+a.noEvent {color: black}
+
+.table {
+	white-space: pre;
+	table-layout: fixed;
+	max-width: 100%;
+}
+
+.table td {
+	word-wrap: break-word;
+}

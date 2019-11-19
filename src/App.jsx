@@ -49,6 +49,7 @@ export default class App extends React.Component {
 			<Router basename={process.env.PUBLIC_URL}>
 				<Switch>
 					{Object.entries(this.state.index).map(([k, v]) => {
+						if (k.startsWith('_') || typeof v !== 'object') return null;
 						return (
 							<Route exact path={'/' + k} key={k + '_route'} render={(props) => {
 								if (v.open) window.open(v.open);
@@ -60,7 +61,12 @@ export default class App extends React.Component {
 					<Route exact path='/' render={() => <Page page='main' />} />
 					<Route exact path='/curr_news' render={() => <News title='Current News' parent='News'/>}/>
 					<Route exact path='/contact' render={() => <Contact title='Contact' parent='contact'/>}/>
-					<Route exact path='/calendar' render={() => <Calendar title='Calendar' parent='calendar'/>}/>
+					<Route exact path='/termcard' render={() => <Calendar
+						title='Termcard' parent='termcard'
+						start={(() => {
+							return this.state.index._start})()}
+						finish={this.state.index._finish}
+					/>}/>
 					<Route path='*' component={NotFound} status={404} />
 				</Switch>
 			</Router>
