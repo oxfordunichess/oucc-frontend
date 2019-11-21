@@ -77,19 +77,19 @@ export default class Calendar extends React.Component {
 							let timestamp = this.constructor.getEventDate(date);
 							let today = false;
 							if (this.state.today === timestamp) today = true;
+							if (this.state.events[timestamp]) console.log(date.getDate(), !Object.values(this.state.events[timestamp]).map(e => !this.state.colourStatuses[e.color]));
 							let day = (
 								<td id={timestamp} key={timestamp} className={today ? styles.today : ''}>
 									<div>
-										{this.state.events[timestamp] ? this.state.events[timestamp]
+										{this.state.events[timestamp] && !Object.values(this.state.events[timestamp]).every(e => !this.state.colourStatuses[e.color]) ? this.state.events[timestamp]
 											.sort((a, b) => {
 												if (a.start.getHours() !== b.start.getHours()) return a.start.getHours() - b.start.getHours();
 												else return a.start.getMinutes() - b.start.getMinutes();
 											})
-											.map((event, i) => {						
-
+											.map((event, i) => {
 												return (
-													<div className={styles.event} key={[timestamp, i].join('.')} style={{
-														visibility: this.state.colourStatuses[event.color] ? 'visible' : 'hidden'
+													<div className={styles.event} key={[timestamp, i].join('.')} style={this.state.colourStatuses[event.color] ? {} : {
+														display: 'none'
 													}}>
 														<div className={styles.eventHeader}>
 															{<h4 className={styles.eventName}>
@@ -116,7 +116,7 @@ export default class Calendar extends React.Component {
 													</div>
 												);
 											})
-											: date.getDate()}
+											: <div className={styles.dateNumber}>{date.getDate()}</div>}
 									</div>
 								</td>
 							);
