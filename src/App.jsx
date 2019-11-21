@@ -75,8 +75,11 @@ export default class App extends React.Component {
 	}
 
 	async fetchArticles() {		
-		let {data} = await App.getArticleList();
-		let filenames = data.map(file => file.name);
+		let {data} = await App.getArticleList().catch((e) => {
+			console.error(e);
+			return [];
+		});
+		let filenames = (data || []).map(file => file.name);
 		let real = filenames.filter(name => name.endsWith('.md') && regexes.date.test(name));
 		let sorted = real.sort((a, b) => {
 			let a_date = new Date(a.split('_')[0]);

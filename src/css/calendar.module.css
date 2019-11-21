@@ -9,6 +9,10 @@ div.key > div {
 	padding: 0 6px;
 }
 
+span.status {
+	padding: 0 8px;
+	cursor: pointer;
+}
 
 .event {
 	display: flex;
@@ -44,4 +48,16 @@ a.noEvent {
 .table td > div {
 	word-wrap: break-word;
 	height: 100%;
+}
+
+.table th.firstColumn {
+	width: 100px;
+}
+
+td:hover {
+	background-color: #ffebb9 !important;
+}
+
+td.today {
+	background-color: peachpuff !important;
 }

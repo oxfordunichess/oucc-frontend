@@ -20,11 +20,13 @@ export default class Calendar extends React.Component {
 			finish: new Date(props.finish || '8 December 2019'),
 			events: {},
 			colours: {},
+			colourStatuses: {},
 			calendarIDs: {},
 			locationReplacers: {},
 			mapsLink: ''
 		};
 		window.location = this.constructor.setSection(window.location, this.state.today);
+		this.updateColourStatuses = this.updateColourStatuses.bind(this);
 	}
 
 	static setSection(location, id) {
@@ -62,8 +64,8 @@ export default class Calendar extends React.Component {
 			<table className={styles.table}>
 				<thead>
 					<tr>
-						{[title, ...days].map((day) => {
-							return <th scope='column' key={day}>{day}</th>;
+						{[title, ...days].map((day, i) => {
+							return <th scope='column' key={day} className={i ? {} : styles.firstColumn}>{day}</th>;
 						})}
 					</tr>
 				</thead>
@@ -71,54 +73,57 @@ export default class Calendar extends React.Component {
 					{weeks.map((week, i) => {
 						let days = [];
 						for (let i = 0; i < 7; i++) {
-							let date = new Date(week).setDate(week.getDate() + i);
-							date = this.constructor.getEventDate(new Date(date));
+							let date = new Date(new Date(week).setDate(week.getDate() + i));
+							let timestamp = this.constructor.getEventDate(date);
 							let today = false;
-							if (this.state.today === date) today = true;
+							if (this.state.today === timestamp) today = true;
 							let day = (
-								<td id={date} key={date} style={today ? {
-									backgroundColor: 'PeachPuff'
-								} : {}}>
-									{(this.state.events[date] || [])
-										.sort((a, b) => {
-											if (a.start.getHours() !== b.start.getHours()) return a.start.getHours() - b.start.getHours();
-											else return a.start.getMinutes() - b.start.getMinutes();
-										})
-										.map((event, i) => {						
+								<td id={timestamp} key={timestamp} className={today ? styles.today : ''}>
+									<div>
+										{this.state.events[timestamp] ? this.state.events[timestamp]
+											.sort((a, b) => {
+												if (a.start.getHours() !== b.start.getHours()) return a.start.getHours() - b.start.getHours();
+												else return a.start.getMinutes() - b.start.getMinutes();
+											})
+											.map((event, i) => {						
 
-											return (
-												<div className={styles.event} key={[date, i].join('.')}>
-													<div className={styles.eventHeader}>
-														{<h4 className={styles.eventName}>
-															{<span className={styles.status} style={{
-																color: event.color
-															}}>⬤ </span>}
-															{<span className='toolTip'>{/* TODO */}</span>}
-															{event.facebookEvent ? <a className={styles.eventTitle} href={event.facebookEvent}>
-																{event.title}
-															</a> : event.title}
-														</h4>}
+												return (
+													<div className={styles.event} key={[timestamp, i].join('.')} style={{
+														visibility: this.state.colourStatuses[event.color] ? 'visible' : 'hidden'
+													}}>
+														<div className={styles.eventHeader}>
+															{<h4 className={styles.eventName}>
+																{<span className={styles.status} style={{
+																	color: event.color
+																}}>⬤</span>}
+																{<span className='toolTip'>{/* TODO */}</span>}
+																{event.facebookEvent ? <a className={styles.eventTitle} href={event.facebookEvent}>
+																	{event.title}
+																</a> : event.title}
+															</h4>}
+														</div>
+														{<div>
+															<h5>
+																{this.constructor.getDisplayTime(event.start)}
+																{' '}
+																<a href={event.map} rel='noopener noreferrer' target='_blank'>
+																	{event.location}
+																</a>
+																{'\n'}
+																{event.description || null}
+															</h5>
+														</div>}
 													</div>
-													{<div>
-														<h5>
-															{this.constructor.getDisplayTime(event.start)}
-															{' '}
-															<a href={event.map} rel='noopener noreferrer' target='_blank'>
-																{event.location}
-															</a>
-															{'\n'}
-															{event.description || null}
-														</h5>
-													</div>}
-												</div>
-											);
-										})}
+												);
+											})
+											: date.getDate()}
+									</div>
 								</td>
 							);
 							days.push(day);
 						}
 						return <tr key={'week.' + i}>
-							<th scope='row'>
+							<th scope='row' className={styles.firstColumn}>
 								{'Week ' + i + '\n' + week.toDateString().slice(4, 10)}
 							</th>
 							{days}						
@@ -167,24 +172,36 @@ export default class Calendar extends React.Component {
 					return [colours, dates];
 				})
 				.then(([colours, events]) => {
-					this.setState({colours, events});
+					let colourStatuses = Object.keys(colours).reduce((acc, curr) => {
+						acc[curr] = true;
+						return acc;
+					}, {});
+					this.setState({colours, colourStatuses, events});
 				})
 				.catch(console.error);
 		});
 	}
 
+	updateColourStatuses(color) {
+		let colourStatuses = Object.assign({}, this.state.colourStatuses);
+		colourStatuses[color] = !colourStatuses[color];
+		this.setState({
+			colourStatuses
+		});
+	}
+
 	renderKey() {
 		let sorted = Object.entries(this.state.colours).sort((a, b) => {
-			if (a < b) return -1;
-			else if (a > b) return 1;
+			if (a[1] < b[1]) return -1;
+			else if (a[1] > b[1]) return 1;
 			else return 0;
 		});
 		return <div className={styles.key}>
 			{sorted.map(([color, calendarName], i) => {
 				return <div className={styles.key} key={['keyElement', i].join('.')}>
-					{<span className={styles.status} style={{
+					{<span className={styles.status} onClick={() => this.updateColourStatuses(color)} style={{
 						color
-					}}>⬤</span>}
+					}}>{this.state.colourStatuses[color] ? '\u2b24' : '\u2b58'}</span>}
 					<h4>{'\u200b ' + calendarName}</h4>
 				</div>;
 			})}
