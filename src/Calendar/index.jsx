@@ -1,15 +1,14 @@
 import React from 'react';
 import {Helmet} from 'react-helmet';
 import axios from 'axios';
-import he from 'he';
+import Event from './event.tsx';
 
 import styles from '../css/calendar.module.css';
 
-const regexes = {
-	key: null,
-	space: /\s+/g,
-	facebook: /(?:(?:http|https):\/\/)?(?:www.)?facebook.com\/(?:events\/)?(?:[?\w-]*\/).+/
-}
+const title = 'MT\'19';
+const days = [
+	'SUN', 'MON', 'TUES', 'WED', 'THURS', 'FRI', 'SAT'
+];
 
 export default class Calendar extends React.Component {
 
@@ -24,7 +23,7 @@ export default class Calendar extends React.Component {
 			calendarIDs: {},
 			locationReplacers: {},
 			mapsLink: ''
-		}
+		};
 		window.location = this.constructor.setSection(window.location, this.state.today);
 	}
 
@@ -63,8 +62,8 @@ export default class Calendar extends React.Component {
 			<table className={styles.table}>
 				<thead>
 					<tr>
-						{['MT\'19', 'SUN', 'MON', 'TUES', 'WED', 'THURS', 'FRI', 'SAT'].map((day) => {
-							return <th scope='column' key={day}>{day}</th>
+						{[title, ...days].map((day) => {
+							return <th scope='column' key={day}>{day}</th>;
 						})}
 					</tr>
 				</thead>
@@ -76,71 +75,56 @@ export default class Calendar extends React.Component {
 							date = this.constructor.getEventDate(new Date(date));
 							let today = false;
 							if (this.state.today === date) today = true;
-							days.push(<td id={date} key={date} style={today ? {
-								backgroundColor: 'PeachPuff'
-							} : {}}>
-								{(this.state.events[date] || [])
-								.sort((a, b) => {
-									if (a.start.getHours() !== b.start.getHours()) return a.start.getHours() - b.start.getHours();
-									else return a.start.getMinutes() - b.start.getMinutes();
-								})
-								.map((event, i) => {
+							let day = (
+								<td id={date} key={date} style={today ? {
+									backgroundColor: 'PeachPuff'
+								} : {}}>
+									{(this.state.events[date] || [])
+										.sort((a, b) => {
+											if (a.start.getHours() !== b.start.getHours()) return a.start.getHours() - b.start.getHours();
+											else return a.start.getMinutes() - b.start.getMinutes();
+										})
+										.map((event, i) => {						
 
-									let locationDisplay;
-									let l = event.location.split(',').shift();
-									if (this.state.locationReplacers[l]) locationDisplay = this.state.locationReplacers[l];
-									else locationDisplay = l;
-
-									let facebookEvent = '';
-									if (regexes.facebook.test(event.description)) facebookEvent = event.description.match(regexes.facebook)[0];
-
-									let description = event.description;
-									
-									let start = description.indexOf('<a');
-									while (start !== -1) {
-										let end = description.indexOf('/a>') + 3;
-										description = description.slice(0, start) + description.slice(end);
-										start = description.indexOf('<a');
-									}
-									description = description.replace(facebookEvent, '').trim();								
-
-									return (
-										<div className={styles.event} key={[date, i].join('.')}>
-											<div className={styles.eventHeader}>
-												{<span className={styles.status} style={{
-													color: event.color
-												}}>⬤ </span>}
-												{<span className='toolTip'>{/* TODO */}</span>}
-												{facebookEvent ? <a className={styles.eventTitle} href={facebookEvent}>
-													<h4 className={styles.eventName}>{event.title}</h4>
-												</a> : <h4 className={styles.noEvent}>{event.title}</h4>}
-											</div>
-											{<div>
-												<h5>
-													{this.constructor.getDisplayTime(event.start)}
-													{' '}
-													<a href={this.state.mapsLink + event.location.replace(regexes.space, '+')} rel='noopener noreferrer' target='_blank'>
-														{locationDisplay}
-													</a>
-													{'\n'}
-													{description || null}
-												</h5>
-											</div>}
-										</div>
-									)
-								})}
-							</td>)
+											return (
+												<div className={styles.event} key={[date, i].join('.')}>
+													<div className={styles.eventHeader}>
+														{<span className={styles.status} style={{
+															color: event.color
+														}}>⬤ </span>}
+														{<span className='toolTip'>{/* TODO */}</span>}
+														{event.facebookEvent ? <a className={styles.eventTitle} href={event.facebookEvent}>
+															<h4 className={styles.eventName}>{event.title}</h4>
+														</a> : <h4 className={styles.noEvent}>{event.title}</h4>}
+													</div>
+													{<div>
+														<h5>
+															{this.constructor.getDisplayTime(event.start)}
+															{' '}
+															<a href={event.map} rel='noopener noreferrer' target='_blank'>
+																{event.location}
+															</a>
+															{'\n'}
+															{event.description || null}
+														</h5>
+													</div>}
+												</div>
+											);
+										})}
+								</td>
+							);
+							days.push(day);
 						}
 						return <tr key={'week.' + i}>
 							<th scope='row'>
 								{'Week ' + i + '\n' + week.toDateString().slice(4, 10)}
 							</th>
 							{days}						
-						</tr>
+						</tr>;
 					})}
 				</tbody>
 			</table>
-		)
+		);
 	}
 
 	renderEvents() {
@@ -160,42 +144,31 @@ export default class Calendar extends React.Component {
 					key: 'AIzaSyDahTZUtTKORUdsOY3H7BEeOXbwye0nBHI' //AIzaSyBNlYH01_9Hc5S1J9vuFmu2nUqBZJNAXxs'
 				}
 			})
-			.then((res) => {
-				return [res.data.summary, res.data.items];
-			})
-			.then(([calendarName, events]) => {
-				let res = events.map((event) => {
-					let color = this.state.calendarIDs[calendarId];
-					if (!colours[color]) colours[color] = calendarName;
-					return {
-						created: event.created,
-						link: event.htmlLink,
-						title: event.summary,
-						status: event.status,
-						start: new Date(event.start.dateTime),
-						end: new Date(event.end.dateTime),
-						location: event.location || '',
-						description: he.decode(event.description || ''),
-						calendarName,
-						color
-					}
-				});
-				return [colours, res];
-			})
-			.then(([colours, events]) => {
-				let dates = this.state.events;
-				events.forEach((event) => {
-					let date = this.constructor.getEventDate(event.start);
-					if (!dates[date]) dates[date] = [];
-					dates[date].push(event);
-				});
-				return [colours, dates];
-			})
-			.then(([colours, events]) => {
-				this.setState({colours, events})
-			})
-			.catch(console.error);
-		})
+				.then((res) => {
+					return [res.data.summary, res.data.items];
+				})
+				.then(([calendarName, events]) => {
+					let res = events.map((event) => {			
+						let color = this.state.calendarIDs[calendarId];
+						if (!colours[color]) colours[color] = calendarName;
+						return new Event(event, calendarName, color, this.state);
+					});
+					return [colours, res];
+				})
+				.then(([colours, events]) => {
+					let dates = this.state.events;
+					events.forEach((event) => {
+						let date = this.constructor.getEventDate(event.start);
+						if (!dates[date]) dates[date] = [];
+						dates[date].push(event);
+					});
+					return [colours, dates];
+				})
+				.then(([colours, events]) => {
+					this.setState({colours, events});
+				})
+				.catch(console.error);
+		});
 	}
 
 	renderKey() {
@@ -211,9 +184,9 @@ export default class Calendar extends React.Component {
 						color
 					}}>⬤</span>}
 					<h4>{'\u200b ' + calendarName}</h4>
-				</div>
+				</div>;
 			})}
-		</div>
+		</div>;
 	}
 
 	getSettings() {
@@ -228,7 +201,7 @@ export default class Calendar extends React.Component {
 			.then(() => this.renderEvents());
 	}
 
-    render () {
+	render () {
 		return (
 			<>
 				<Helmet>
@@ -244,7 +217,7 @@ export default class Calendar extends React.Component {
 					</div>
 				</div>
 			</>
-		)
+		);
 	}
 
 }

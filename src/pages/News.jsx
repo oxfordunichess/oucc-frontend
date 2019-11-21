@@ -1,5 +1,4 @@
 import React from 'react';
-import axios from 'axios';
 import Markdown from 'react-markdown';
 import {Helmet} from 'react-helmet';
 import path from 'path';
@@ -7,10 +6,8 @@ import path from 'path';
 import htmlParser from 'react-markdown/plugins/html-parser';
 import HtmlToReact from 'html-to-react';
 import Table from './Table';
-
+import regexes from '../utils/regexes';
 import styles from '../css/page.module.css';
-
-import {isDev} from '../utils/auth.ts';
 
 // See https://github.com/aknuds1/html-to-react#with-custom-processing-instructions
 // for more info on the processing instructions
@@ -42,12 +39,7 @@ const parseHtml = htmlParser({
 			processNode: processNodeDefinitions.processDefaultNode
 		}
 	]
-})
-
-const regexes = {
-	letters: /\w+/g,
-	image: /<img\s+.*?src=["'](.*).*?">/
-}
+});
 
 export default class Feed extends React.Component {
 
@@ -90,7 +82,7 @@ export default class Feed extends React.Component {
 					/>
 					<hr />
 				</div>
-			)
+			);
 		});
 		let data = {};
 		if (window.location.hash && articles.get(window.location.hash.slice(1))) {
@@ -100,14 +92,14 @@ export default class Feed extends React.Component {
 			<>
 				<Helmet defaultTitle={this.props.title ? this.props.title + ' | OUCC' : 'OUCC'}>
 					<title>{data.title}</title>
-    				<meta property='og:type' content='article' />
-    				{data.description ? <meta name='description' content={data.description} /> : null}
+					<meta property='og:type' content='article' />
+					{data.description ? <meta name='description' content={data.description} /> : null}
 					{data.image ? <meta property='og:image' content={data.image} /> : null}
 				</Helmet>
 				<div className={styles.page}>
 					<div className={styles.main}>{components}</div>
 				</div>
 			</>
-		)
+		);
 	}
 }

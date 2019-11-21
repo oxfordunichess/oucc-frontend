@@ -21,7 +21,10 @@
 		"jsx": "react",
 		"types": [
 			"node"
-		]
+		],
+		"plugins": [{
+			"name": "typescript-plugin-css-modules"
+		}]
 	},
 	"include": [
 		"src"

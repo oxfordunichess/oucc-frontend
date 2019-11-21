@@ -1,7 +1,8 @@
 module.exports = {
     "env": {
         "browser": true,
-        "es6": true
+		"es6": true,
+		"node": true
     },
     "extends": "eslint:recommended",
     "globals": {
@@ -21,7 +22,10 @@ module.exports = {
     "rules": {
         "indent": [
             "error",
-            "tab"
+			"tab",
+			{
+				"SwitchCase": 1
+			}
         ],
         "linebreak-style": [
             "error",

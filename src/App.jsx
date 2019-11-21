@@ -1,22 +1,19 @@
 import React from 'react';
 import './App.scss';
 import {BrowserRouter as Router, Route, Redirect, Switch} from 'react-router-dom';
+import {TransitionGroup, CSSTransition} from 'react-transition-group';
 
-import Header from './Header';
+import Header from './Header/index.tsx';
 import Page from './pages/Page';
 import News from './pages/News';
 import Contact from './pages/Contact';
 import NotFound from './pages/NotFound';
-import Calendar from './pages/Calendar';
-
-import {isDev} from './utils/auth.ts';
-
+import Calendar from './Calendar';
+import regexes from './utils/regexes';
+import {isDev} from './utils/auth';
+import styles from './css/app.module.css';
 import axios from 'axios';
 axios.defaults.baseURL = 'https://oxfordunichess.github.io/oucc-backend/';
-
-const regexes = {	
-	date: /^[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}_/
-}
 
 export default class App extends React.Component {
 
@@ -25,7 +22,7 @@ export default class App extends React.Component {
 		this.state = {
 			index: {},
 			articles: []
-		}
+		};
 	}
 
 	static async getArticle(pathname) {
@@ -36,15 +33,15 @@ export default class App extends React.Component {
 				method: 'GET',
 				maxRedirects: 5
 			})
-			.catch(async (e) => {
-				return isDev() ? e : await axios({
-					baseURL: 'https://oxfordunichess.github.io/oucc-backend/news/',
-					url: pathname + '?token=' + Math.random().toString(36).slice(2),
-					method: 'GET',
-					maxRedirects: 5
+				.catch(async (e) => {
+					return isDev() ? e : await axios({
+						baseURL: 'https://oxfordunichess.github.io/oucc-backend/news/',
+						url: pathname + '?token=' + Math.random().toString(36).slice(2),
+						method: 'GET',
+						maxRedirects: 5
+					});
 				})
-			})
-			.then(v => v.data);
+				.then(v => v.data);
 		} catch (e) {
 			if (e) console.error(e);
 			return '';
@@ -57,7 +54,7 @@ export default class App extends React.Component {
 				url: 'https://api.github.com/repos/oxfordunichess/oucc-backend/contents/news/',
 				method: 'get',
 				maxRedirects: 5
-			})
+			});
 		} catch (e) {
 			if (e) console.error(e);
 			return [];
@@ -91,7 +88,7 @@ export default class App extends React.Component {
 			return b_date - a_date;
 		});
 		let articles = new Array(sorted.length);
-		this.setState({articles})
+		this.setState({articles});
 		sorted.forEach((names, i) => articles[i] = App.getArticle(names)
 			.catch(console.error)
 		);
@@ -104,26 +101,42 @@ export default class App extends React.Component {
 	}
 
 	render() {
+		let markdownPaths = Object.entries(this.state.index).map(([k, v]) => {
+			if (k.startsWith('_') || typeof v !== 'object') return null;
+			return (
+				<Route exact path={'/' + k} key={k + '_route'} render={(props) => {
+					if (v.open) window.open(v.open);
+					if (v.redirect) return <Redirect to={v.redirect} />;
+					return <Page {...props} page={k} title={v.title} parent={v.parent} />;
+				}} />
+			);
+		});
 		return (
 			<Router basename={process.env.PUBLIC_URL}>
-				<Header articles={this.state.articles} 	/>
-				<Switch>
-					{Object.entries(this.state.index).map(([k, v]) => {
-						if (k.startsWith('_') || typeof v !== 'object') return null;
-						return (
-							<Route exact path={'/' + k} key={k + '_route'} render={(props) => {
-								if (v.open) window.open(v.open);
-								if (v.redirect) return <Redirect to={v.redirect} />;
-								return <Page {...props} page={k} title={v.title} parent={v.parent} />;
-							}} />
-						)
-					})}
-					<Route exact path='/' render={() => <Page page='main' />} />
-					<Route exact path='/curr_news' render={() => <News title='Current News' articles={this.state.articles}/>}/>
-					<Route exact path='/contact' render={() => <Contact title='Contact' />}/>
-					<Route exact path='/termcard' render={() => <Calendar title='Termcard' />}/>
-					<Route path='*' component={NotFound} status={404} />
-				</Switch>
+				<Route render={({location}) => {
+					return (
+						<>
+							<Header articles={this.state.articles} 	/>
+							<TransitionGroup>
+								<CSSTransition
+									key={location.key}
+									timeout={300}
+									classNames={styles.fade}
+								>
+									<Switch location={location}>
+										{markdownPaths}
+										<Route exact path='/' render={() => <Page page='main' />} />
+										<Route exact path='/curr_news' render={() => <News title='Current News' articles={this.state.articles}/>}/>
+										<Route exact path='/contact' render={() => <Contact title='Contact' />}/>
+										<Route exact path='/termcard' render={() => <Calendar title='Termcard' />}/>
+										<Route path='*' component={NotFound} status={404} />
+									</Switch>
+
+								</CSSTransition>
+							</TransitionGroup>
+						</>
+					);
+				}}/>}
 			</Router>
 		);
 	}

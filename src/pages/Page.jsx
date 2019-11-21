@@ -35,7 +35,7 @@ const parseHtml = htmlParser({
 			processNode: processNodeDefinitions.processDefaultNode
 		}
 	]
-})
+});
 
 export default class Page extends React.Component {
 
@@ -43,7 +43,7 @@ export default class Page extends React.Component {
 		super(props);
 		this.state = {
 			page: ''
-		}
+		};
 	}
 
 	static async getPage(path = 'main') {
@@ -83,6 +83,6 @@ export default class Page extends React.Component {
 					</div>
 				</div>
 			</>
-		)
+		);
 	}
 }

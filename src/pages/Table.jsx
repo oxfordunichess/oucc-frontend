@@ -1,6 +1,8 @@
 import React from 'react';
 import Papa from 'papaparse';
 
+import {capitalise} from '../utils/prototype';
+
 import axios from 'axios';
 axios.defaults.baseURL = 'https://oxfordunichess.github.io/oucc-backend/';
 
@@ -10,7 +12,7 @@ export default class Table extends React.Component {
 		super(props);
 		this.state = {
 			table: null
-		}
+		};
 	}
 
 	static async getData(file) {
@@ -29,20 +31,22 @@ export default class Table extends React.Component {
 		return (
 			<table>
 				<thead>
-					{keys.map(key => <th key={key} scope='column'>{capitalise(key)}</th>)}
+					<tr>
+						{keys.map((key, i) => <th key={[key, i].join('.')} scope='column'>{capitalise(key)}</th>)}
+					</tr>
 				</thead>
 				<tbody>
 					{body.map(line => {
 						let id = Object.values(line)[0] ? Object.values(line)[0].toLowerCase().replace(/\s+/g, '-') : null;
 						return (
 							<tr key={id} id={id} >{
-								keys.map(key => <td>{key in line ? line[key] : null}</td>)
+								keys.map((key, i) => <td key={[key, i].join('.')}>{key in line ? line[key] : null}</td>)
 							}</tr>
 						);
 					})}
 				</tbody>
 			</table>
-		)
+		);
 	}
 
 	async componentDidMount() {
@@ -59,9 +63,4 @@ export default class Table extends React.Component {
 	render() {
 		return this.state.table;
 	}
-}
-
-function capitalise(str) {
-	if (typeof str !== 'string') throw new TypeError();
-	return str.slice(0, 1).toUpperCase() + str.slice(1).toLowerCase();
 }

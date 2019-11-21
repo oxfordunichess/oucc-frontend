@@ -1,39 +1,45 @@
-import React from 'react';
+import React, {ReactElement, ReactPropTypes} from 'react';
 import {Link} from 'react-router-dom';
 import {isDev} from '../utils/auth';
-import styles from '../css/header.module.css';
-
+import {Navigation, Side, NavCache} from './interfaces';
 import axios from 'axios';
 axios.defaults.baseURL = 'https://oxfordunichess.github.io/oucc-backend/';
 
-export default class Runner extends React.Component {
+const styles = require('../css/header.module.css')
 
-	constructor(props) {
+export default class Runner extends React.Component <{}, {
+	subnav: string,
+	navigation: Navigation
+}> {
+
+	private _nav: NavCache;
+
+	constructor(props: ReactPropTypes) {
 		super(props);
 		this.navEnter = this.navEnter.bind(this);
 		this.navLeave = this.navLeave.bind(this);
 		this.state = {
 			subnav: '',
 			navigation: {}
-		}
+		};
 	}
 	
 
-	navEnter(subnav) {
-		this.setState({subnav})
+	navEnter(subnav: string): void {
+		this.setState({subnav});
 	}
 
 	navLeave() {
-		this.setState({subnav: ''})	
+		this.setState({subnav: ''});	
 	}
 
 	getNavigationData() {
 		return axios('navigation.json' + (isDev() ? '?token=' + Math.random().toString(16).slice(2) : ''))
 			.then(res => res.data)
-			.catch(console.error)
+			.catch(console.error);
 	}
 
-	renderNav(side) {
+	renderNav(side: Side): ReactElement {
 		if (!this._nav) this._nav = {};
 		//if (this._nav[side]) return this._nav[side];
 		let nav = (
@@ -41,13 +47,13 @@ export default class Runner extends React.Component {
 				{Object.entries(this.state.navigation).map(([link, [s, name, ...parents]], i) => {
 					if (s !== side) return null;
 					return (
-						<div key={[name, i].join('.')} className={styles.listing} onMouseEnter={() => this.navEnter(link)} onMouseLeave={() => this.navLeave(link)}>
+						<div key={[name, i].join('.')} className={styles.listing} onMouseEnter={() => this.navEnter(link)} onMouseLeave={() => this.navLeave()}>
 							<div>
 								<Link
 									key={link} to={'/' + link}>{name}
 								</Link>
 							</div>
-							{parents.length && this.state.subnav === link ? <ul className={styles.subnav} refs={link}>
+							{parents.length && this.state.subnav === link ? <ul className={styles.subnav}>
 								{(parents).map(([link, name, _wide, display]) => {
 									if (!display) return null;
 									return (
@@ -56,7 +62,7 @@ export default class Runner extends React.Component {
 										</li>
 									);
 								})}
-							</ul> : null}
+							</ul> as ReactElement : null}
 						</div>
 					);
 				})}
@@ -81,6 +87,6 @@ export default class Runner extends React.Component {
 				}}/>
 				{this.renderNav('right')}
 			</div>
-		)
+		);
 	}
 }
