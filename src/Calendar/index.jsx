@@ -77,7 +77,6 @@ export default class Calendar extends React.Component {
 							let timestamp = this.constructor.getEventDate(date);
 							let today = false;
 							if (this.state.today === timestamp) today = true;
-							if (this.state.events[timestamp]) console.log(date.getDate(), !Object.values(this.state.events[timestamp]).map(e => !this.state.colourStatuses[e.color]));
 							let day = (
 								<td id={timestamp} key={timestamp} className={today ? styles.today : ''}>
 									<div>

@@ -50,6 +50,7 @@ export default class Feed extends React.Component {
 	render() {
 		let articles = new Map();
 		let components = this.props.articles.map((text) => {
+			if (typeof text !== 'string') return null;
 			if (!text) {
 				console.error('Bad Markdown document:\n' + text);
 				return null;
