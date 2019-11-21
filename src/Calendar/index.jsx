@@ -89,13 +89,15 @@ export default class Calendar extends React.Component {
 											return (
 												<div className={styles.event} key={[date, i].join('.')}>
 													<div className={styles.eventHeader}>
-														{<span className={styles.status} style={{
-															color: event.color
-														}}>⬤ </span>}
-														{<span className='toolTip'>{/* TODO */}</span>}
-														{event.facebookEvent ? <a className={styles.eventTitle} href={event.facebookEvent}>
-															<h4 className={styles.eventName}>{event.title}</h4>
-														</a> : <h4 className={styles.noEvent}>{event.title}</h4>}
+														{<h4 className={styles.eventName}>
+															{<span className={styles.status} style={{
+																color: event.color
+															}}>⬤ </span>}
+															{<span className='toolTip'>{/* TODO */}</span>}
+															{event.facebookEvent ? <a className={styles.eventTitle} href={event.facebookEvent}>
+																{event.title}
+															</a> : event.title}
+														</h4>}
 													</div>
 													{<div>
 														<h5>
