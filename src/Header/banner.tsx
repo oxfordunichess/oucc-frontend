@@ -1,7 +1,7 @@
 import React, {ReactElement, ReactPropTypes} from 'react';
 import {Link} from 'react-router-dom';
 import {isDev} from '../utils/auth';
-import {Navigation, Side, NavCache} from './interfaces';
+import {Side, NavCache, NavigationData} from './interfaces';
 import axios from 'axios';
 axios.defaults.baseURL = 'https://oxfordunichess.github.io/oucc-backend/';
 
@@ -9,7 +9,7 @@ const styles = require('../css/header.module.css')
 
 export default class Runner extends React.Component <{}, {
 	subnav: string,
-	navigation: Navigation
+	navigation: NavigationData
 }> {
 
 	private _nav: NavCache;
@@ -29,11 +29,11 @@ export default class Runner extends React.Component <{}, {
 		this.setState({subnav});
 	}
 
-	navLeave() {
+	navLeave(): void {
 		this.setState({subnav: ''});	
 	}
 
-	getNavigationData() {
+	getNavigationData(): Promise<NavigationData> {
 		return axios('navigation.json' + (isDev() ? '?token=' + Math.random().toString(16).slice(2) : ''))
 			.then(res => res.data)
 			.catch(console.error);
@@ -72,13 +72,13 @@ export default class Runner extends React.Component <{}, {
 		else return nav;
 	}
 
-	async componentDidMount() {
+	async componentDidMount(): Promise<void> {
 		this.setState({
 			navigation: await this.getNavigationData()
 		});
 	}
 
-	render() {
+	render(): ReactElement {
 		return (
 			<div className={styles.banner}>
 				{this.renderNav('left')}

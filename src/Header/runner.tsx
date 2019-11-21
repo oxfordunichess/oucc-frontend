@@ -18,7 +18,7 @@ export default class Runner extends React.Component<
 		};
 	}
 
-	static setSection(_location: Location, id: string) {
+	static setSection(_location: Location, id: string): string {
 		return process.env.PUBLIC_URL + '/curr_news#' + id;
 	}
 
@@ -56,14 +56,14 @@ export default class Runner extends React.Component<
 		});
 	}
 
-	componentDidUpdate() {
+	componentDidUpdate(): void {
 		if (this.state._width) return;
 		if (this.refs.dummy && (this.refs.dummy as HTMLElement).scrollWidth) this.setState({
 			_width: (this.refs.dummy as HTMLElement).scrollWidth
 		});
 	}
 
-	async componentDidMount() {
+	async componentDidMount(): Promise<void> {
 		setInterval(() => {
 			let feedPosition = this.state.feedPosition;
 			this.setState({
@@ -72,7 +72,7 @@ export default class Runner extends React.Component<
 		}, 1000 / fps);
 	}
 
-	render() {
+	render(): ReactElement {
 		return (
 			<div className={styles.newsFeed}>
 				<div className={styles.intro}>

@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { ReactPropTypes, ReactElement } from 'react';
 import './App.scss';
 import {BrowserRouter as Router, Route, Redirect, Switch} from 'react-router-dom';
-import {TransitionGroup, CSSTransition} from 'react-transition-group';
 
-import Header from './Header/index.tsx';
+import Header from './Header/index';
 import Page from './pages/Page';
 import News from './pages/News';
 import Contact from './pages/Contact';
@@ -11,13 +10,16 @@ import NotFound from './pages/NotFound';
 import Calendar from './Calendar';
 import regexes from './utils/regexes';
 import {isDev} from './utils/auth';
-import styles from './css/app.module.css';
 import axios from 'axios';
+import { GithubData, IndexData } from './interfaces';
 axios.defaults.baseURL = 'https://oxfordunichess.github.io/oucc-backend/';
 
-export default class App extends React.Component {
+export default class App extends React.Component<{}, {
+	index: object,
+	articles: string[]
+}> {
 
-	constructor(props) {
+	constructor(props: ReactPropTypes) {
 		super(props);
 		this.state = {
 			index: {},
@@ -25,7 +27,7 @@ export default class App extends React.Component {
 		};
 	}
 
-	static async getArticle(pathname) {
+	static async getArticle(pathname: string): Promise<string> {
 		try {
 			return await axios({
 				baseURL: 'https://oxfordunichess.github.io/oucc-backend/news/',
@@ -48,34 +50,33 @@ export default class App extends React.Component {
 		}
 	}
 
-	static async getArticleList() {
-		try {
-			return await axios({
-				url: 'https://api.github.com/repos/oxfordunichess/oucc-backend/contents/news/',
-				method: 'get',
-				maxRedirects: 5
+	static async getArticleList(): Promise<GithubData[]> {
+		return await axios({
+			url: 'https://api.github.com/repos/oxfordunichess/oucc-backend/contents/news/',
+			method: 'get',
+			maxRedirects: 5
+		})
+			.then(res => res.data)
+			.catch((e) => {
+				console.error(e);
+				return [];
 			});
-		} catch (e) {
-			if (e) console.error(e);
-			return [];
-		}
 	}
 
 	//Index for page navigation
 
-	static async getIndex() {
-		try {
-			let url = 'index.json' + (isDev() ? '?token=' + Math.random().toString(36).slice(2) : '');
-			let req = await axios(url);
-			return req.data;
-		} catch (e) {
-			console.error(e);
-			return {};
-		}
+	static getIndex(): Promise<IndexData> {
+		let url = 'index.json' + (isDev() ? '?token=' + Math.random().toString(36).slice(2) : '');
+		return axios(url)
+			.then(res => res.data)
+			.catch((e) => {
+				console.error(e);
+				return {};
+			});
 	}
 
-	async fetchArticles() {		
-		let {data} = await App.getArticleList().catch((e) => {
+	async fetchArticles(): Promise<string[]> {		
+		let data = await App.getArticleList().catch((e) => {
 			console.error(e);
 			return [];
 		});
@@ -88,7 +89,7 @@ export default class App extends React.Component {
 			if (a_date.getTime() !== a_date.getTime()) return 1;
 			// eslint-disable-next-line no-self-compare
 			if (b_date.getTime() !== b_date.getTime()) return -1;
-			return b_date - a_date;
+			return b_date.getTime() - a_date.getTime();
 		});
 		let articles = new Array(sorted.length);
 		this.setState({articles});
@@ -98,12 +99,12 @@ export default class App extends React.Component {
 		return await Promise.all(articles);
 	}
 
-	async componentDidMount() {
-		this.constructor.getIndex().then(index => this.setState({index}));
+	async componentDidMount(): Promise<void> {
+		App.getIndex().then(index => this.setState({index}));
 		this.fetchArticles().then(articles => this.setState({articles}));
 	}
 
-	render() {
+	render(): ReactElement {
 		let markdownPaths = Object.entries(this.state.index).map(([k, v]) => {
 			if (k.startsWith('_') || typeof v !== 'object') return null;
 			return (
@@ -120,23 +121,14 @@ export default class App extends React.Component {
 					return (
 						<>
 							<Header articles={this.state.articles} 	/>
-							<TransitionGroup>
-								<CSSTransition
-									key={location.key}
-									timeout={300}
-									classNames={styles.fade}
-								>
-									<Switch location={location}>
-										{markdownPaths}
-										<Route exact path='/' render={() => <Page page='main' />} />
-										<Route exact path='/curr_news' render={() => <News title='Current News' articles={this.state.articles}/>}/>
-										<Route exact path='/contact' render={() => <Contact title='Contact' />}/>
-										<Route exact path='/termcard' render={() => <Calendar title='Termcard' />}/>
-										<Route path='*' component={NotFound} status={404} />
-									</Switch>
-
-								</CSSTransition>
-							</TransitionGroup>
+							<Switch location={location}>
+								{markdownPaths}
+								<Route exact path='/' render={() => <Page page='main' />} />
+								<Route exact path='/curr_news' render={() => <News title='Current News' articles={this.state.articles}/>}/>
+								<Route exact path='/contact' render={() => <Contact title='Contact' />}/>
+								<Route exact path='/termcard' render={() => <Calendar title='Termcard' />}/>
+								<Route path='*' component={NotFound} status={404} />
+							</Switch>
 						</>
 					);
 				}}/>}

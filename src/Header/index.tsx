@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import Banner from './banner';
 import Runner from './runner';
@@ -13,7 +13,7 @@ export default class Header extends React.Component<{
 	articles: string[]
 }> {
 
-	render() {
+	render(): ReactElement {
 		return (
 			<div className={styles.header}>
 				<Banner/>

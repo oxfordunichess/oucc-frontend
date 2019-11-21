@@ -5,7 +5,7 @@ import path from 'path';
 
 import htmlParser from 'react-markdown/plugins/html-parser';
 import HtmlToReact from 'html-to-react';
-import Table from './Table';
+import Table from './Table.tsx';
 import regexes from '../utils/regexes';
 import styles from '../css/page.module.css';
 

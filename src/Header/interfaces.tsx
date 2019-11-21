@@ -10,12 +10,17 @@ export interface RunnerState {
 	_width: number;
 }
 
-export interface Navigation {
+export interface NavigationData {
 	[key: string]: [
 		string,
 		string,
-		string[]
-	]
+		[
+			string,
+			string,
+			boolean,
+			boolean
+		]
+	];
 }
 
 export type Side = 'left' | 'right';
