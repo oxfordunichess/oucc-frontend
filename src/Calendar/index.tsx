@@ -1,21 +1,35 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import {Helmet} from 'react-helmet';
 import axios from 'axios';
-import Event from './event.tsx';
+import Event from './event';
 
-import styles from '../css/calendar.module.css';
+import { CalendarProps, GoogleCalendar, GoogleEvent, StringDictionary, BooleanDictionary, EventDictionary } from './interfaces';
 
+const styles = require('../css/calendar.module.css');
 const title = 'MT\'19';
 const days = [
 	'SUN', 'MON', 'TUES', 'WED', 'THURS', 'FRI', 'SAT'
 ];
 
-export default class Calendar extends React.Component {
+export default class Calendar extends React.Component<{
+	title: string,
+	sessionID: string
+}, {
+	today: number,
+	start: Date,
+	finish: Date,
+	events: EventDictionary,
+	colours: StringDictionary,
+	colourStatuses: BooleanDictionary,
+	calendarIDs: StringDictionary,
+	locationReplacers: StringDictionary,
+	mapsLink: string
+}> {
 
-	constructor(props) {
+	constructor(props: CalendarProps) {
 		super(props);
 		this.state = {
-			today: this.constructor.getEventDate(Date.now()),
+			today: Calendar.getEventDate(Date.now()),
 			start: new Date(props.start || '6 October 2019'),
 			finish: new Date(props.finish || '8 December 2019'),
 			events: {},
@@ -25,15 +39,15 @@ export default class Calendar extends React.Component {
 			locationReplacers: {},
 			mapsLink: ''
 		};
-		window.location = this.constructor.setSection(window.location, this.state.today);
+		window.location = Calendar.setSection(window.location, this.state.today) as unknown as Location;
 		this.updateColourStatuses = this.updateColourStatuses.bind(this);
 	}
 
-	static setSection(location, id) {
-		return location.href.slice(0, -location.hash.length) + '#' + id;
+	static setSection(location: Location, id: number): string {
+		return location.href.slice(0, -location.hash.length) + '#' + id.toString();
 	}
 
-	static getEventDate(date) {
+	static getEventDate(date: number | Date | string): number {
 		let obj = new Date(date);
 		obj.setHours(0);
 		obj.setMinutes(0);
@@ -42,18 +56,18 @@ export default class Calendar extends React.Component {
 		return obj.valueOf() / 1000;
 	}
 
-	static isDateEqual(date1, date2) {
+	static isDateEqual(date1: Date, date2: Date): boolean {
 		if (date1.getFullYear() !== date2.getFullYear()) return false;
 		if (date1.getMonth() === date2.getMonth()) return false;
 		if (date1.getDate() === date2.getDate()) return false;
 		return true;
 	}
 
-	static getDisplayTime(date) {
+	static getDisplayTime(date: Date): string {
 		return date.getHours() + ':' + '0'.repeat(2 - date.getMinutes().toString().length) + date.getMinutes();
 	}
 
-	renderFrame() {
+	renderFrame(): ReactElement {
 		let weeks = [];
 		for (let i = 0; i < 9; i++) {
 			let curr = new Date(this.state.start);
@@ -74,11 +88,11 @@ export default class Calendar extends React.Component {
 						let days = [];
 						for (let i = 0; i < 7; i++) {
 							let date = new Date(new Date(week).setDate(week.getDate() + i));
-							let timestamp = this.constructor.getEventDate(date);
+							let timestamp = Calendar.getEventDate(date);
 							let today = false;
 							if (this.state.today === timestamp) today = true;
 							let day = (
-								<td id={timestamp} key={timestamp} className={today ? styles.today : ''}>
+								<td id={timestamp.toString()} key={timestamp.toString()} className={today ? styles.today : ''}>
 									<div>
 										{this.state.events[timestamp] && !Object.values(this.state.events[timestamp]).every(e => !this.state.colourStatuses[e.color]) ? this.state.events[timestamp]
 											.sort((a, b) => {
@@ -103,7 +117,7 @@ export default class Calendar extends React.Component {
 														</div>
 														{<div>
 															<h5>
-																{this.constructor.getDisplayTime(event.start)}
+																{Calendar.getDisplayTime(event.start)}
 																{' '}
 																<a href={event.map} rel='noopener noreferrer' target='_blank'>
 																	{event.location}
@@ -134,7 +148,7 @@ export default class Calendar extends React.Component {
 	}
 
 	renderEvents() {
-		let colours = {};
+		let colours: StringDictionary = {};
 		Object.keys(this.state.calendarIDs).forEach((calendarId) => {
 			axios({
 				baseURL: 'https://clients6.google.com/calendar/v3/calendars/',
@@ -151,10 +165,14 @@ export default class Calendar extends React.Component {
 					key: 'AIzaSyDahTZUtTKORUdsOY3H7BEeOXbwye0nBHI' //AIzaSyBNlYH01_9Hc5S1J9vuFmu2nUqBZJNAXxs'
 				}
 			})
-				.then((res) => {
-					return [res.data.summary, res.data.items];
+				.then((res): any => {
+					let data = res.data as GoogleCalendar;
+					return data;
 				})
-				.then(([calendarName, events]) => {
+				.then((data: GoogleCalendar): [string, GoogleEvent[]] => {
+					return [data.summary, data.items];
+				})
+				.then(([calendarName, events]: [string, GoogleEvent[]]): [StringDictionary, Event[]] => {
 					let res = events.map((event) => {			
 						let color = this.state.calendarIDs[calendarId];
 						if (!colours[color]) colours[color] = calendarName;
@@ -162,27 +180,27 @@ export default class Calendar extends React.Component {
 					});
 					return [colours, res];
 				})
-				.then(([colours, events]) => {
+				.then(([colours, events]: [StringDictionary, Event[]]): [StringDictionary, EventDictionary] => {
 					let dates = this.state.events;
 					events.forEach((event) => {
-						let date = this.constructor.getEventDate(event.start);
+						let date = Calendar.getEventDate(event.start);
 						if (!dates[date]) dates[date] = [];
 						dates[date].push(event);
 					});
 					return [colours, dates];
 				})
-				.then(([colours, events]) => {
-					let colourStatuses = Object.keys(colours).reduce((acc, curr) => {
+				.then(([colours, events]: [StringDictionary, EventDictionary]) => {
+					let colourStatuses = Object.keys(colours).reduce((acc: BooleanDictionary, curr: string) => {
 						acc[curr] = true;
 						return acc;
-					}, {});
+					}, {} as BooleanDictionary);
 					this.setState({colours, colourStatuses, events});
 				})
 				.catch(console.error);
 		});
 	}
 
-	updateColourStatuses(color) {
+	updateColourStatuses(color: string): void {
 		let colourStatuses = Object.assign({}, this.state.colourStatuses);
 		colourStatuses[color] = !colourStatuses[color];
 		this.setState({
@@ -190,7 +208,7 @@ export default class Calendar extends React.Component {
 		});
 	}
 
-	renderKey() {
+	renderKey(): ReactElement {
 		let sorted = Object.entries(this.state.colours).sort((a, b) => {
 			if (a[1] < b[1]) return -1;
 			else if (a[1] > b[1]) return 1;
@@ -208,7 +226,7 @@ export default class Calendar extends React.Component {
 		</div>;
 	}
 
-	getSettings() {
+	getSettings(): Promise<any> {
 		return axios({
 			baseURL: 'https://oxfordunichess.github.io/oucc-backend/',
 			url: 'calendar.json',
@@ -218,13 +236,13 @@ export default class Calendar extends React.Component {
 			.catch(console.error);
 	}
 
-	componentDidMount() {
+	componentDidMount(): void {
 		this.getSettings()
 			.then((settings) => this.setState(Object.assign(this.state, settings)))
 			.then(() => this.renderEvents());
 	}
 
-	render () {
+	render(): ReactElement {
 		return (
 			<>
 				<Helmet>

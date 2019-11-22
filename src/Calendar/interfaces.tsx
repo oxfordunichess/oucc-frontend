@@ -1,3 +1,16 @@
+import Event from './event';
+
+export interface EventDictionary {
+	[key: string]: Event[]
+}
+
+export interface CalendarProps {
+	title: string,
+	sessionID: string,
+	start: string,
+	finish: string
+}
+
 export interface GoogleLocation extends String {};
 
 export interface GoogleDate {
@@ -17,4 +30,20 @@ export interface GoogleEvent {
 
 export interface StringDictionary {
 	[key: string]: string
+}
+
+export interface BooleanDictionary {
+	[key: string]: boolean
+}
+
+export interface GoogleCalendar {
+	kind: string,
+	etag: string,
+	summary: string,
+	update: string,
+	timeZone: string,
+	accessRole: string,
+	defaultReminders: any[],
+	nextSyncToken: string,
+	items: GoogleEvent[]
 }
