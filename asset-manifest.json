@@ -1,21 +1,21 @@
 {
   "files": {
-    "main.css": "/oucc-frontend/static/css/main.e2c00b36.chunk.css",
-    "main.js": "/oucc-frontend/static/js/main.23b548d0.chunk.js",
-    "main.js.map": "/oucc-frontend/static/js/main.23b548d0.chunk.js.map",
+    "main.css": "/oucc-frontend/static/css/main.dd65a9d3.chunk.css",
+    "main.js": "/oucc-frontend/static/js/main.f48b1992.chunk.js",
+    "main.js.map": "/oucc-frontend/static/js/main.f48b1992.chunk.js.map",
     "runtime-main.js": "/oucc-frontend/static/js/runtime-main.9b8a1e13.js",
     "runtime-main.js.map": "/oucc-frontend/static/js/runtime-main.9b8a1e13.js.map",
     "static/js/2.b360b75f.chunk.js": "/oucc-frontend/static/js/2.b360b75f.chunk.js",
     "static/js/2.b360b75f.chunk.js.map": "/oucc-frontend/static/js/2.b360b75f.chunk.js.map",
     "index.html": "/oucc-frontend/index.html",
-    "precache-manifest.feddf3d6701a1615b4088f75343ce79c.js": "/oucc-frontend/precache-manifest.feddf3d6701a1615b4088f75343ce79c.js",
+    "precache-manifest.24eaa428c44ed70a09ad3063c82bc756.js": "/oucc-frontend/precache-manifest.24eaa428c44ed70a09ad3063c82bc756.js",
     "service-worker.js": "/oucc-frontend/service-worker.js",
-    "static/css/main.e2c00b36.chunk.css.map": "/oucc-frontend/static/css/main.e2c00b36.chunk.css.map"
+    "static/css/main.dd65a9d3.chunk.css.map": "/oucc-frontend/static/css/main.dd65a9d3.chunk.css.map"
   },
   "entrypoints": [
     "static/js/runtime-main.9b8a1e13.js",
     "static/js/2.b360b75f.chunk.js",
-    "static/css/main.e2c00b36.chunk.css",
-    "static/js/main.23b548d0.chunk.js"
+    "static/css/main.dd65a9d3.chunk.css",
+    "static/js/main.f48b1992.chunk.js"
   ]
 }
