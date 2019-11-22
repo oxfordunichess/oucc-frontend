@@ -1,20 +1,21 @@
-import React, {ReactElement, ReactPropTypes} from 'react';
+import React, {ReactElement} from 'react';
 import {Link} from 'react-router-dom';
-import {isDev} from '../utils/auth';
-import {Side, NavCache, NavigationData} from './interfaces';
+import {Side, NavCache, NavigationData, BannerProps} from './interfaces';
 import axios from 'axios';
 axios.defaults.baseURL = 'https://oxfordunichess.github.io/oucc-backend/';
 
 const styles = require('../css/header.module.css')
 
-export default class Runner extends React.Component <{}, {
+export default class Banner extends React.Component <{
+	sessionID: string
+}, {
 	subnav: string,
 	navigation: NavigationData
 }> {
 
 	private _nav: NavCache;
 
-	constructor(props: ReactPropTypes) {
+	constructor(props: BannerProps) {
 		super(props);
 		this.navEnter = this.navEnter.bind(this);
 		this.navLeave = this.navLeave.bind(this);
@@ -34,14 +35,16 @@ export default class Runner extends React.Component <{}, {
 	}
 
 	getNavigationData(): Promise<NavigationData> {
-		return axios('navigation.json' + (isDev() ? '?token=' + Math.random().toString(16).slice(2) : ''))
+		return axios({
+			url: 'navigation.json',
+			params: {sessionID: this.props.sessionID}
+		 })
 			.then(res => res.data)
 			.catch(console.error);
 	}
 
 	renderNav(side: Side): ReactElement {
 		if (!this._nav) this._nav = {};
-		//if (this._nav[side]) return this._nav[side];
 		let nav = (
 			<div className={styles.nav + ' ' + styles[side]}>
 				{Object.entries(this.state.navigation).map(([link, [s, name, ...parents]], i) => {

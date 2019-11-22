@@ -1,5 +1,9 @@
 import { ReactElement } from "react";
 
+export interface BannerProps {
+	sessionID: string;
+}
+
 export interface RunnerProps {
 	articles: string[];
 }

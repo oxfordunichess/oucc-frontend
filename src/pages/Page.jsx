@@ -6,9 +6,7 @@ import path from 'path';
 import htmlParser from 'react-markdown/plugins/html-parser';
 import HtmlToReact from 'html-to-react';
 import Table from './Table.tsx';
-
-import {isDev} from '../utils/auth.ts';
-
+import {RouterLink} from '../utils/components';
 import axios from 'axios';
 axios.defaults.baseURL = 'https://oxfordunichess.github.io/oucc-backend/';
 
@@ -21,10 +19,21 @@ const parseHtml = htmlParser({
 		{
 			// Custom <Table> processing
 			shouldProcessNode: function (node) {
-				return node.name && node.name === 'data-table';
+				if (!node.name) return false;
+				switch (node.name) {
+					case ('data-table'):
+						return true;
+					default:
+						return false;
+				}
 			},
 			processNode: function (node, children) {
-				return <Table {...node.attribs}/>;
+				switch (node.name) {
+					case ('data-table'):
+						return <Table {...node.attribs}/>;
+					default:
+						return console.error(node.name);
+				}
 			}
 		},
 		{
@@ -44,12 +53,16 @@ export default class Page extends React.Component {
 		this.state = {
 			page: ''
 		};
+		axios.defaults.params = {sessionID: this.props.sessionID};
 	}
 
-	static async getPage(path = 'main') {
+	static async getPage(path = 'main', sessionID) {
 		try {
-			let url = `pages/${path + '.md'}${isDev() ? '?token=' + Math.random().toString(36).slice(2) : ''}`;
-			let req = await axios(url);
+			let url = `pages/${path + '.md'}`;
+			let req = await axios({
+				url,
+				params: {sessionID}
+			});
 			return req.data;
 		} catch (e) {
 			console.error(e);
@@ -74,6 +87,9 @@ export default class Page extends React.Component {
 							source={this.state.page.trim()}
 							escapeHtml={false}
 							astPlugins={[parseHtml]}
+							renderers={{
+								link: RouterLink
+							}}
 							transformLinkUri={(uri) => {
 								uri = Markdown.uriTransformer(uri);
 								if (uri.startsWith('/') || uri.startsWith('./')) uri = path.join(process.env.PUBLIC_URL, uri);

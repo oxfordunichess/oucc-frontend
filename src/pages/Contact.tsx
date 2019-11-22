@@ -2,7 +2,8 @@ import React, {ReactElement} from 'react';
 import {Helmet} from 'react-helmet';
 
 export default class Page extends React.Component<{
-	title: string
+	title: string,
+	sessionID: string
 }> {
 
 	render(): ReactElement {
@@ -23,9 +24,9 @@ export default class Page extends React.Component<{
 										name: 'Name',
 										email: 'Email',
 										subject: 'Subject'
-									}).map(([k, v]) => {
+									}).map(([k, v], i) => {
 										return (
-											<tr>
+											<tr key={['contact', i].join('.')}>
 												<th>{v + ':'}</th>
 												<td>
 													<input type='text' name={k} size={55}/>

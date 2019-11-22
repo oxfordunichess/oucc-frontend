@@ -137,7 +137,8 @@ export default class Calendar extends React.Component {
 		let colours = {};
 		Object.keys(this.state.calendarIDs).forEach((calendarId) => {
 			axios({
-				url: 'https://clients6.google.com/calendar/v3/calendars/' + calendarId + '/events',
+				baseURL: 'https://clients6.google.com/calendar/v3/calendars/',
+				url: calendarId + '/events',
 				params: {
 					calendarId,
 					singleEvents: true,
@@ -208,7 +209,11 @@ export default class Calendar extends React.Component {
 	}
 
 	getSettings() {
-		return axios('https://oxfordunichess.github.io/oucc-backend/calendar.json')
+		return axios({
+			baseURL: 'https://oxfordunichess.github.io/oucc-backend/',
+			url: 'calendar.json',
+			params: {sessionID: this.props.sessionID}
+		})
 			.then(res => res.data)
 			.catch(console.error);
 	}

@@ -9,6 +9,7 @@ import axios from 'axios';
 
 export default class Table extends React.Component<{
 	src: string,
+	sessionID: string
 }, {
 	table: ReactElement,
 	date: Date | null
@@ -22,12 +23,16 @@ export default class Table extends React.Component<{
 		};
 	}
 
-	static getData(file: string): any {
-		return axios('https://oxfordunichess.github.io/oucc-backend/' + file)
+	static getData(file: string, sessionID: string): any {
+		return axios({
+			baseURL: 'https://oxfordunichess.github.io/oucc-backend/',
+			url: file,
+			params: {sessionID}
+		})
 			.then(res => res.data)
 			.catch((e) => {
 				console.error(e);
-				return [{}]
+				return [null];
 			});
 	}
 
@@ -55,18 +60,26 @@ export default class Table extends React.Component<{
 	}
 
 	static getDate(file: string): any {
-		return axios('https://api.github.com/repos/oxfordunichess/oucc-backend/commits?path=' + file + '&page=1&per_page=1')
+		return axios({
+			baseURL: 'https://api.github.com/repos/oxfordunichess/oucc-backend/',
+			url: 'commits',
+			params: {
+				path: file,
+				page: 1,
+				per_page: 1
+			}
+		})
 			.then(res => res.data)
 			.catch((e) => {
 				console.error(e);
-				return [{}]
+				return [null];
 			});
 	}
 
 	async componentDidMount(): Promise<void[]> {
 		if (!this.props.src) return;
 		return Promise.all([
-			Table.getData('data/' + this.props.src)
+			Table.getData('data/' + this.props.src, this.props.sessionID)
 				.then((data: any) => {
 					if (this.props.src.endsWith('.csv')) {
 						let res = Papa.parse(data as string, {
@@ -92,7 +105,8 @@ export default class Table extends React.Component<{
 				.catch(console.error),
 			Table.getDate('data/' + this.props.src)
 				.then((data: GithubCommit[]) => {
-					return new Date(data.shift().commit.committer.date);
+					if (data[0]) return new Date(data.shift().commit.committer.date);
+					else return new Date();
 				})
 				.then((date: Date) => {
 					this.setState({date});
