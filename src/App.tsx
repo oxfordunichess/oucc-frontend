@@ -11,7 +11,7 @@ import Calendar from './Calendar';
 import regexes from './utils/regexes';
 import {isDev} from './utils/auth';
 import axios from 'axios';
-import { GithubData, IndexData } from './interfaces';
+import { GithubFile, IndexData } from './interfaces';
 axios.defaults.baseURL = 'https://oxfordunichess.github.io/oucc-backend/';
 
 export default class App extends React.Component<{}, {
@@ -50,7 +50,7 @@ export default class App extends React.Component<{}, {
 		}
 	}
 
-	static async getArticleList(): Promise<GithubData[]> {
+	static async getArticleList(): Promise<GithubFile[]> {
 		return await axios({
 			url: 'https://api.github.com/repos/oxfordunichess/oucc-backend/contents/news/',
 			method: 'get',
@@ -131,7 +131,7 @@ export default class App extends React.Component<{}, {
 							</Switch>
 						</>
 					);
-				}}/>}
+				}}/>
 			</Router>
 		);
 	}

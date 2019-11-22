@@ -24,6 +24,10 @@
 	flex-direction: column;
 }
 
+.dropDown {
+	width: inherit;
+}
+
 .oucc_logo {
 	grid-column: 2;
 	width: 140px;
@@ -53,7 +57,7 @@
 	/*: calc((100vw - 70px) / 2);*/
 }
 
-.listing > div {
+.listing > div.dropParent {
 	display: flex;
 	align-items: center;
 	height: 65px;
@@ -63,11 +67,11 @@
 	border-right: 5px solid #ff2200;
 }
 
-.listing > div:hover {
+.listing > div.dropParent:hover {
 	border-right: 5px solid #002147;
 }
 
-.listing > div > a {
+.listing > div.dropParent > a {
 	display: flex;
 	align-items: center;
 	height: 65px;

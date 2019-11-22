@@ -70,19 +70,21 @@ export default class Feed extends React.Component {
 				description: lines.find(line => line.trim() && !line.trim().startsWith('#'))
 			});
 			return (
-				<div id={id} key={id} className={styles.article}>
-					<Markdown
-						source={joined}
-						escapeHtml={false}
-						astPlugins={[parseHtml]}
-						transformLinkUri={(uri) => {
-							uri = Markdown.uriTransformer(uri);
-							if (uri.startsWith('/') || uri.startsWith('./')) uri = path.join(process.env.PUBLIC_URL, uri);
-							return uri;
-						}}
-					/>
-					<hr />
-				</div>
+				<>
+					<div id={id} key={id} className={styles.article}>
+						<Markdown
+							source={joined}
+							escapeHtml={false}
+							astPlugins={[parseHtml]}
+							transformLinkUri={(uri) => {
+								uri = Markdown.uriTransformer(uri);
+								if (uri.startsWith('/') || uri.startsWith('./')) uri = path.join(process.env.PUBLIC_URL, uri);
+								return uri;
+							}}
+						/>
+						<hr />
+					</div>
+				</>
 			);
 		});
 		let data = {};

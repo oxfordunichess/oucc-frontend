@@ -48,12 +48,12 @@ export default class Runner extends React.Component <{}, {
 					if (s !== side) return null;
 					return (
 						<div key={[name, i].join('.')} className={styles.listing} onMouseEnter={() => this.navEnter(link)} onMouseLeave={() => this.navLeave()}>
-							<div>
+							<div className={styles.dropParent}>
 								<Link
 									key={link} to={'/' + link}>{name}
 								</Link>
 							</div>
-							{parents.length && this.state.subnav === link ? <ul className={styles.subnav}>
+							{parents.length && this.state.subnav === link ? <div className={styles.dropDown}><ul className={styles.subnav}>
 								{(parents).map(([link, name, _wide, display]) => {
 									if (!display) return null;
 									return (
@@ -62,7 +62,7 @@ export default class Runner extends React.Component <{}, {
 										</li>
 									);
 								})}
-							</ul> as ReactElement : null}
+							</ul></div> as ReactElement : null}
 						</div>
 					);
 				})}
