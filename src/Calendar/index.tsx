@@ -2,13 +2,12 @@ import React, { ReactElement } from 'react';
 import Event from './event';
 import axios from 'axios';
 
-import { CalendarProps, GoogleCalendar, GoogleEvent, StringDictionary, BooleanDictionary, EventDictionary, CalendarSettings } from './interfaces';
-
-const styles = require('../css/calendar.module.css');
+import { CalendarProps, GoogleCalendar, GoogleEvent, StringDictionary, BooleanDictionary, EventDictionary, CalendarSettings, StyleDictionary } from './interfaces';
 
 export default class Calendar extends React.Component<{
 	sessionID: string,
-	settings: CalendarSettings
+	settings: CalendarSettings,
+	styles: StyleDictionary
 }, {
 	calendarIDs: StringDictionary,
 	today: number,
@@ -98,11 +97,11 @@ export default class Calendar extends React.Component<{
 			weeks.push(curr);
 		}
 		return (
-			<table className={styles.table}>
+			<table className={this.props.styles.table}>
 				<thead>
 					<tr>
 						{[this.props.settings.title, ...this.props.settings.days].map((day, i) => {
-							return <th scope='column' key={day} className={i ? {} : styles.firstColumn}>{day}</th>;
+							return <th scope='column' key={day} className={i ? '' : this.props.styles.firstColumn}>{day}</th>;
 						})}
 					</tr>
 				</thead>
@@ -115,7 +114,7 @@ export default class Calendar extends React.Component<{
 							let today = false;
 							if (this.state.today === timestamp) today = true;
 							let day = (
-								<td id={timestamp.toString()} key={timestamp.toString()} className={today ? styles.today : styles.cell}>
+								<td id={timestamp.toString()} key={timestamp.toString()} className={today ? this.props.styles.today : this.props.styles.cell}>
 									<div>
 										{this.state.events[timestamp] && !Object.values(this.state.events[timestamp]).every(e => !this.state.colourStatuses[e.color]) ? this.state.events[timestamp]
 											.sort((a, b) => {
@@ -124,16 +123,16 @@ export default class Calendar extends React.Component<{
 											})
 											.map((event, i) => {
 												return (
-													<div className={styles.event} key={[timestamp, i].join('.')} style={this.state.colourStatuses[event.color] ? {} : {
+													<div className={this.props.styles.event} key={[timestamp, i].join('.')} style={this.state.colourStatuses[event.color] ? {} : {
 														display: 'none'
 													}}>
-														<div className={styles.eventHeader}>
-															{<h4 className={styles.eventName}>
-																{<span className={styles.status} style={{
+														<div className={this.props.styles.eventHeader}>
+															{<h4 className={this.props.styles.eventName}>
+																{<span className={this.props.styles.status} style={{
 																	color: event.color
 																}}>⬤</span>}
 																{<span className='toolTip'>{/* TODO */}</span>}
-																{event.facebookEvent ? <a className={styles.eventTitle} href={event.facebookEvent}>
+																{event.facebookEvent ? <a className={this.props.styles.eventTitle} href={event.facebookEvent}>
 																	{event.title}
 																</a> : event.title}
 															</h4>}
@@ -154,14 +153,14 @@ export default class Calendar extends React.Component<{
 													</div>
 												);
 											})
-											: <div className={styles.dateNumber}>{date.getDate()}</div>}
+											: <div className={this.props.styles.dateNumber}>{date.getDate()}</div>}
 									</div>
 								</td>
 							);
 							days.push(day);
 						}
 						return <tr key={'week.' + i}>
-							<th scope='row' className={styles.firstColumn}>
+							<th scope='row' className={this.props.styles.firstColumn}>
 								{'Week ' + i + '\n' + week.toDateString().slice(4, 10)}
 							</th>
 							{days}						
@@ -239,10 +238,10 @@ export default class Calendar extends React.Component<{
 			else if (a[1] > b[1]) return 1;
 			else return 0;
 		});
-		return <div className={styles.key}>
+		return <div className={this.props.styles.key}>
 			{sorted.map(([color, calendarName], i) => {
-				return <div className={styles.key} key={['keyElement', i].join('.')}>
-					{<span className={styles.status} onClick={() => this.updateColourStatuses(color)} style={{
+				return <div className={this.props.styles.key} key={['keyElement', i].join('.')}>
+					{<span className={this.props.styles.status} onClick={() => this.updateColourStatuses(color)} style={{
 						color
 					}}>{this.state.colourStatuses[color] ? '\u2b24' : '\u2b58'}</span>}
 					<h4>{'\u200b ' + calendarName}</h4>

@@ -1,5 +1,9 @@
 import Event from './event';
 
+export interface StyleDictionary {
+	[key: string]: string
+}
+
 export interface EventDictionary {
 	[key: string]: Event[]
 }
@@ -11,12 +15,14 @@ export interface CalendarSettings {
 	start: string,
 	finish: string,
 	title: string,
-	days: string[]
+	days: string[],
+	APIkey: string
 }
 
 export interface CalendarProps {
 	sessionID: string,
 	settings: CalendarSettings
+	styles: StyleDictionary
 }
 
 export interface GoogleLocation extends String {};

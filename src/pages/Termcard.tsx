@@ -4,6 +4,8 @@ import axios from 'axios';
 import Calendar from '../Calendar';
 import {CalendarSettings, StringDictionary} from '../Calendar/interfaces';
 
+const styles = require('../css/calendar.module.css');
+
 export default class Header extends React.Component<{
 	title: string,
 	sessionID: string
@@ -48,7 +50,7 @@ export default class Header extends React.Component<{
 						<h1>
 							Termcard
 						</h1>
-						<Calendar sessionID={this.props.sessionID} settings={this.state.settings}/>
+						<Calendar sessionID={this.props.sessionID} settings={this.state.settings} styles={styles}/>
 					</div>
 				</div>
 			</>
