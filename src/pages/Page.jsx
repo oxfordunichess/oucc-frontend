@@ -90,11 +90,6 @@ export default class Page extends React.Component {
 							renderers={{
 								link: RouterLink
 							}}
-							transformLinkUri={(uri) => {
-								uri = Markdown.uriTransformer(uri);
-								if (uri.startsWith('/') || uri.startsWith('./')) uri = path.join(process.env.PUBLIC_URL, uri);
-								return uri;
-							}}
 						/> : null}
 					</div>
 				</div>
