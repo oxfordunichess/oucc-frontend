@@ -7,7 +7,7 @@ import Page from './pages/Page';
 import News from './pages/News';
 import Contact from './pages/Contact';
 import NotFound from './pages/NotFound';
-import Calendar from './Calendar';
+import Termcard from './pages/Termcard';
 import regexes from './utils/regexes';
 import axios from 'axios';
 import { GithubFile, IndexData } from './interfaces';
@@ -74,8 +74,8 @@ export default class App extends React.Component<{}, {
 			});
 	}
 
-	async fetchArticles(): Promise<string[]> {		
-		let data = await App.getArticleList(this.state.sessionID).catch((e) => {
+	static async fetchArticles(sessionID: string): Promise<string[]> {		
+		let data = await App.getArticleList(sessionID).catch((e) => {
 			console.error(e);
 			return [];
 		});
@@ -91,16 +91,17 @@ export default class App extends React.Component<{}, {
 			return b_date.getTime() - a_date.getTime();
 		});
 		let articles = new Array(sorted.length);
-		this.setState({articles});
-		sorted.forEach((names, i) => articles[i] = App.getArticle(names, this.state.sessionID)
+		sorted.forEach((names, i) => articles[i] = App.getArticle(names, sessionID)
 			.catch(console.error)
 		);
 		return await Promise.all(articles);
 	}
 
-	async componentDidMount(): Promise<void> {
-		App.getIndex(this.state.sessionID).then(index => this.setState({index}));
-		this.fetchArticles().then(articles => this.setState({articles}));
+	async componentDidMount(): Promise<void[]> {
+		return Promise.all([
+			App.getIndex(this.state.sessionID).then(index => this.setState({index})),
+			App.fetchArticles(this.state.sessionID).then(articles => this.setState({articles}))
+		]);
 	}
 
 	render(): ReactElement {
@@ -125,7 +126,7 @@ export default class App extends React.Component<{}, {
 								<Route exact path='/' render={() => <Page page='main' sessionID={this.state.sessionID}/>} />
 								<Route exact path='/curr_news' render={() => <News title='Current News' articles={this.state.articles} sessionID={this.state.sessionID}/>}/>
 								<Route exact path='/contact' render={() => <Contact title='Contact' sessionID={this.state.sessionID}/>}/>
-								<Route exact path='/termcard' render={() => <Calendar title='Termcard' sessionID={this.state.sessionID}/>}/>
+								<Route exact path='/termcard' render={() => <Termcard title='Termcard' sessionID={this.state.sessionID}/>}/>
 								<Route path='*' component={NotFound} status={404} />
 							</Switch>
 						</>

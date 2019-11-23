@@ -4,11 +4,19 @@ export interface EventDictionary {
 	[key: string]: Event[]
 }
 
-export interface CalendarProps {
-	title: string,
-	sessionID: string,
+export interface CalendarSettings {
+	calendarIDs: StringDictionary,
+	mapsLink: string,
+	locationReplacers: StringDictionary,
 	start: string,
-	finish: string
+	finish: string,
+	title: string,
+	days: string[]
+}
+
+export interface CalendarProps {
+	sessionID: string,
+	settings: CalendarSettings
 }
 
 export interface GoogleLocation extends String {};

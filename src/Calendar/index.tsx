@@ -1,46 +1,69 @@
 import React, { ReactElement } from 'react';
-import {Helmet} from 'react-helmet';
-import axios from 'axios';
 import Event from './event';
+import axios from 'axios';
 
-import { CalendarProps, GoogleCalendar, GoogleEvent, StringDictionary, BooleanDictionary, EventDictionary } from './interfaces';
+import { CalendarProps, GoogleCalendar, GoogleEvent, StringDictionary, BooleanDictionary, EventDictionary, CalendarSettings } from './interfaces';
 
 const styles = require('../css/calendar.module.css');
-const title = 'MT\'19';
-const days = [
-	'SUN', 'MON', 'TUES', 'WED', 'THURS', 'FRI', 'SAT'
-];
 
 export default class Calendar extends React.Component<{
-	title: string,
-	sessionID: string
+	sessionID: string,
+	settings: CalendarSettings
 }, {
+	calendarIDs: StringDictionary,
 	today: number,
 	start: Date,
 	finish: Date,
 	events: EventDictionary,
 	colours: StringDictionary,
 	colourStatuses: BooleanDictionary,
-	calendarIDs: StringDictionary,
 	locationReplacers: StringDictionary,
-	mapsLink: string
+	mapsLink: string,
+	days: string[]
 }> {
 
 	constructor(props: CalendarProps) {
 		super(props);
 		this.state = {
+			calendarIDs: {},
 			today: Calendar.getEventDate(Date.now()),
-			start: new Date(props.start || '6 October 2019'),
-			finish: new Date(props.finish || '8 December 2019'),
+			start: new Date(this.props.settings.start || '6 October 2019'),
+			finish: new Date(this.props.settings.finish || '8 December 2019'),
 			events: {},
 			colours: {},
 			colourStatuses: {},
-			calendarIDs: {},
 			locationReplacers: {},
-			mapsLink: ''
+			mapsLink: '',
+			days: []
 		};
 		window.location = Calendar.setSection(window.location, this.state.today) as unknown as Location;
 		this.updateColourStatuses = this.updateColourStatuses.bind(this);
+	}
+
+	updateStateFromProps(props: CalendarProps) {
+		this.setState({
+			calendarIDs: props.settings.calendarIDs,
+			today: Calendar.getEventDate(Date.now()),
+			start: new Date(props.settings.start || '6 October 2019'),
+			finish: new Date(props.settings.finish || '8 December 2019'),
+			events: {},
+			colours: {},
+			colourStatuses: {},
+			locationReplacers: props.settings.locationReplacers,
+			mapsLink: props.settings.mapsLink,
+			days: props.settings.days
+		});	
+	}
+
+	componentDidUpdate() {
+		let prevCalendarIDs = Object.assign({}, this.state.calendarIDs) as StringDictionary;
+		if (Object.keys(prevCalendarIDs).length !== Object.keys(this.props.settings.calendarIDs).length) this.updateStateFromProps(this.props);
+		let obj = {} as StringDictionary;
+		for (let [k, v] of Object.entries(this.props.settings.calendarIDs)) {
+			if (prevCalendarIDs[k]) continue;
+			obj[k] = v;
+		}
+		this.renderEvents(obj);
 	}
 
 	static setSection(location: Location, id: number): string {
@@ -73,12 +96,12 @@ export default class Calendar extends React.Component<{
 			let curr = new Date(this.state.start);
 			curr.setDate(curr.getDate() + 7 * i);
 			weeks.push(curr);
-		}	
+		}
 		return (
 			<table className={styles.table}>
 				<thead>
 					<tr>
-						{[title, ...days].map((day, i) => {
+						{[this.props.settings.title, ...this.props.settings.days].map((day, i) => {
 							return <th scope='column' key={day} className={i ? {} : styles.firstColumn}>{day}</th>;
 						})}
 					</tr>
@@ -92,7 +115,7 @@ export default class Calendar extends React.Component<{
 							let today = false;
 							if (this.state.today === timestamp) today = true;
 							let day = (
-								<td id={timestamp.toString()} key={timestamp.toString()} className={today ? styles.today : ''}>
+								<td id={timestamp.toString()} key={timestamp.toString()} className={today ? styles.today : styles.cell}>
 									<div>
 										{this.state.events[timestamp] && !Object.values(this.state.events[timestamp]).every(e => !this.state.colourStatuses[e.color]) ? this.state.events[timestamp]
 											.sort((a, b) => {
@@ -119,9 +142,11 @@ export default class Calendar extends React.Component<{
 															<h5>
 																{Calendar.getDisplayTime(event.start)}
 																{' '}
-																<a href={event.map} rel='noopener noreferrer' target='_blank'>
-																	{event.location}
-																</a>
+																{event.map ?
+																	<a href={event.map} rel='noopener noreferrer' target='_blank'>
+																		{event.location}
+																	</a>
+																: event.location}
 																{'\n'}
 																{event.description || null}
 															</h5>
@@ -147,9 +172,9 @@ export default class Calendar extends React.Component<{
 		);
 	}
 
-	renderEvents() {
+	renderEvents(calendarIDs: StringDictionary) {
 		let colours: StringDictionary = {};
-		Object.keys(this.state.calendarIDs).forEach((calendarId) => {
+		Object.keys(calendarIDs).forEach((calendarId) => {
 			axios({
 				baseURL: 'https://clients6.google.com/calendar/v3/calendars/',
 				url: calendarId + '/events',
@@ -174,7 +199,7 @@ export default class Calendar extends React.Component<{
 				})
 				.then(([calendarName, events]: [string, GoogleEvent[]]): [StringDictionary, Event[]] => {
 					let res = events.map((event) => {			
-						let color = this.state.calendarIDs[calendarId];
+						let color = calendarIDs[calendarId];
 						if (!colours[color]) colours[color] = calendarName;
 						return new Event(event, calendarName, color, this.state);
 					});
@@ -226,37 +251,11 @@ export default class Calendar extends React.Component<{
 		</div>;
 	}
 
-	getSettings(): Promise<any> {
-		return axios({
-			baseURL: 'https://oxfordunichess.github.io/oucc-backend/',
-			url: 'calendar.json',
-			params: {sessionID: this.props.sessionID}
-		})
-			.then(res => res.data)
-			.catch(console.error);
-	}
-
-	componentDidMount(): void {
-		this.getSettings()
-			.then((settings) => this.setState(Object.assign(this.state, settings)))
-			.then(() => this.renderEvents());
-	}
-
 	render(): ReactElement {
 		return (
 			<>
-				<Helmet>
-					<title>{this.props.title ? this.props.title + ' | OUCC' : 'OUCC'}</title>
-				</Helmet>
-				<div id="page">
-					<div id='main' ref='main'>
-						<h1>
-							Termcard
-						</h1>
-						{this.renderKey()}
-						{this.renderFrame()}
-					</div>
-				</div>
+				{this.renderKey()}
+				{this.renderFrame()}
 			</>
 		);
 	}

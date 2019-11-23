@@ -45,7 +45,7 @@ export default class Event {
 		this.rawLocation = event.location || '';
 		this.locationReplacers = locationReplacers;
 		this.rawDescription = he.decode(event.description || '');
-		this.map = mapsLink + this.rawLocation.replace(regexes.space, '+');
+		this.map = mapsLink ? mapsLink + this.rawLocation.replace(regexes.space, '+') : '';
 	}
 
 	get location(): string {		

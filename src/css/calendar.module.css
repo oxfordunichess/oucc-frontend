@@ -54,7 +54,7 @@ a.noEvent {
 	width: 100px;
 }
 
-td:hover {
+td.cell:hover {
 	background-color: #ffebb9 !important;
 }
 
