@@ -70,7 +70,7 @@ export default class Feed extends React.Component {
 				description: lines.find(line => line.trim() && !line.trim().startsWith('#'))
 			});
 			return (
-				<div key={id} id={id} key={id} className={styles.article}>
+				<div id={id} key={id} className={styles.article}>
 					<Markdown
 						source={joined}
 						escapeHtml={false}
