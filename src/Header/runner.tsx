@@ -28,7 +28,9 @@ export default class Runner extends React.Component<
 		return this.props.articles.map((text: string, i: number): ReactElement => {
 			let offsets = inc ? Object.entries(this.refs)
 				.filter(([k]): boolean => k.startsWith('feed'))
-				.map(([_k, v]): number => (v as HTMLElement).offsetLeft - this.state._width)
+				.map(([_k, v]): number => {
+					return (v as HTMLElement).offsetLeft - this.state._width
+				})
 			: [];
 			let transformation = inc ? (inc + offsets[i] - y) % x + y - offsets[i] : 0;
 			if (typeof text !== 'string') return null;

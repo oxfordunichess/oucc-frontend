@@ -1,7 +1,6 @@
 import React from 'react';
 import Markdown from 'react-markdown';
 import {Helmet} from 'react-helmet';
-import path from 'path';
 
 import htmlParser from 'react-markdown/plugins/html-parser';
 import HtmlToReact from 'html-to-react';

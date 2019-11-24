@@ -1,5 +1,12 @@
 import { ReactElement } from "react";
 
+export interface BannerState {
+	subnav: string,
+	navigation: NavigationData,
+	navLeft: number,
+	navRight: number
+}
+
 export interface BannerProps {
 	sessionID: string;
 }
@@ -20,9 +27,7 @@ export interface NavigationData {
 		string,
 		[
 			string,
-			string,
-			boolean,
-			boolean
+			string
 		]
 	];
 }

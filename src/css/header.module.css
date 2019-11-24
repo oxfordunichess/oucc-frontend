@@ -1,27 +1,76 @@
 .header {
-	height: 140px;
+	min-height: 140px;
 	z-index: 1;
 	display: grid;
 	grid-template-rows: 90px 50px;
+	overflow-y: visible;
+}
+
+.bannerContainer {
+	min-height: 90px;
+	width: 100vw;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	grid-row: 1;
+	margin: 0;
+	-webkit-overflow-scrolling: touch;
+	-ms-overflow-style: -ms-autohiding-scrollbar;
+	align-items: flex-start;
+	position: fixed;
+	z-index: 1;
 }
 
 .banner {
-	height: 90px;
-	grid-row: 1;
-	background: #002147;
-	position: fixed;
-	width: 100vw;
-	margin: auto;
-	border-bottom: 1px solid gray;
 	display: grid;
 	grid-template-columns: 1fr 140px 1fr;
-	z-index: 1;
-	box-shadow: 0 10px 5px rgba(0, 0, 0, 0.4);
+	height: 90px;
+	min-width: 100vw;
+	grid-row: 1;
+	margin: 0;
+	justify-content: center;
+	align-items: flex-start;
+	align-content: flex-start;
+	background-color: #002147;
+}
+
+.nav {
+	display: flex;
+	flex-direction: row;
+	height: 65px;
+	overflow-y: visible;
+	font-size: 0;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	width: 100%;
+	background: #ff2200;/*
+	background-size: 65px 65px;
+	background-position: 0 0, 32.5px 32.5px;
+	background-image: linear-gradient(45deg, #002147 25%, transparent 25%, transparent 75%, #002147 75%, #002147),
+					  linear-gradient(45deg, #002147 25%, transparent 25%, transparent 75%, #002147 75%, #002147);*/
 }
 
 .listing {
 	display: flex;
 	flex-direction: column;
+	height: 65px;/*
+	border-left: 1px solid gray;
+	border-right: 1px solid gray;*/
+	background: #ff2200;
+}
+
+.left {
+	grid-column: 1;
+	margin: 0 0 0 auto;
+	justify-content: flex-end;
+}
+
+.right {
+	grid-column: 3;
+	margin: 0 auto 0 0;
+	justify-content: flex-start;
 }
 
 .dropDown {
@@ -41,20 +90,6 @@
 
 .oucc_logo:hover {
 	background-position: 0px -141px;
-}
-
-.nav {
-	display: flex;
-	flex-direction: row;
-	height: 65px;
-	font-size: 0;
-	background: #ff2200;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-	width: 100%;
-	/*: calc((100vw - 70px) / 2);*/
 }
 
 .listing > div.dropParent {
@@ -77,18 +112,6 @@
 	height: 65px;
 	margin: 0;
 	vertical-align: top;
-}
-
-.left {
-	grid-column: 1;
-	margin: 0 0 0 auto;
-	justify-content: flex-end;
-}
-
-.right {
-	grid-column: 3;
-	margin: 0 0 0 auto;
-	justify-content: flex-start;
 }
 
 .nav a {color: white}
