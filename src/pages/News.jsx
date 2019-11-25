@@ -1,7 +1,7 @@
 import React from 'react';
 import Markdown from 'react-markdown';
 import {Helmet} from 'react-helmet';
-import path from 'path';
+import url from 'url';
 
 import htmlParser from 'react-markdown/plugins/html-parser';
 import HtmlToReact from 'html-to-react';
@@ -77,11 +77,11 @@ export default class Feed extends React.Component {
 						astPlugins={[parseHtml]}
 						transformLinkUri={(uri) => {
 							uri = Markdown.uriTransformer(uri);
-							if (uri.startsWith('/') || uri.startsWith('./')) uri = path.join(process.env.PUBLIC_URL, uri);
+							if (uri.startsWith('/') || uri.startsWith('./')) uri = url.resolve(process.env.PUBLIC_URL, uri);
 							return uri;
 						}}
 						transformImageUri={(uri) => {
-							if (uri.startsWith('.') || uri.startsWith('/')) uri = path.join('https://oxfordunichess.github.io/oucc-backend/data/', uri);
+							if (uri.startsWith('.') || uri.startsWith('/')) uri = url.resolve('https://oxfordunichess.github.io/oucc-backend/data/', uri);
 							return uri;
 						}}
 					/>
