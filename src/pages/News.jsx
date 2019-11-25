@@ -42,9 +42,26 @@ const parseHtml = htmlParser({
 });
 
 export default class Feed extends React.Component {
+	
+	constructor(props) {
+		super(props);
+		this.state = {
+			mounted: false
+		};
+	}
 
 	static setSection(location, id) {
 		return location.href.slice(0, -location.hash.length) + '#' + id;
+	}
+
+	componentDidUpdate() {
+		if (this.state.mounted) return;
+		if (this.props.articles.length) {
+			if (window.location.hash) {
+				window.location = window.location.toString().slice(0);
+				this.state.mounted = true;
+			}
+		}
 	}
 
 	render() {
