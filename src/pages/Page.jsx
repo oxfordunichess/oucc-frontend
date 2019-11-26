@@ -13,37 +13,6 @@ axios.defaults.baseURL = 'https://oxfordunichess.github.io/oucc-backend/';
 // See https://github.com/aknuds1/html-to-react#with-custom-processing-instructions
 // for more info on the processing instructions
 const processNodeDefinitions = new HtmlToReact.ProcessNodeDefinitions(React);
-const parseHtml = htmlParser({
-	isValidNode: node => node.type !== 'script',
-	processingInstructions: [
-		{
-			// Custom <Table> processing
-			shouldProcessNode: function (node) {
-				if (!node.name) return false;
-				if (node.name === 'data-table') return true;
-				if (node.name === 'calendar') return true;
-				return false;
-			},
-			processNode: function (node, children) {
-				switch (node.name) {
-					case ('data-table'):
-						return <Table {...node.attribs}/>;
-					case ('calendar'):
-						return <Calendar {...node.attribs}/>;
-					default:
-						return null;
-				}
-			}
-		},
-		{
-			// Anything else
-			shouldProcessNode: function (node) {
-				return true;
-			},
-			processNode: processNodeDefinitions.processDefaultNode
-		}
-	]
-});
 
 export default class Page extends React.Component {
 
@@ -53,6 +22,39 @@ export default class Page extends React.Component {
 			page: ''
 		};
 		axios.defaults.params = {sessionID: this.props.sessionID};
+	}
+
+	get parseHtml() {
+		return htmlParser({
+			isValidNode: node => node.type !== 'script',
+			processingInstructions: [
+				{
+					// Custom <Table> processing
+					shouldProcessNode: (node) => {
+						return node.name === 'data-table';
+					},
+					processNode: (node, children) => {
+						return <Table {...node.attribs}/>;
+					}
+				},
+				{
+					// Custom <Table> processing
+					shouldProcessNode:(node) => {
+						return node.name === 'calendar';
+					},
+					processNode: (node, children) => {
+						return <Calendar {...node.attribs} sessionID={this.props.sessionID}/>;
+					}
+				},
+				{
+					// Anything else
+					shouldProcessNode: function () {
+						return true;
+					},
+					processNode: processNodeDefinitions.processDefaultNode
+				}
+			]
+		});
 	}
 
 	static async getPage(path = 'main', sessionID) {
@@ -85,7 +87,7 @@ export default class Page extends React.Component {
 						{this.state.page ? <Markdown
 							source={this.state.page.trim()}
 							escapeHtml={false}
-							astPlugins={[parseHtml]}
+							astPlugins={[this.parseHtml]}
 							renderers={{
 								link: RouterLink
 							}}

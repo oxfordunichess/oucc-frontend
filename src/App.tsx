@@ -7,7 +7,6 @@ import Page from './pages/Page';
 import News from './pages/News';
 import Contact from './pages/Contact';
 import NotFound from './pages/NotFound';
-import Termcard from './pages/Calendar';
 import regexes from './utils/regexes';
 import axios from 'axios';
 import { GithubFile, IndexData } from './interfaces';
@@ -111,7 +110,7 @@ export default class App extends React.Component<{}, {
 				<Route exact path={'/' + k} key={k + '_route'} render={(props) => {
 					if (v.open) window.open(v.open);
 					if (v.redirect) return <Redirect to={v.redirect} />;
-					return <Page {...props} page={k} title={v.title} parent={v.parent} />;
+					return <Page {...props} page={k} title={v.title} parent={v.parent} sessionID={this.state.sessionID}/>;
 				}} />
 			);
 		});

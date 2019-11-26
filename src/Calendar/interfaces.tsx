@@ -8,6 +8,19 @@ export interface EventDictionary {
 	[key: string]: Event[]
 }
 
+export interface CalendarState {
+	calendarIDs: StringDictionary,
+	today: number,
+	start: Date,
+	finish: Date,
+	events: EventDictionary,
+	colours: StringDictionary,
+	colourStatuses: BooleanDictionary,
+	locationReplacers: StringDictionary,
+	mapsLink: string,
+	days: string[]
+}
+
 export interface CalendarSettings {
 	calendarIDs: StringDictionary,
 	mapsLink: string,
@@ -15,8 +28,7 @@ export interface CalendarSettings {
 	start: string,
 	finish: string,
 	title: string,
-	days: string[],
-	APIkey: string
+	days: string[]
 }
 
 export interface CalendarProps {

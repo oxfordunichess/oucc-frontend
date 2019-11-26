@@ -5,7 +5,11 @@ import {CalendarSettings, StringDictionary} from '../Calendar/interfaces';
 
 export default class Header extends React.Component<{
 	styles: string,
-	settings: string
+	settings: string,
+	start: string,
+	finish: string,
+	title: string,
+	sessionID?: string
 }, {
 	styles: StringDictionary,
 	settings: CalendarSettings
@@ -23,9 +27,9 @@ export default class Header extends React.Component<{
 			calendarIDs: {} as StringDictionary,
 			mapsLink: '',
 			locationReplacers: {} as StringDictionary,
-			start: '',
-			finish: '',
-			title: '',
+			start: this.props.start,
+			finish: this.props.finish,
+			title: this.props.title,
 			days: []
 		} as CalendarSettings
 	}
@@ -34,7 +38,10 @@ export default class Header extends React.Component<{
 		if (!url) return Promise.reject();
 		return axios({
 			baseURL: 'https://oxfordunichess.github.io/oucc-backend/',
-			url
+			url,
+			params: {
+				sessionID: this.props.sessionID
+			}
 		})
 			.then(res => res.data)
 			.catch(console.error);

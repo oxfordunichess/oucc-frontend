@@ -12,27 +12,26 @@ import styles from '../css/page.module.css';
 
 // See https://github.com/aknuds1/html-to-react#with-custom-processing-instructions
 // for more info on the processing instructions
-const  processNodeDefinitions = new HtmlToReact.ProcessNodeDefinitions(React);
+const processNodeDefinitions = new HtmlToReact.ProcessNodeDefinitions(React);
 const parseHtml = htmlParser({
 	isValidNode: node => node.type !== 'script',
 	processingInstructions: [
 		{
 			// Custom <Table> processing
 			shouldProcessNode: function (node) {
-				if (!node.name) return false;
-				if (node.name === 'data-table') return true;
-				if (node.name === 'calendar') return true;
-				return false;
+				return node.name === 'data-table';
 			},
 			processNode: function (node, children) {
-				switch (node.name) {
-					case ('data-table'):
-						return <Table {...node.attribs}/>;
-					case ('Calendar'):
-						return <Calendar {...node.attribs}/>;
-					default:
-						return null;
-				}
+				return <Table {...node.attribs}/>;
+			}
+		},
+		{
+			// Custom <Table> processing
+			shouldProcessNode: function (node) {
+				return node.name === 'calendar';
+			},
+			processNode: function (node, children) {
+				return <Calendar {...node.attribs}/>;
 			}
 		},
 		{
@@ -63,7 +62,7 @@ export default class Feed extends React.Component {
 		if (this.props.articles.length) {
 			if (window.location.hash) {
 				window.location = window.location.toString().slice(0);
-				this.state.mounted = true;
+				this.setState({mounted: true});
 			}
 		}
 	}
