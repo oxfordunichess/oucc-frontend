@@ -7,7 +7,7 @@ import Page from './pages/Page';
 import News from './pages/News';
 import Contact from './pages/Contact';
 import NotFound from './pages/NotFound';
-import Termcard from './pages/Termcard';
+import Termcard from './pages/Calendar';
 import regexes from './utils/regexes';
 import axios from 'axios';
 import { GithubFile, IndexData } from './interfaces';
@@ -126,7 +126,6 @@ export default class App extends React.Component<{}, {
 								<Route exact path='/' render={() => <Page page='main' sessionID={this.state.sessionID}/>} />
 								<Route exact path='/curr_news' render={() => <News title='Current News' articles={this.state.articles} sessionID={this.state.sessionID}/>}/>
 								<Route exact path='/contact' render={() => <Contact title='Contact' sessionID={this.state.sessionID}/>}/>
-								<Route exact path='/termcard' render={() => <Termcard title='Termcard' sessionID={this.state.sessionID}/>}/>
 								<Route path='*' component={NotFound} status={404} />
 							</Switch>
 						</>

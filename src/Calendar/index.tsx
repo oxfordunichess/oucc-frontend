@@ -5,7 +5,6 @@ import axios from 'axios';
 import { CalendarProps, GoogleCalendar, GoogleEvent, StringDictionary, BooleanDictionary, EventDictionary, CalendarSettings, StyleDictionary } from './interfaces';
 
 export default class Calendar extends React.Component<{
-	sessionID: string,
 	settings: CalendarSettings,
 	styles: StyleDictionary
 }, {

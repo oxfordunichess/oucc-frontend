@@ -20,7 +20,6 @@ export interface CalendarSettings {
 }
 
 export interface CalendarProps {
-	sessionID: string,
 	settings: CalendarSettings
 	styles: StyleDictionary
 }

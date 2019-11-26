@@ -5,6 +5,7 @@ import {Helmet} from 'react-helmet';
 import htmlParser from 'react-markdown/plugins/html-parser';
 import HtmlToReact from 'html-to-react';
 import Table from './Table.tsx';
+import Calendar from './Calendar.tsx';
 import {RouterLink} from '../utils/components';
 import axios from 'axios';
 axios.defaults.baseURL = 'https://oxfordunichess.github.io/oucc-backend/';
@@ -19,19 +20,18 @@ const parseHtml = htmlParser({
 			// Custom <Table> processing
 			shouldProcessNode: function (node) {
 				if (!node.name) return false;
-				switch (node.name) {
-					case ('data-table'):
-						return true;
-					default:
-						return false;
-				}
+				if (node.name === 'data-table') return true;
+				if (node.name === 'calendar') return true;
+				return false;
 			},
 			processNode: function (node, children) {
 				switch (node.name) {
 					case ('data-table'):
 						return <Table {...node.attribs}/>;
+					case ('calendar'):
+						return <Calendar {...node.attribs}/>;
 					default:
-						return console.error(node.name);
+						return null;
 				}
 			}
 		},

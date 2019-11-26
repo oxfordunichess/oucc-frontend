@@ -6,6 +6,7 @@ import url from 'url';
 import htmlParser from 'react-markdown/plugins/html-parser';
 import HtmlToReact from 'html-to-react';
 import Table from './Table.tsx';
+import Calendar from './Calendar.tsx';
 import regexes from '../utils/regexes';
 import styles from '../css/page.module.css';
 
@@ -20,12 +21,15 @@ const parseHtml = htmlParser({
 			shouldProcessNode: function (node) {
 				if (!node.name) return false;
 				if (node.name === 'data-table') return true;
+				if (node.name === 'calendar') return true;
 				return false;
 			},
 			processNode: function (node, children) {
 				switch (node.name) {
 					case ('data-table'):
 						return <Table {...node.attribs}/>;
+					case ('Calendar'):
+						return <Calendar {...node.attribs}/>;
 					default:
 						return null;
 				}
@@ -33,7 +37,7 @@ const parseHtml = htmlParser({
 		},
 		{
 			// Anything else
-			shouldProcessNode: function (node) {
+			shouldProcessNode: function () {
 				return true;
 			},
 			processNode: processNodeDefinitions.processDefaultNode
