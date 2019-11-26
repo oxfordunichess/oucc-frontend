@@ -47,8 +47,7 @@ export default class Header extends React.Component<{
 			.catch(console.error);
 	}
 
-	componentDidUpdate() {
-		if (Object.keys(this.state.settings.calendarIDs).length) return;
+	componentDidMount() {
 		this.getSettings(this.props.settings)
 			.then((settings) => this.setState({settings: Object.assign(this.state.settings, settings)}))
 			.catch(() => {})
