@@ -31,18 +31,18 @@
     "react-snapshot": "^1.3.0",
     "typescript": "^3.7.2",
     "url": "^0.11.0",
-    "webpack": "^4.41.0"
+    "webpack": "^4.41.2"
   },
   "license": "MIT",
   "scripts": {
-    "start": "react-scripts start",
+	"start": "react-scripts start",
+	"run": "git push -u origin master; yarn predeploy; yarn deploy; yarn build",
     "seo": "react-snapshot",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "yarn build --homepage gh",
-    "deploy": "gh-pages -d build",
-    "deploy-sso": "gh-pages -d build -b sso"
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
