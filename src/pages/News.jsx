@@ -5,6 +5,7 @@ import url from 'url';
 
 import htmlParser from 'react-markdown/plugins/html-parser';
 import HtmlToReact from 'html-to-react';
+import {RouterLink} from '../utils/components';
 import Table from './Table.tsx';
 import Calendar from './Calendar.tsx';
 import regexes from '../utils/regexes';
@@ -95,10 +96,8 @@ export default class Feed extends React.Component {
 						source={joined}
 						escapeHtml={false}
 						astPlugins={[parseHtml]}
-						transformLinkUri={(uri) => {
-							uri = Markdown.uriTransformer(uri);
-							if (uri.startsWith('/') || uri.startsWith('./')) uri = url.resolve(process.env.PUBLIC_URL, uri);
-							return uri;
+						renderers={{
+							link: RouterLink
 						}}
 						transformImageUri={(uri) => {
 							if (uri.startsWith('.') || uri.startsWith('/')) uri = url.resolve('https://oxfordunichess.github.io/oucc-backend/data/', uri);

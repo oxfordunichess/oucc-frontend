@@ -1,6 +1,7 @@
 import React from 'react';
 import Markdown from 'react-markdown';
 import {Helmet} from 'react-helmet';
+import url from 'url';
 
 import htmlParser from 'react-markdown/plugins/html-parser';
 import HtmlToReact from 'html-to-react';
@@ -90,6 +91,10 @@ export default class Page extends React.Component {
 							astPlugins={[this.parseHtml]}
 							renderers={{
 								link: RouterLink
+							}}
+							transformImageUri={(uri) => {
+								if (uri.startsWith('.') || uri.startsWith('/')) uri = url.resolve('https://oxfordunichess.github.io/oucc-backend/data/', uri);
+								return uri;
 							}}
 						/> : null}
 					</div>
