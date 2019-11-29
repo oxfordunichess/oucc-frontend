@@ -12,6 +12,7 @@ export default class Calendar extends React.Component<{
 	today: number,
 	start: Date,
 	finish: Date,
+	weeks: number,
 	events: EventDictionary,
 	colours: StringDictionary,
 	colourStatuses: BooleanDictionary,
@@ -28,6 +29,7 @@ export default class Calendar extends React.Component<{
 			today: Calendar.getEventDate(Date.now()),
 			start: new Date(this.props.settings.start || '6 October 2019'),
 			finish: new Date(this.props.settings.finish || '8 December 2019'),
+			weeks: 8,
 			events: {},
 			colours: {},
 			colourStatuses: {},
@@ -45,6 +47,7 @@ export default class Calendar extends React.Component<{
 			today: Calendar.getEventDate(Date.now()),
 			start: new Date(props.settings.start || '6 October 2019'),
 			finish: new Date(props.settings.finish || '8 December 2019'),
+			weeks: props.settings.weeks || 8,
 			events: {},
 			colours: {},
 			colourStatuses: {},
@@ -114,7 +117,7 @@ export default class Calendar extends React.Component<{
 
 	renderFrame(): ReactElement {
 		let weeks = [];
-		for (let i = 0; i < 9; i++) {
+		for (let i = 0; i < this.state.weeks + 1; i++) {
 			let curr = new Date(this.state.start);
 			curr.setDate(curr.getDate() + 7 * i);
 			weeks.push(curr);

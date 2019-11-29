@@ -8,6 +8,7 @@ export default class Header extends React.Component<{
 	settings: string,
 	start: string,
 	finish: string,
+	weeks: string,
 	title: string,
 	sessionID?: string
 }, {
@@ -29,6 +30,7 @@ export default class Header extends React.Component<{
 			locationReplacers: {} as StringDictionary,
 			start: this.props.start,
 			finish: this.props.finish,
+			weeks: parseInt(this.props.weeks),
 			title: this.props.title,
 			days: []
 		} as CalendarSettings

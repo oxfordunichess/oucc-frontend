@@ -1,6 +1,6 @@
 {
   "name": "oucc-react",
-  "version": "1.1.9",
+  "version": "1.1.10",
   "private": false,
   "homepage_gh": "https://oxfordunichess.github.io/oucc-frontend/",
   "homepage": "http://users.ox.ac.uk/~chess/",
@@ -36,7 +36,6 @@
   "license": "MIT",
   "scripts": {
 	"start": "react-scripts start",
-	"run": "git push -u origin master; yarn predeploy; yarn deploy; yarn build",
     "seo": "react-snapshot",
     "build": "react-scripts build",
     "test": "react-scripts test",

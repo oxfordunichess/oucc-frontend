@@ -13,6 +13,7 @@ export interface CalendarState {
 	today: number,
 	start: Date,
 	finish: Date,
+	weeks: number,
 	events: EventDictionary,
 	colours: StringDictionary,
 	colourStatuses: BooleanDictionary,
@@ -27,6 +28,7 @@ export interface CalendarSettings {
 	locationReplacers: StringDictionary,
 	start: string,
 	finish: string,
+	weeks: number,
 	title: string,
 	days: string[]
 }
