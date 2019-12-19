@@ -15,7 +15,9 @@ export default class Page extends React.Component<{
 					<title>{this.props.title ? this.props.title + ' | OUCC' : 'OUCC'}</title>
 				</Helmet>
 				<div className={styles.page}>
-					<div className={styles.main}>
+					<div className={styles.main} style={{
+							width: '61.8%'
+						}}>
 						<h1>Contact Us</h1>
 						<br/>
 						If you have any questions or wish to contact the club then please complete the form below and we will get back to you as soon as possible.
