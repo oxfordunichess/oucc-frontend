@@ -1,6 +1,8 @@
 import React, {ReactElement} from 'react';
 import {Helmet} from 'react-helmet';
 
+const styles = require('../css/page.module.css');
+
 export default class Page extends React.Component<{
 	title: string,
 	sessionID: string
@@ -12,8 +14,8 @@ export default class Page extends React.Component<{
 				<Helmet>
 					<title>{this.props.title ? this.props.title + ' | OUCC' : 'OUCC'}</title>
 				</Helmet>
-				<div id="page">
-					<div id="main">
+				<div className={styles.page}>
+					<div className={styles.main}>
 						<h1>Contact Us</h1>
 						<br/>
 						If you have any questions or wish to contact the club then please complete the form below and we will get back to you as soon as possible.
