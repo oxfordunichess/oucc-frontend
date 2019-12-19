@@ -1,6 +1,6 @@
 import React, {ReactElement} from 'react';
 import Papa from 'papaparse';
-import {TableProps, TableJSON} from './interfaces';
+import {TableProps, TableJSON} from '../pages/interfaces';
 import {GithubCommit} from '../interfaces';
 
 import {capitalise} from '../utils/prototype';

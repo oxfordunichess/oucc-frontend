@@ -1,0 +1,26 @@
+.profile {
+	display: grid;
+	grid-template-columns: 0.5fr 1fr 2fr;
+	margin: 40px 0;
+}
+
+.profile .thumbnail {
+	margin: 10px 0;
+}
+
+.text {
+	margin: 10px 0;
+}
+
+.profile > div {
+	width: 100%;
+	overflow-wrap: break-word;
+}
+
+.profile div {
+	white-space: pre-wrap;
+}
+
+.thumbnail {
+	height: 100px;
+}

@@ -6,8 +6,8 @@ import url from 'url';
 import htmlParser from 'react-markdown/plugins/html-parser';
 import HtmlToReact from 'html-to-react';
 import {RouterLink} from '../utils/components';
-import Table from './Table.tsx';
-import Calendar from './Calendar.tsx';
+import Table from '../components/Table.tsx';
+import Calendar from '../components/Calendar.tsx';
 import regexes from '../utils/regexes';
 import styles from '../css/page.module.css';
 
@@ -120,8 +120,10 @@ export default class Feed extends React.Component {
 					{data.description ? <meta name='description' content={data.description} /> : null}
 					{data.image ? <meta property='og:image' content={data.image} /> : null}
 				</Helmet>
-				<div className={styles.page}>
-					<div className={styles.main}>{components}</div>
+				<div className={styles.page} >
+					<div className={styles.main} style={{
+						width: this.state.wide ? '100%' : '61.8%'
+					}}>{components}</div>
 				</div>
 			</>
 		);
