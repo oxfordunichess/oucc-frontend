@@ -1,5 +1,3 @@
-import { string } from "prop-types"
-
 export interface GithubFile {
 	name: string,
 	sha: string,
@@ -51,6 +49,8 @@ interface IndexElement {
 	title?: string;
 	parent?: string;
 	redirect?: string;
+	open?: string;
+	file?: string
 }
 
 export interface IndexData {

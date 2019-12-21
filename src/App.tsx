@@ -13,7 +13,7 @@ import { GithubFile, IndexData } from './interfaces';
 axios.defaults.baseURL = 'https://oxfordunichess.github.io/oucc-backend/';
 
 export default class App extends React.Component<{}, {
-	index: object,
+	index: IndexData,
 	articles: string[],
 	sessionID: string
 }> {
@@ -21,7 +21,7 @@ export default class App extends React.Component<{}, {
 	constructor(props: ReactPropTypes) {
 		super(props);
 		this.state = {
-			index: {},
+			index: {} as IndexData,
 			articles: [],
 			sessionID: Math.random().toString(16).slice(2)
 		};
@@ -110,7 +110,7 @@ export default class App extends React.Component<{}, {
 				<Route exact path={'/' + k} key={k + '_route'} render={(props) => {
 					if (v.open) window.open(v.open);
 					if (v.redirect) return <Redirect to={v.redirect} />;
-					return <Page {...props} page={k} title={v.title} parent={v.parent} sessionID={this.state.sessionID}/>;
+					return <Page {...props} page={v.file || k} title={v.title} parent={v.parent} sessionID={this.state.sessionID}/>;
 				}} />
 			);
 		});
