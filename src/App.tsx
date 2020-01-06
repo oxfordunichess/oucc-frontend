@@ -1,4 +1,4 @@
-import React, { ReactPropTypes, ReactElement } from 'react';
+import React, { ReactElement } from 'react';
 import './App.scss';
 import {BrowserRouter as Router, Route, Redirect, Switch} from 'react-router-dom';
 
@@ -17,16 +17,11 @@ export default class App extends React.Component<{}, {
 	articles: string[],
 	sessionID: string
 }> {
-
-	constructor(props: ReactPropTypes) {
-		super(props);
-		this.state = {
-			index: {} as IndexData,
-			articles: [],
-			sessionID: Math.random().toString(16).slice(2)
-		};
-		axios.defaults.params = {};
-		axios.defaults.params.sessionID = this.state.sessionID;
+	
+	public state = {
+		index: {} as IndexData,
+		articles: [] as string[],
+		sessionID: Math.random().toString(16).slice(2)
 	}
 
 	static async getArticle(pathname: string, sessionID?: string): Promise<string> {
@@ -96,8 +91,10 @@ export default class App extends React.Component<{}, {
 		return await Promise.all(articles);
 	}
 
-	async componentDidMount(): Promise<void[]> {
-		return Promise.all([
+	componentDidMount(): void {
+		axios.defaults.params = {};
+		axios.defaults.params.sessionID = this.state.sessionID;
+		Promise.all([
 			App.getIndex(this.state.sessionID).then(index => this.setState({index})),
 			App.fetchArticles(this.state.sessionID).then(articles => this.setState({articles}))
 		]);
@@ -110,7 +107,7 @@ export default class App extends React.Component<{}, {
 				<Route exact path={'/' + k} key={k + '_route'} render={(props) => {
 					if (v.open) window.open(v.open);
 					if (v.redirect) return <Redirect to={v.redirect} />;
-					return <Page {...props} page={v.file || k} title={v.title} parent={v.parent} sessionID={this.state.sessionID}/>;
+					return <Page {...props} page={v.file || k} title={v.title} sessionID={this.state.sessionID}/>;
 				}} />
 			);
 		});

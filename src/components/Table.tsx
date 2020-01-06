@@ -1,9 +1,9 @@
-import React, {ReactElement} from 'react';
+import React, { ReactElement } from 'react';
 import Papa from 'papaparse';
-import {TableProps, TableJSON} from '../pages/interfaces';
-import {GithubCommit} from '../interfaces';
+import { TableJSON } from '../pages/interfaces';
+import { GithubCommit } from '../interfaces';
 
-import {capitalise} from '../utils/prototype';
+import { capitalise } from '../utils/prototype';
 
 import axios from 'axios';
 
@@ -15,12 +15,9 @@ export default class Table extends React.Component<{
 	date: Date | null
 }> {
 
-	constructor(props: TableProps) {
-		super(props);
-		this.state = {
-			table: null,
-			date: null
-		};
+	public state = {
+		table: null as ReactElement,
+		date: null as Date | null
 	}
 
 	static getData(file: string, sessionID: string): any {

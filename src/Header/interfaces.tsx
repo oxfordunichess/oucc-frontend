@@ -1,25 +1,4 @@
-import { ReactElement } from "react";
-
-export interface BannerState {
-	subnav: string,
-	navigation: NavigationData,
-	navLeft: number,
-	navRight: number
-}
-
-export interface BannerProps {
-	sessionID: string;
-}
-
-export interface RunnerProps {
-	articles: string[];
-}
-
-export interface RunnerState {
-	navigation: object;
-	feedPosition: number;
-	_width: number;
-}
+import { ReactElement } from 'react';
 
 export interface NavigationData {
 	[key: string]: [

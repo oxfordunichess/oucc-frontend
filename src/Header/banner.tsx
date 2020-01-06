@@ -1,6 +1,6 @@
-import React, {ReactElement, RefObject} from 'react';
-import {Link} from 'react-router-dom';
-import {Side, NavCache, NavigationData, BannerProps, BannerState} from './interfaces';
+import React, { ReactElement, RefObject } from 'react';
+import { Link } from 'react-router-dom';
+import { Side, NavCache, NavigationData } from './interfaces';
 import axios from 'axios';
 axios.defaults.baseURL = 'https://oxfordunichess.github.io/oucc-backend/';
 
@@ -8,51 +8,37 @@ const styles = require('../css/header.module.css')
 
 export default class Banner extends React.Component <{
 	sessionID: string
-}, BannerState> {
+}, {
+	subnav: string,
+	navigation: NavigationData,
+	navLeft: number,
+	navRight: number
+}> {
 
 	private _nav: NavCache;
-	private navLeft: RefObject<HTMLDivElement>;
-	private navRight: RefObject<HTMLDivElement>;
+	private navLeft: RefObject<HTMLDivElement> = React.createRef();
+	private navRight: RefObject<HTMLDivElement> = React.createRef();
 
-	constructor(props: BannerProps) {
-		super(props);
-		this.navToggle = this.navToggle.bind(this);
-		this.navEnter = this.navEnter.bind(this);
-		this.navLeave = this.navLeave.bind(this);
-		this.resizeNavs = this.resizeNavs.bind(this);
-		this.state = {
-			subnav: '',
-			navigation: {},
-			navLeft: 0,
-			navRight: 0
-		};
-		this.navLeft = React.createRef();
-		this.navRight = React.createRef();
+	public state = {
+		subnav: '',
+		navigation: {} as NavigationData,
+		navLeft: 0,
+		navRight: 0
 	}
 
-	navToggle(subnav: string): void {
+	private navToggle(subnav: string): void {
 		if (this.state.subnav === subnav) this.navLeave();
 		else this.navEnter(subnav);
 	}
 
-	navEnter(subnav: string): void {
+	private navEnter(subnav: string): void {
 		this.setState({subnav});
 	}
 
-	navLeave(): void {
+	private navLeave(): void {
 		this.setState({subnav: ''});	
 	}
-
-	getNavigationData(): Promise<NavigationData> {
-		return axios({
-			url: 'navigation.json',
-			params: {sessionID: this.props.sessionID}
-		 })
-			.then(res => res.data)
-			.catch(console.error);
-	}
-
-	renderNav(side: Side): ReactElement {
+	private renderNav(side: Side): ReactElement {
 		if (!this._nav) this._nav = {};
 		let width = side === 'left' ? this.state.navLeft : this.state.navRight;
 		let nav = (
@@ -88,7 +74,16 @@ export default class Banner extends React.Component <{
 		else return nav;
 	}
 
-	resizeNavs() {/*
+	private getNavigationData(): Promise<NavigationData> {
+		return axios({
+			url: 'navigation.json',
+			params: {sessionID: this.props.sessionID}
+		 })
+			.then(res => res.data)
+			.catch(console.error);
+	}
+
+	private resizeNavs(): void {/*
 		let widths = [this.navLeft.current.scrollWidth, this.navRight.current.scrollWidth];
 		if (widths[0] === widths[1]) return;
 		let max = Math.max(...widths);
@@ -98,11 +93,12 @@ export default class Banner extends React.Component <{
 		this.setState(obj)*/
 	}
 
-	async componentDidMount(): Promise<void> {
+	componentDidMount(): void {
 		window.addEventListener('resize', this.resizeNavs);
-		this.setState({
-			navigation: await this.getNavigationData()
-		});
+		this.getNavigationData()
+			.then((navigation) => {
+				this.setState({ navigation });
+			});
 		this.resizeNavs();
 	}
 

@@ -2,16 +2,9 @@ import React, { ReactElement } from 'react';
 import axios from 'axios';
 import Calendar from '../Calendar';
 import {CalendarSettings, StringDictionary} from '../Calendar/interfaces';
+import { CalendarProps } from '../pages/interfaces';
 
-export default class Header extends React.Component<{
-	styles: string,
-	settings: string,
-	start: string,
-	finish: string,
-	weeks: string,
-	title: string,
-	sessionID?: string
-}, {
+export default class Header extends React.Component<CalendarProps, {
 	styles: StringDictionary,
 	settings: CalendarSettings
 }> {

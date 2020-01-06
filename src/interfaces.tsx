@@ -56,3 +56,9 @@ interface IndexElement {
 export interface IndexData {
 	[key: string]: string | IndexElement;
 }
+
+export interface Article {
+	title: string
+	image: string
+	description: string
+}

@@ -1,74 +1,44 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import Markdown from 'react-markdown';
-import {Helmet} from 'react-helmet';
+import { Helmet } from 'react-helmet';
 import url from 'url';
 
-import htmlParser from 'react-markdown/plugins/html-parser';
-import HtmlToReact from 'html-to-react';
-import {RouterLink} from '../utils/components';
-import Table from '../components/Table.tsx';
-import Calendar from '../components/Calendar.tsx';
+import { Article } from '../interfaces';
+import { RouterLink } from '../utils/components';
+import { parseHtml } from '../utils/plugins';
 import regexes from '../utils/regexes';
-import styles from '../css/page.module.css';
 
-// See https://github.com/aknuds1/html-to-react#with-custom-processing-instructions
-// for more info on the processing instructions
-const processNodeDefinitions = new HtmlToReact.ProcessNodeDefinitions(React);
-const parseHtml = htmlParser({
-	isValidNode: node => node.type !== 'script',
-	processingInstructions: [
-		{
-			// Custom <Table> processing
-			shouldProcessNode: function (node) {
-				return node.name === 'data-table';
-			},
-			processNode: function (node, children) {
-				return <Table {...node.attribs}/>;
-			}
-		},
-		{
-			// Custom <Table> processing
-			shouldProcessNode: function (node) {
-				return node.name === 'calendar';
-			},
-			processNode: function (node, children) {
-				return <Calendar {...node.attribs}/>;
-			}
-		},
-		{
-			// Anything else
-			shouldProcessNode: function () {
-				return true;
-			},
-			processNode: processNodeDefinitions.processDefaultNode
-		}
-	]
-});
+const styles = require('../css/page.module.css');
 
-export default class Feed extends React.Component {
+export default class News extends React.Component<{
+	title: string
+	articles: string[]
+	sessionID: string
+}, {
+	mounted: boolean
+	wide: boolean
+}> {
 	
-	constructor(props) {
-		super(props);
-		this.state = {
-			mounted: false
-		};
+	public state = {
+		mounted: false,
+		wide: false
 	}
 
-	static setSection(location, id) {
+	static setSection(location: Location, id: string): string {
 		return location.href.slice(0, -location.hash.length) + '#' + id;
 	}
 
-	componentDidUpdate() {
+	componentDidUpdate(): void {
 		if (this.state.mounted) return;
 		if (this.props.articles.length) {
 			if (window.location.hash) {
-				window.location = window.location.toString().slice(0);
+				window.location = window.location.toString().slice(0) as unknown as Location;
 				this.setState({mounted: true});
 			}
 		}
 	}
 
-	render() {
+	render(): ReactElement {
 		let articles = new Map();
 		let components = this.props.articles.map((text) => {
 			if (typeof text !== 'string') return null;
@@ -83,7 +53,7 @@ export default class Feed extends React.Component {
 			}
 			header = header.trim();
 			let id = header.match(regexes.letters).join('-').toLowerCase();
-			let intro = `## [${header}](${Feed.setSection(window.location, id)})`;
+			let intro = `## [${header}](${News.setSection(window.location, id)})`;
 			let joined = [intro, ...lines].join('\n');
 			articles.set(id, {
 				title: header + ' | OUCC',
@@ -91,11 +61,18 @@ export default class Feed extends React.Component {
 				description: lines.find(line => line.trim() && !line.trim().startsWith('#'))
 			});
 			return (
-				<div id={id} key={id} className={styles.article}>
+				<div				
+					id={id}
+					key={id}
+					className={[
+						styles.section,
+						this.state.wide ? styles.wide : ''
+					].join(' ')}
+				>
 					<Markdown
 						source={joined}
 						escapeHtml={false}
-						astPlugins={[parseHtml]}
+						astPlugins={[parseHtml(this.props.sessionID)]}
 						renderers={{
 							link: RouterLink
 						}}
@@ -108,7 +85,7 @@ export default class Feed extends React.Component {
 				</div>
 			);
 		});
-		let data = {};
+		let data = {} as Article;
 		if (window.location.hash && articles.get(window.location.hash.slice(1))) {
 			data = articles.get(window.location.hash.slice(1));
 		}

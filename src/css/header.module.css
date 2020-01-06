@@ -171,6 +171,7 @@
 	align-items: center;
 	box-shadow: 0 10px 5px rgba(0, 0, 0, 0.4);
 	position: relative;
+	overflow: none;
 }
 
 .newsFeed div.intro {

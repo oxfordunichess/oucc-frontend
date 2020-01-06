@@ -1,18 +1,11 @@
 import React, {ReactElement} from 'react';
 import url from 'url';
+import { ProfileProps } from '../pages/interfaces';
+
 const styles = require('../css/components.module.css');
 const server = 'https://oxfordunichess.github.io/oucc-backend/';
 
-export default class Profile extends React.Component<{
-	name: string
-	subtitle: string
-	description: string
-	links: string
-	thumbnail: string
-	facebook?: string
-	twitter?: string
-	instagram?: string
-}> {
+export default class Profile extends React.Component<ProfileProps> {
 
 	render(): ReactElement {
 		return (			
@@ -30,7 +23,7 @@ export default class Profile extends React.Component<{
 							.map((line) => {
 								let [text, href] = line.split(',');
 								if (!href) return text;
-								return <a href={href} target='_blank' rel='nopener noreferrer'>{text}</a>
+								return <a href={href} target='_blank' rel='noopener noreferrer'>{text}</a>
 							})}</h3>
 					</div>
 				</div>
