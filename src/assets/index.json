@@ -1,0 +1,99 @@
+{
+    "members": {
+        "redirect": "/membership"
+    },
+    "index.html": {
+        "redirect": "/"
+    },
+    "news": {
+        "redirect": "/curr_news"
+    },
+    "events": {
+        "redirect": "/varsity"
+    },
+    "termcard/ht20": {
+        "redirect": "/termcard"
+    },
+    "1stTeam": {
+        "title": "First Team",
+        "parent": "leagues"
+    },
+    "2ndTeam": {
+        "title": "Second Team",
+        "parent": "leagues"
+    },
+    "3rdTeam": {
+        "title": "Third Team",
+        "parent": "leagues"
+    },
+    "archive": {
+        "title": "Archive",
+        "parent": "news"
+    },
+    "classes": {
+        "title": "Classes",
+        "parent": "leagues"
+    },
+    "committee": {
+        "title": "Committee",
+        "parent": "members"
+    },
+    "historical_committee": {
+        "title": "Historical Committee",
+        "parent": "members"
+    },
+    "old_news": {
+        "title": "Old News",
+        "parent": "news"
+    },
+    "other_events": {
+        "title": "Other Events",
+        "parent": "tournament"
+    },
+    "leagues": {
+        "title": "Leagues",
+        "parent": "leagues"
+    },
+    "maillists": {
+        "title": "Mailing Lists",
+        "parent": "contact"
+    },
+    "main": {
+        "title": "",
+        "parent": "main"
+    },
+    "membership": {
+        "title": "Membership",
+        "parent": "members"
+    },
+    "payments": {
+        "title": "Payments",
+        "parent": "contact"
+    },
+    "sponsors": {
+        "title": "Sponsors",
+        "parent": "sponsors"
+    },
+    "termcard": {
+        "file": "termcard_hilary",
+        "title": "Termcard",
+        "parent": "leagues"
+    },
+    "termcard/mt19": {
+        "file": "termcard_michaelmas",
+        "title": "Termcard",
+        "parent": "leagues"
+    },
+    "tournament": {
+        "title": "Tournament",
+        "parent": "tournament"
+    },
+    "varsity": {
+        "title": "Varsity",
+        "parent": "tournament"
+    },
+    "venues": {
+        "title": "Venues",
+        "parent": "contact"
+    }
+}

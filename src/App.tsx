@@ -10,6 +10,9 @@ import NotFound from './pages/NotFound';
 import regexes from './utils/regexes';
 import axios from 'axios';
 import { GithubFile, IndexData } from './interfaces';
+
+import cached from './assets/index.json';
+
 axios.defaults.baseURL = 'https://oxfordunichess.github.io/oucc-backend/';
 
 export default class App extends React.Component<{}, {
@@ -19,16 +22,16 @@ export default class App extends React.Component<{}, {
 }> {
 	
 	public state = {
-		index: {} as IndexData,
+		index: cached as IndexData,
 		articles: [] as string[],
 		sessionID: Math.random().toString(16).slice(2)
 	}
 
-	static async getArticle(pathname: string, sessionID?: string): Promise<string> {
-		return await axios({
+	static getArticle(pathname: string, sessionID?: string): Promise<string> {
+		return axios({
 			baseURL: 'https://oxfordunichess.github.io/oucc-backend/news/',
 			url: pathname,
-			params: {sessionID},
+			params: { sessionID },
 			method: 'GET',
 			maxRedirects: 5
 		})
@@ -43,7 +46,7 @@ export default class App extends React.Component<{}, {
 		return await axios({
 			baseURL: 'https://api.github.com/repos/oxfordunichess/oucc-backend/',
 			url: 'contents/news/',
-			params: {sessionID},
+			params: { sessionID },
 			method: 'get',
 			maxRedirects: 5
 		})
@@ -59,12 +62,11 @@ export default class App extends React.Component<{}, {
 	static getIndex(sessionID?: string): Promise<IndexData> {
 		return axios({
 			url: 'index.json',
-			params: {sessionID},
+			params: { sessionID },
 		})
 			.then(res => res.data)
 			.catch((e) => {
 				console.error(e);
-				return {};
 			});
 	}
 
@@ -95,7 +97,7 @@ export default class App extends React.Component<{}, {
 		axios.defaults.params = {};
 		axios.defaults.params.sessionID = this.state.sessionID;
 		Promise.all([
-			App.getIndex(this.state.sessionID).then(index => this.setState({index})),
+			App.getIndex(this.state.sessionID).then(index => index ?? this.setState({index})),
 			App.fetchArticles(this.state.sessionID).then(articles => this.setState({articles}))
 		]);
 	}

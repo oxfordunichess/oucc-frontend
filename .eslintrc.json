@@ -3,7 +3,8 @@
         "browser": true,
 		"es6": true,
 		"node": true
-    },
+	},
+    "ignorePatterns": ["scripts/*.js"],
     "extends": "eslint:recommended",
     "globals": {
         "Atomics": "readonly",
