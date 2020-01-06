@@ -12,7 +12,7 @@ const HtmlToReact = require('html-to-react');
 // See https://github.com/aknuds1/html-to-react#with-custom-processing-instructions
 // for more info on the processing instructions
 const processNodeDefinitions = new HtmlToReact.ProcessNodeDefinitions(React);
-export function parseHtml(sessionID?: string, setWide?: (() => void)) {
+export function parseHtml(sessionID?: string, setWide?: () => void) {
 	return htmlParser({
 		isValidNode: (node: parseHTMLElement) => node.type !== 'script',
 		processingInstructions: [

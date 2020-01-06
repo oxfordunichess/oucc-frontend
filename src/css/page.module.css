@@ -21,14 +21,14 @@
 	align-items: center;
 }
 
-.wide {
-	width: 100%;
-}
-
 .section {
 	display: flex;
 	flex-direction: column;
 	width: 61.8%;
+}
+
+.wide {
+	width: 100%;
 }
 
 @media (max-width: 480px) {

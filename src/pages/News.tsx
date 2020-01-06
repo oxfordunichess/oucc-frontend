@@ -98,9 +98,7 @@ export default class News extends React.Component<{
 					{data.image ? <meta property='og:image' content={data.image} /> : null}
 				</Helmet>
 				<div className={styles.page} >
-					<div className={styles.main} style={{
-						width: this.state.wide ? '100%' : '61.8%'
-					}}>{components}</div>
+					<div className={styles.main}>{components}</div>
 				</div>
 			</>
 		);

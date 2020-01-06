@@ -12,6 +12,7 @@ const styles = require('../css/page.module.css');
 
 export default class Page extends React.Component<{
 	title?: string
+	description?: string
 	page: string
 	sessionID: string
 }, {
@@ -54,10 +55,15 @@ export default class Page extends React.Component<{
 
 	render() {
 		let sections = this.state.page.trim().split('\n---\n');
+		let title = this.props.title ? this.props.title + ' | OUCC' : 'OUCC';
+		document.title = title;
+		let description = document.querySelector('meta[name="description"]');
+		if (this.props.description) description.setAttribute('content', this.props.description);
+		console.log(this.state.wide, styles.wide);
 		return (
 			<>
 				<Helmet>
-					<title>{this.props.title ? this.props.title + ' | OUCC' : 'OUCC'}</title>
+					<title>{title}</title>
 				</Helmet>
 				<div className={styles.page}>
 					<div className={styles.main}>
