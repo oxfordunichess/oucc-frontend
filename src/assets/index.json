@@ -16,35 +16,43 @@
     },
     "1stTeam": {
         "title": "First Team",
-        "parent": "leagues"
+        "parent": "leagues",
+        "description": "If you are interested in playing please contact Filip Mihov at filip.mihov@balliol.ox.ac.uk"
     },
     "2ndTeam": {
         "title": "Second Team",
-        "parent": "leagues"
+        "parent": "leagues",
+        "description": "If you are interested in playing please contact Kevin Henbest at kevin.henbest@chem.ox.ac.uk"
     },
     "3rdTeam": {
         "title": "Third Team",
-        "parent": "leagues"
+        "parent": "leagues",
+        "description": "If you are interested in playing please contact Boris Gusev at boris.gusev@st-hildas.ox.ac.uk."
     },
     "archive": {
         "title": "Archive",
-        "parent": "news"
+        "parent": "news",
+        "description": "Oxford University Chess Club news archive"
     },
     "classes": {
         "title": "Classes",
-        "parent": "leagues"
+        "parent": "leagues",
+        "description": "We currently run two squads. Both are at Christ Church, from 5:30pm-6:30pm, held in different rooms. They are as follows:"
     },
     "committee": {
         "title": "Committee",
-        "parent": "members"
+        "parent": "members",
+        "description": "Your points of contact if you have any questions about the club or want to get involved in helping out in Oxford chess! You can also message the Facebook page or post in the group if you have any questions."
     },
     "historical_committee": {
         "title": "Historical Committee",
-        "parent": "members"
+        "parent": "members",
+        "description": "A number of famous people have held officership within OUCC. You can search the names of our past officers below:"
     },
     "old_news": {
         "title": "Old News",
-        "parent": "news"
+        "parent": "news",
+        "description": "OUCC will host a celebration for the 150th anniversary. All alumni of the OUCC are invited to come. This celebration will likely be hosted in the 1st or 2nd weekend of May 2019. To see everyone who has been invited so far click here. If you know the contact details of someone not contacted yet please let us know immediately."
     },
     "other_events": {
         "title": "Other Events",
@@ -52,48 +60,59 @@
     },
     "leagues": {
         "title": "Leagues",
-        "parent": "leagues"
+        "parent": "leagues",
+        "description": "The Oxford University Chess Club enters three teams in the Oxfordshire league, starting from 2016/2017. The first team resides in the top division and caters for strong and experienced players, the second team, in division 2, caters for intermediate players and the third team, in division 4 is suitable for beginners."
     },
     "maillists": {
         "title": "Mailing Lists",
-        "parent": "contact"
+        "parent": "contact",
+        "description": "We regularly send out emails about events and other news running in Oxford. If you would like to receive these emails, please send an email to subscribe."
     },
     "main": {
         "title": "",
-        "parent": "main"
+        "parent": "main",
+        "description": "Oxford University Chess Club (OUCC) was founded in 1869 and is the oldest university chess club in the United Kingdom. Our aim is to promote chess in the university, and to play competitively in the local leagues as well as against other universities. The club boasts an active membership of more than 50 ranging from purely social players meeting over a pint to International Grandmasters representing us at the annual match against the University of Cambridge."
     },
     "membership": {
         "title": "Membership",
-        "parent": "members"
+        "parent": "members",
+        "description": "We are an open, friendly organisation and welcome all non-members to come along to our events free-of-charge on a trial basis."
     },
     "payments": {
         "title": "Payments",
-        "parent": "contact"
+        "parent": "contact",
+        "description": "If you have any questions or wish to contact the club then please complete the form below and we will get back to you as soon as possible."
     },
     "sponsors": {
         "title": "Sponsors",
-        "parent": "sponsors"
+        "parent": "sponsors",
+        "description": "The Oxford University Chess Club is proudly sponsored by the following groups and organisations..."
     },
     "termcard": {
         "file": "termcard_hilary",
         "title": "Termcard",
-        "parent": "leagues"
+        "parent": "leagues",
+        "description": "Hilary Termcard for the Oxford University Chess Club"
     },
     "termcard/mt19": {
         "file": "termcard_michaelmas",
         "title": "Termcard",
-        "parent": "leagues"
+        "parent": "leagues",
+        "description": "Michaelmas Termcard for the Oxford University Chess Club"
     },
     "tournament": {
         "title": "Tournament",
-        "parent": "tournament"
+        "parent": "tournament",
+        "description": "OUCC intents to organise a tournament in hilary or trinity 2019. All details regarding this will be made available here."
     },
     "varsity": {
         "title": "Varsity",
-        "parent": "tournament"
+        "parent": "tournament",
+        "description": "The annual Varsity match takes place on the 7th week of Hilary Term against the Cambridge University Chess Club."
     },
     "venues": {
         "title": "Venues",
-        "parent": "contact"
+        "parent": "contact",
+        "description": "The list of playing rooms for the Oxford University Chess Club"
     }
 }
