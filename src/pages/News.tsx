@@ -7,17 +7,20 @@ import { Article } from '../interfaces';
 import { RouterLink } from '../utils/components';
 import { parseHtml } from '../utils/plugins';
 import regexes from '../utils/regexes';
+import { SessionContext } from '../utils/contexts';
 
 const styles = require('../css/page.module.css');
 
 export default class News extends React.Component<{
 	title: string
 	articles: string[]
-	sessionID: string
 }, {
 	mounted: boolean
 	wide: boolean
 }> {
+
+	static contextType = SessionContext;
+	declare context: React.ContextType<typeof SessionContext>;
 	
 	public state = {
 		mounted: false,
@@ -72,7 +75,7 @@ export default class News extends React.Component<{
 					<Markdown
 						source={joined}
 						escapeHtml={false}
-						astPlugins={[parseHtml(this.props.sessionID)]}
+						astPlugins={[parseHtml(this.context)]}
 						renderers={{
 							link: RouterLink
 						}}

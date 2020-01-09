@@ -2,18 +2,20 @@ import React, { ReactElement, RefObject } from 'react';
 import { Link } from 'react-router-dom';
 import { Side, NavCache, NavigationData } from './interfaces';
 import axios from 'axios';
+import { SessionContext } from '../utils/contexts';
 axios.defaults.baseURL = 'https://oxfordunichess.github.io/oucc-backend/';
 
-const styles = require('../css/header.module.css')
+const styles = require('../css/header.module.css');
 
-export default class Banner extends React.Component <{
-	sessionID: string
-}, {
+export default class Banner extends React.Component <{}, {
 	subnav: string,
 	navigation: NavigationData,
 	navLeft: number,
 	navRight: number
 }> {
+
+	static contextType = SessionContext;
+	declare context: React.ContextType<typeof SessionContext>;
 
 	private _nav: NavCache;
 	private navLeft: RefObject<HTMLDivElement> = React.createRef();
@@ -77,7 +79,7 @@ export default class Banner extends React.Component <{
 	private getNavigationData(): Promise<NavigationData> {
 		return axios({
 			url: 'navigation.json',
-			params: {sessionID: this.props.sessionID}
+			params: {sessionID: this.context}
 		 })
 			.then(res => res.data)
 			.catch(console.error);

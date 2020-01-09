@@ -4,8 +4,7 @@ import {Helmet} from 'react-helmet';
 const styles = require('../css/page.module.css');
 
 export default class Page extends React.Component<{
-	title: string,
-	sessionID: string
+	title: string
 }> {
 
 	render(): ReactElement {

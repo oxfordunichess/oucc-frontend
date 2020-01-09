@@ -32,6 +32,7 @@
             "error",
             "windows"
 		],
+		"no-console": "warn",
 		"no-unused-vars": "off",
         "quotes": [
             "error",

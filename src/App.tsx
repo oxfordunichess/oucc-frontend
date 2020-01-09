@@ -12,6 +12,7 @@ import axios from 'axios';
 import { GithubFile, IndexData } from './interfaces';
 
 import cached from './assets/index.json';
+import { SessionContext } from './utils/contexts';
 
 axios.defaults.baseURL = 'https://oxfordunichess.github.io/oucc-backend/';
 
@@ -106,27 +107,29 @@ export default class App extends React.Component<{}, {
 		let markdownPaths = Object.entries(this.state.index).map(([k, v]) => {
 			if (k.startsWith('_') || typeof v !== 'object') return null;
 			return (
-				<Route exact path={'/' + k} key={k + '_route'} render={(props) => {
-					if (v.open) window.open(v.open);
-					if (v.redirect) return <Redirect to={v.redirect} />;
-					return <Page {...props} page={v.file || k} title={v.title} sessionID={this.state.sessionID}/>;
-				}} />
+				<SessionContext.Provider value={this.state.sessionID}>
+					<Route exact path={'/' + k} key={k + '_route'} render={(props) => {
+						if (v.open) window.open(v.open);
+						if (v.redirect) return <Redirect to={v.redirect} />;
+						return <Page {...props} page={v.file || k} title={v.title} />;
+					}} />
+				</SessionContext.Provider>
 			);
 		});
 		return (
 			<Router basename={process.env.PUBLIC_URL}>
 				<Route render={({location}) => {
 					return (
-						<>
-							<Header articles={this.state.articles} sessionID={this.state.sessionID} />
+						<SessionContext.Provider value={this.state.sessionID}>
+							<Header articles={this.state.articles} />
 							<Switch location={location}>
 								{markdownPaths}
-								<Route exact path='/' render={() => <Page page='main' sessionID={this.state.sessionID}/>} />
-								<Route exact path='/curr_news' render={() => <News title='Current News' articles={this.state.articles} sessionID={this.state.sessionID}/>}/>
-								<Route exact path='/contact' render={() => <Contact title='Contact' sessionID={this.state.sessionID}/>}/>
+								<Route exact path='/' render={() => <Page page='main' />} />
+								<Route exact path='/curr_news' render={() => <News title='Current News' articles={this.state.articles} />}/>
+								<Route exact path='/contact' render={() => <Contact title='Contact' />}/>
 								<Route path='*' component={NotFound} status={404} />
 							</Switch>
-						</>
+						</SessionContext.Provider>
 					);
 				}}/>
 			</Router>

@@ -6,6 +6,7 @@ import url from 'url';
 import {RouterLink} from '../utils/components';
 import axios from 'axios';
 import { parseHtml } from '../utils/plugins';
+import { SessionContext } from '../utils/contexts';
 axios.defaults.baseURL = 'https://oxfordunichess.github.io/oucc-backend/';
 
 const styles = require('../css/page.module.css');
@@ -14,11 +15,13 @@ export default class Page extends React.Component<{
 	title?: string
 	description?: string
 	page: string
-	sessionID: string
 }, {
 	page: string,
 	wide: boolean
 }> {
+
+	static contextType = SessionContext;
+	declare context: React.ContextType<typeof SessionContext>;
 
 	public state = {
 		page: '',
@@ -30,7 +33,7 @@ export default class Page extends React.Component<{
 			let url = `pages/${path + '.md'}`;
 			let req = await axios({
 				url,
-				params: {sessionID}
+				params: { sessionID }
 			});
 			return req.data;
 		} catch (e) {
@@ -46,8 +49,7 @@ export default class Page extends React.Component<{
 	}
 
 	componentDidMount() {
-		axios.defaults.params = { sessionID: this.props.sessionID };
-		Page.getPage(this.props.page)
+		Page.getPage(this.props.page, this.context)
 			.then((page: string) => {
 				this.setState({page});
 			});
@@ -59,7 +61,6 @@ export default class Page extends React.Component<{
 		document.title = title;
 		let description = document.querySelector('meta[name="description"]');
 		if (this.props.description) description.setAttribute('content', this.props.description);
-		console.log(this.state.wide, styles.wide);
 		return (
 			<>
 				<Helmet>
