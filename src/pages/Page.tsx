@@ -21,7 +21,7 @@ export default class Page extends React.Component<{
 }> {
 
 	static contextType = SessionContext;
-	declare context: React.ContextType<typeof SessionContext>;
+	public context: React.ContextType<typeof SessionContext>;
 
 	public state = {
 		page: '',
@@ -79,7 +79,7 @@ export default class Page extends React.Component<{
 								<Markdown
 									source={section.trim()}
 									escapeHtml={false}
-									astPlugins={[parseHtml(this.props.sessionID, this.setWide)]}
+									astPlugins={[parseHtml(this.context, this.setWide)]}
 									renderers={{
 										link: RouterLink
 									}}

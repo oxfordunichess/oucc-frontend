@@ -20,7 +20,7 @@ export default class News extends React.Component<{
 }> {
 
 	static contextType = SessionContext;
-	declare context: React.ContextType<typeof SessionContext>;
+	public context: React.ContextType<typeof SessionContext>;
 	
 	public state = {
 		mounted: false,

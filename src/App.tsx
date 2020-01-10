@@ -107,32 +107,36 @@ export default class App extends React.Component<{}, {
 		let markdownPaths = Object.entries(this.state.index).map(([k, v]) => {
 			if (k.startsWith('_') || typeof v !== 'object') return null;
 			return (
-				<SessionContext.Provider value={this.state.sessionID}>
 					<Route exact path={'/' + k} key={k + '_route'} render={(props) => {
 						if (v.open) window.open(v.open);
 						if (v.redirect) return <Redirect to={v.redirect} />;
-						return <Page {...props} page={v.file || k} title={v.title} />;
+						return (
+							<SessionContext.Provider value={this.state.sessionID}>
+								<Page {...props} page={v.file || k} title={v.title} />;	
+							</SessionContext.Provider>
+						);
 					}} />
-				</SessionContext.Provider>
 			);
 		});
 		return (
-			<Router basename={process.env.PUBLIC_URL}>
-				<Route render={({location}) => {
-					return (
-						<SessionContext.Provider value={this.state.sessionID}>
-							<Header articles={this.state.articles} />
-							<Switch location={location}>
-								{markdownPaths}
-								<Route exact path='/' render={() => <Page page='main' />} />
-								<Route exact path='/curr_news' render={() => <News title='Current News' articles={this.state.articles} />}/>
-								<Route exact path='/contact' render={() => <Contact title='Contact' />}/>
-								<Route path='*' component={NotFound} status={404} />
-							</Switch>
-						</SessionContext.Provider>
-					);
-				}}/>
-			</Router>
+			<SessionContext.Provider value={this.state.sessionID}>
+				<Router basename={process.env.PUBLIC_URL}>
+					<Route render={({location}) => {
+						return (
+							<>
+								<Header articles={this.state.articles} />
+								<Switch location={location}>
+									{markdownPaths}
+									<Route exact path='/' render={() => <Page page='main' />} />
+									<Route exact path='/curr_news' render={() => <News title='Current News' articles={this.state.articles} />}/>
+									<Route exact path='/contact' render={() => <Contact title='Contact' />}/>
+									<Route path='*' component={NotFound} status={404} />
+								</Switch>
+							</>
+						);
+					}}/>
+				</Router>
+			</SessionContext.Provider>
 		);
 	}
 }

@@ -15,7 +15,7 @@ export default class Banner extends React.Component <{}, {
 }> {
 
 	static contextType = SessionContext;
-	declare context: React.ContextType<typeof SessionContext>;
+	public context: React.ContextType<typeof SessionContext>;
 
 	private _nav: NavCache;
 	private navLeft: RefObject<HTMLDivElement> = React.createRef();
