@@ -8,6 +8,7 @@ const server = 'https://oxfordunichess.github.io/oucc-backend/';
 export default class Profile extends React.Component<ProfileProps> {
 
 	render(): ReactElement {
+		console.log(this.props.links.split('\\n'));
 		return (			
 			<div className={styles.profile}> 				
 				<div className={styles.rightPane}>
@@ -19,12 +20,16 @@ export default class Profile extends React.Component<ProfileProps> {
 					</div>
 					<div>
 						<h3>{this.props.subtitle}</h3>
-						<h3>{this.props.links.split('\n')
-							.map((line) => {
+						{this.props.links.split('\\n')
+							.map((line, i) => {
 								let [text, href] = line.split(',');
-								if (!href) return text;
-								return <a href={href} target='_blank' rel='noopener noreferrer'>{text}</a>
-							})}</h3>
+								if (!href) return <h3>{text}</h3>;
+								return (
+									<h3>
+										<a key={[text.slice(0, 5), i].join('.')} href={href} target='_blank' rel='noopener noreferrer'>{text}</a>
+									</h3>
+								);
+							})}
 					</div>
 				</div>
 				<div className={styles.centerPane}>
