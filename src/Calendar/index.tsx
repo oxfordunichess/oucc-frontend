@@ -38,7 +38,6 @@ export default class Calendar extends React.Component<{
 			days: [],
 			mounted: false
 		};
-		this.updateColourStatuses = this.updateColourStatuses.bind(this);
 	}
 
 	interpretProps(props: CalendarProps): CalendarState {
@@ -153,15 +152,16 @@ export default class Calendar extends React.Component<{
 														display: 'none'
 													}}>
 														<div className={this.props.styles.eventHeader}>
-															{<h4 className={this.props.styles.eventName}>
-																{<span className={this.props.styles.status} style={{
+															<h4 className={[this.props.styles.eventName].join(' ')}>
+																<span className={[this.props.styles.status, 'toolContainer'].join(' ')} style={{
 																	color: event.color
-																}}>⬤</span>}
-																{<span className='toolTip'>{/* TODO */}</span>}
+																}}>⬤
+																	<span className='tooltip'>{this.state.colours[event.color]}</span>
+																</span>
 																{event.facebookEvent ? <a className={this.props.styles.eventTitle} href={event.facebookEvent}>
 																	{event.title}
 																</a> : event.title}
-															</h4>}
+															</h4>
 														</div>
 														{<div>
 															<h5>
@@ -250,7 +250,7 @@ export default class Calendar extends React.Component<{
 		}));
 	}
 
-	updateColourStatuses(color: string): void {
+	private updateColourStatuses = (color: string): void => {
 		let colourStatuses = Object.assign({}, this.state.colourStatuses);
 		colourStatuses[color] = !colourStatuses[color];
 		this.setState({
@@ -267,9 +267,9 @@ export default class Calendar extends React.Component<{
 		return <div className={this.props.styles.key}>
 			{sorted.map(([color, calendarName], i) => {
 				return <div className={this.props.styles.key} key={['keyElement', i].join('.')}>
-					{<span className={this.props.styles.status} onClick={() => this.updateColourStatuses(color)} style={{
-						color
-					}}>{this.state.colourStatuses[color] ? '\u2b24' : '\u2b58'}</span>}
+					<span className={this.props.styles.status} onClick={() => this.updateColourStatuses(color)} style={{ color }}>
+						{this.state.colourStatuses[color] ? '\u2b24' : '\u2b58'}
+					</span>
 					<h4>{'\u200b ' + calendarName}</h4>
 				</div>;
 			})}

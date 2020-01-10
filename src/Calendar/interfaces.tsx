@@ -73,4 +73,15 @@ export interface GoogleCalendar {
 	defaultReminders: any[],
 	nextSyncToken: string,
 	items: GoogleEvent[]
+	description?: string
+}
+
+export interface ParsedCalendar {
+	name: string
+	description: string
+	status: boolean
+}
+//TODO
+export interface ParsedCalendarDictionary {
+	[key: string]: ParsedCalendar
 }
