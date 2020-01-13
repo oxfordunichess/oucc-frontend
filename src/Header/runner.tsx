@@ -1,5 +1,5 @@
 import React, {ReactElement} from 'react';
-import regexes from '../utils/regexes';
+import * as regexes from '../utils/regexes';
 const fps = 60;
 const styles = require('../css/header.module.css');
 

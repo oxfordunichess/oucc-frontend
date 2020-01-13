@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import axios from 'axios';
 import Calendar from '../Calendar';
-import {CalendarSettings, StringDictionary} from '../Calendar/interfaces';
+import { CalendarSettings, StringDictionary } from '../Calendar/interfaces';
 import { CalendarProps } from '../pages/interfaces';
 
 export default class Header extends React.Component<CalendarProps, {
@@ -50,7 +50,7 @@ export default class Header extends React.Component<CalendarProps, {
 
 	render(): ReactElement {
 		return (
-			<Calendar settings={this.state.settings} styles={this.state.styles}/>
+			<Calendar {...this.props} settings={this.state.settings} styles={this.state.styles}/>
 		);
 	}
 

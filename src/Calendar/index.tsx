@@ -1,13 +1,19 @@
 import React, { ReactElement } from 'react';
+import { StaticContext } from 'react-router';
+import { RouteComponentProps } from 'react-router-dom';
+import * as regexes from '../utils/regexes';
 import Event from './event';
 import axios from 'axios';
 
-import { CalendarProps, GoogleCalendar, GoogleEvent, StringDictionary, BooleanDictionary, EventDictionary, CalendarSettings, StyleDictionary, CalendarState, ParsedCalendarDictionary, ParsedCalendar } from './interfaces';
+import { GoogleCalendar, GoogleEvent, StringDictionary, EventDictionary, CalendarSettings, StyleDictionary, CalendarState, ParsedCalendarDictionary } from './interfaces';
+import { BooleanDeserialise, BooleanSerialise } from '../utils/prototype';
 
-export default class Calendar extends React.Component<{
+interface CalendarProps extends RouteComponentProps<any, StaticContext, any> {
 	settings: CalendarSettings,
 	styles: StyleDictionary
-}, {
+}
+
+export default class Calendar extends React.Component<CalendarProps, {
 	calendarIDs: StringDictionary,
 	today: number,
 	start: Date,
@@ -150,17 +156,17 @@ export default class Calendar extends React.Component<{
 													}}>
 														<div className={this.props.styles.eventHeader}>
 															<h4 className={[this.props.styles.eventName].join(' ')}>
-																<span className={[this.props.styles.status, 'toolContainer'].join(' ')} style={{
+																<span className={[this.props.styles.status, this.props.styles.toolContainer].join(' ')} style={{
 																	color: event.color
 																}}>⬤
-																	<span className='tooltip'>{this.state.calendars[event.calendarID].status}</span>
+																	<span className={this.props.styles.tooltip}>{event.calendarName}</span>
 																</span>
 																{event.facebookEvent ? <a className={this.props.styles.eventTitle} href={event.facebookEvent}>
 																	{event.title}
 																</a> : event.title}
 															</h4>
 														</div>
-														{<div>
+														<div>
 															<h5>
 																{Calendar.getDisplayTime(event.start)}
 																{' '}
@@ -172,7 +178,7 @@ export default class Calendar extends React.Component<{
 																{'\n'}
 																{event.description || null}
 															</h5>
-														</div>}
+														</div>
 													</div>
 												);
 											})
@@ -196,54 +202,50 @@ export default class Calendar extends React.Component<{
 
 	renderEvents(calendarIDs: StringDictionary, state: CalendarState): Promise<void[]> {
 		let calendars: ParsedCalendarDictionary = {};
-		let colours: StringDictionary = {};
-		return Promise.all(Object.keys(calendarIDs).map((calendarId) => {
-			return axios({
-				baseURL: 'https://clients6.google.com/calendar/v3/calendars/',
-				url: calendarId + '/events',
-				params: {
-					calendarId,
-					singleEvents: true,
-					timeZone: 'Europe/London',
-					maxAttendees: 1,
-					maxResults: 250,
-					sanitizeHtml: true,
-					timeMin: new Date(state.start).toISOString(), //'2019-10-27T00:00:00Z',
-					timeMax: new Date(state.finish).toISOString(), //'2019-12-01T00:00:00Z',
-					key: 'AIzaSyDahTZUtTKORUdsOY3H7BEeOXbwye0nBHI' //AIzaSyBNlYH01_9Hc5S1J9vuFmu2nUqBZJNAXxs'
-				}
-			})
-				.then((res): any => {
-					let data = res.data as GoogleCalendar;
-					return data;
-				})
-				.then((data: GoogleCalendar): [ParsedCalendarDictionary, GoogleEvent[]] => {
-					if (!calendars[calendarId]) calendars[calendarId] = {
-						id: calendarId,
-						name: data.summary,
-						description: data.description || '',
-						color: calendarIDs[calendarId],
-						status: true
-					};
-					return [calendars, data.items];
-				})
-				.then(([calendars, events]: [ParsedCalendarDictionary, GoogleEvent[]]): [ParsedCalendarDictionary, Event[]] => {
-					let res = events.map((event) => new Event(calendars[calendarId], event, state));
-					return [calendars, res];
-				})
-				.then(([calendars, dates]: [ParsedCalendarDictionary, Event[]]): [ParsedCalendarDictionary, EventDictionary] => {
-					let events = state.events;
-					dates.forEach((event) => {
-						let date = Calendar.getEventDate(event.start);
-						if (!events[date]) events[date] = [];
-						events[date].push(event);
-					});
-					return [calendars, events];
-				})
-				.then(([calendars, events]: [ParsedCalendarDictionary, EventDictionary]): void => {
-					this.setState({calendars, events});
-				})
-				.catch(console.error);
+		let query = BooleanDeserialise(this.props.location.search.toString().slice(1));
+		return Promise.all(Object.keys(calendarIDs).map(async (calendarId) => {
+			try {
+				let res = await axios({
+					baseURL: 'https://clients6.google.com/calendar/v3/calendars/',
+					url: calendarId + '/events',
+					params: {
+						calendarId,
+						singleEvents: true,
+						timeZone: 'Europe/London',
+						maxAttendees: 1,
+						maxResults: 250,
+						sanitizeHtml: true,
+						timeMin: new Date(state.start).toISOString(), //'2019-10-27T00:00:00Z',
+						timeMax: new Date(state.finish).toISOString(), //'2019-12-01T00:00:00Z',
+						key: 'AIzaSyDahTZUtTKORUdsOY3H7BEeOXbwye0nBHI' //AIzaSyBNlYH01_9Hc5S1J9vuFmu2nUqBZJNAXxs'
+					}
+				});
+				let data = res.data as GoogleCalendar;
+				let ref = data.summary.match(regexes.letters).join('-').toLowerCase();
+				let status = (() => {
+					if (ref in query) return query[ref];
+					if ('all' in query) return query.all;
+					return true;
+				})();
+				if (!calendars[calendarId]) calendars[calendarId] = {
+					id: calendarId,
+					name: data.summary,
+					ref,
+					description: data.description || '',
+					color: calendarIDs[calendarId],
+					status
+				};
+				let dates = data.items.map((event) => new Event(calendars[calendarId], event, state));
+				let events = state.events;
+				dates.forEach((event) => {
+					let date = Calendar.getEventDate(event.start);
+					if (!events[date]) events[date] = [];
+					events[date].push(event);
+				});
+				this.setState({ calendars, events });
+			} catch (e) {
+				console.error(e);
+			}
 		}));
 	}
 
@@ -262,10 +264,13 @@ export default class Calendar extends React.Component<{
 		return <div className={this.props.styles.key}>
 			{sorted.map(([calendarID, parsedCalendar], i) => {
 				return <div className={this.props.styles.key} key={['keyElement', i].join('.')}>
-					<span className={this.props.styles.status} onClick={() => this.updateColourStatuses(calendarID)} style={{
+					<span className={[this.props.styles.status, this.props.styles.toolContainer].join(' ')} onClick={() => this.updateColourStatuses(parsedCalendar.id)} style={{
 						color: parsedCalendar.color
 					}}>
 						{parsedCalendar.status ? '\u2b24' : '\u2b58'}
+						{!parsedCalendar.description ? null : <span className={[this.props.styles.tooltip].join(' ')}>
+							{parsedCalendar.description}
+						</span>}
 					</span>
 					<h4>{'\u200b ' + parsedCalendar.name}</h4>
 				</div>;

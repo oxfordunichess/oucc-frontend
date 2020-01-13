@@ -8,7 +8,6 @@ const server = 'https://oxfordunichess.github.io/oucc-backend/';
 export default class Profile extends React.Component<ProfileProps> {
 
 	render(): ReactElement {
-		console.log(this.props.links.split('\\n'));
 		return (			
 			<div className={styles.profile}> 				
 				<div className={styles.rightPane}>

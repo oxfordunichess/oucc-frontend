@@ -5,6 +5,8 @@ import Profile from '../components/Profile';
 import Table from '../components/Table';
 import Calendar from '../components/Calendar';
 import { ProfileProps, parseHTMLElement, CalendarProps, htmlParser as def } from '../pages/interfaces';
+import { StaticContext } from 'react-router';
+import { RouteComponentProps } from 'react-router-dom';
 
 const htmlParser: def = require('react-markdown/plugins/html-parser');
 const HtmlToReact = require('html-to-react');
@@ -12,7 +14,7 @@ const HtmlToReact = require('html-to-react');
 // See https://github.com/aknuds1/html-to-react#with-custom-processing-instructions
 // for more info on the processing instructions
 const processNodeDefinitions = new HtmlToReact.ProcessNodeDefinitions(React);
-export function parseHtml(sessionID?: string, setWide?: () => void) {
+export function parseHtml(props?: RouteComponentProps<any, StaticContext, any>, sessionID?: string, setWide?: () => void) {
 	return htmlParser({
 		isValidNode: (node: parseHTMLElement) => node.type !== 'script',
 		processingInstructions: [
@@ -32,7 +34,7 @@ export function parseHtml(sessionID?: string, setWide?: () => void) {
 				},
 				processNode: function (node: parseHTMLElement, children: parseHTMLElement[]): ReactElement {
 					if (setWide) setWide();
-					return <Calendar {...node.attribs as CalendarProps} sessionID={sessionID || undefined}/>;
+					return <Calendar {...Object.assign({}, props, node.attribs) as CalendarProps} sessionID={sessionID || undefined}/>;
 				}
 			},
 			{

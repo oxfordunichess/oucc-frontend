@@ -7,15 +7,19 @@ import {RouterLink} from '../utils/components';
 import axios from 'axios';
 import { parseHtml } from '../utils/plugins';
 import { SessionContext } from '../utils/contexts';
+import { StaticContext } from 'react-router';
+import { RouteComponentProps } from 'react-router-dom';
 axios.defaults.baseURL = 'https://oxfordunichess.github.io/oucc-backend/';
 
 const styles = require('../css/page.module.css');
 
-export default class Page extends React.Component<{
+interface PageProps extends RouteComponentProps<any, StaticContext, any> {
 	title?: string
 	description?: string
 	page: string
-}, {
+}
+
+export default class Page extends React.Component<PageProps, {
 	page: string,
 	wide: boolean
 }> {
@@ -79,7 +83,7 @@ export default class Page extends React.Component<{
 								<Markdown
 									source={section.trim()}
 									escapeHtml={false}
-									astPlugins={[parseHtml(this.context, this.setWide)]}
+									astPlugins={[parseHtml(this.props, this.context, this.setWide)]}
 									renderers={{
 										link: RouterLink
 									}}

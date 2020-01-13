@@ -1,5 +1,7 @@
 import { ReactElement } from 'react';
 import { MdastPlugin } from 'react-markdown';
+import { StaticContext } from 'react-router';
+import { RouteComponentProps } from 'react-router-dom';
 
 export interface TableJSON {
 	[key: string]: string | number,
@@ -35,7 +37,7 @@ export interface parseHTMLElement extends HTMLElement {
 	type: string
 }
 
-export interface CalendarProps {
+export interface CalendarProps extends RouteComponentProps<any, StaticContext, any> {
 	styles: string,
 	settings: string,
 	start: string,

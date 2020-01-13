@@ -1,9 +1,10 @@
-const regexes = {
-	space: /\s+/g,
-	letters: /\w+/g,
-	image: /<img\s+.*?src=["'](.*).*?">/,
-	date: /^[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}_/,
-	href: /^(https?:)?\/\//
-};
 
-export default regexes;
+export const space = /\s+/g;
+
+export const letters =/\w+/g;
+
+export const image =/<img\s+.*?src=["'](.*).*?">/;
+
+export const date =/^[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}_/;
+
+export const href =/^(https?:)?\/\//;

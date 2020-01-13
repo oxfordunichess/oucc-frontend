@@ -2,19 +2,23 @@ import React, { ReactElement } from 'react';
 import Markdown from 'react-markdown';
 import { Helmet } from 'react-helmet';
 import url from 'url';
+import { StaticContext } from 'react-router';
+import { RouteComponentProps } from 'react-router-dom';
 
 import { Article } from '../interfaces';
 import { RouterLink } from '../utils/components';
 import { parseHtml } from '../utils/plugins';
-import regexes from '../utils/regexes';
+import * as regexes from '../utils/regexes';
 import { SessionContext } from '../utils/contexts';
 
 const styles = require('../css/page.module.css');
 
-export default class News extends React.Component<{
+interface NewsProps extends RouteComponentProps<any, StaticContext, any> {
 	title: string
 	articles: string[]
-}, {
+};
+
+export default class News extends React.Component<NewsProps, {
 	mounted: boolean
 	wide: boolean
 }> {
@@ -75,7 +79,7 @@ export default class News extends React.Component<{
 					<Markdown
 						source={joined}
 						escapeHtml={false}
-						astPlugins={[parseHtml(this.context)]}
+						astPlugins={[parseHtml(this.props, this.context)]}
 						renderers={{
 							link: RouterLink
 						}}

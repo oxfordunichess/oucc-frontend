@@ -62,3 +62,43 @@ td.cell:hover {
 td.today {
 	background-color: peachpuff !important;
 }
+
+
+/* Tooltip */
+
+.toolContainer {
+	position: relative;
+	display: inline-block;
+  }
+
+.toolContainer .tooltip {
+	visibility: hidden;
+	max-width: 200px;
+	min-width: 40px;
+	background-color: black;
+	color: #fff;
+	text-align: center;
+	border-radius: 6px;
+	padding: 5px 10px;
+	position: absolute;
+	z-index: 2;
+	bottom: 125%;
+	left: 50%;
+	margin-left: -50%;
+	opacity: 0.8;
+}
+
+.toolContainer .tooltip::after {
+	content: '';
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	margin-left: -5px;
+	border-width: 5px;
+	border-style: solid;
+	border-color: black transparent transparent transparent;
+}
+
+.toolContainer:hover .tooltip {
+	visibility: visible;
+}

@@ -32,11 +32,6 @@ export interface CalendarSettings {
 	days: string[]
 }
 
-export interface CalendarProps {
-	settings: CalendarSettings
-	styles: StyleDictionary
-}
-
 export interface GoogleLocation extends String {};
 
 export interface GoogleDate {
@@ -78,6 +73,7 @@ export interface GoogleCalendar {
 export interface ParsedCalendar {
 	id: string
 	name: string
+	ref: string
 	description: string
 	color: string
 	status: boolean

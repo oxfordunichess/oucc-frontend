@@ -7,7 +7,7 @@ import Page from './pages/Page';
 import News from './pages/News';
 import Contact from './pages/Contact';
 import NotFound from './pages/NotFound';
-import regexes from './utils/regexes';
+import * as regexes from './utils/regexes';
 import axios from 'axios';
 import { GithubFile, IndexData } from './interfaces';
 
@@ -127,8 +127,8 @@ export default class App extends React.Component<{}, {
 								<Header articles={this.state.articles} />
 								<Switch location={location}>
 									{markdownPaths}
-									<Route exact path='/' render={() => <Page page='main' />} />
-									<Route exact path='/curr_news' render={() => <News title='Current News' articles={this.state.articles} />}/>
+									<Route exact path='/' render={(props) => <Page {...props} page='main' />} />
+									<Route exact path='/curr_news' render={(props) => <News {...props} title='Current News' articles={this.state.articles} />}/>
 									<Route exact path='/contact' render={() => <Contact title='Contact' />}/>
 									<Route path='*' component={NotFound} status={404} />
 								</Switch>

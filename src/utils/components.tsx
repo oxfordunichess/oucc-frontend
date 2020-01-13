@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import {Link} from 'react-router-dom';
-import regexes from './regexes';
+import * as regexes from './regexes';
 
 interface aProps {
 	href: string,
