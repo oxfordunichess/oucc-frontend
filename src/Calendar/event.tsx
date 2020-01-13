@@ -1,5 +1,5 @@
 import he from 'he';
-import {GoogleEvent, GoogleLocation, StringDictionary} from './interfaces';
+import { GoogleEvent, GoogleLocation, StringDictionary, ParsedCalendar } from './interfaces';
 
 const regexes = {
 	space: /\s+/g,
@@ -15,6 +15,7 @@ export default class Event {
 	start: Date;
 	created: Date;
 	end: Date;
+	calendarID: string;
 	calendarName: string;
 	color: string;
 	rawLocation: GoogleLocation | string;
@@ -26,7 +27,7 @@ export default class Event {
 	private _facebookEvent: string;
 	private _description: string;
 
-	constructor(event: GoogleEvent, calendarName: string, color: string, {
+	constructor(parsedCalendar: ParsedCalendar, event: GoogleEvent, {
 		locationReplacers,
 		mapsLink
 	}: {
@@ -39,8 +40,9 @@ export default class Event {
 		this.status = event.status;
 		this.start = new Date(event.start.dateTime);
 		this.end = new Date(event.end.dateTime);
-		this.calendarName = calendarName;
-		this.color = color;
+		this.calendarID = parsedCalendar.id;
+		this.calendarName = parsedCalendar.name;
+		this.color = parsedCalendar.color;
 
 		this.rawLocation = event.location || '';
 		this.locationReplacers = locationReplacers;

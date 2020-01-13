@@ -15,8 +15,7 @@ export interface CalendarState {
 	finish: Date,
 	weeks: number,
 	events: EventDictionary,
-	colours: StringDictionary,
-	colourStatuses: BooleanDictionary,
+	calendars: ParsedCalendarDictionary,
 	locationReplacers: StringDictionary,
 	mapsLink: string,
 	days: string[]
@@ -64,23 +63,26 @@ export interface BooleanDictionary {
 }
 
 export interface GoogleCalendar {
-	kind: string,
-	etag: string,
-	summary: string,
-	update: string,
-	timeZone: string,
-	accessRole: string,
-	defaultReminders: any[],
-	nextSyncToken: string,
+	kind: string
+	etag: string
+	summary: string
+	update: string
+	timeZone: string
+	accessRole: string
+	defaultReminders: any[]
+	nextSyncToken: string
 	items: GoogleEvent[]
 	description?: string
 }
 
 export interface ParsedCalendar {
+	id: string
 	name: string
 	description: string
+	color: string
 	status: boolean
 }
+
 //TODO
 export interface ParsedCalendarDictionary {
 	[key: string]: ParsedCalendar

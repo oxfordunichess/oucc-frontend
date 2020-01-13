@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react';
 import Event from './event';
 import axios from 'axios';
 
-import { CalendarProps, GoogleCalendar, GoogleEvent, StringDictionary, BooleanDictionary, EventDictionary, CalendarSettings, StyleDictionary, CalendarState } from './interfaces';
+import { CalendarProps, GoogleCalendar, GoogleEvent, StringDictionary, BooleanDictionary, EventDictionary, CalendarSettings, StyleDictionary, CalendarState, ParsedCalendarDictionary, ParsedCalendar } from './interfaces';
 
 export default class Calendar extends React.Component<{
 	settings: CalendarSettings,
@@ -12,10 +12,9 @@ export default class Calendar extends React.Component<{
 	today: number,
 	start: Date,
 	finish: Date,
+	calendars: ParsedCalendarDictionary,
 	weeks: number,
 	events: EventDictionary,
-	colours: StringDictionary,
-	colourStatuses: BooleanDictionary,
 	locationReplacers: StringDictionary,
 	mapsLink: string,
 	days: string[],
@@ -30,9 +29,8 @@ export default class Calendar extends React.Component<{
 			start: new Date(this.props.settings.start || '6 October 2019'),
 			finish: new Date(this.props.settings.finish || '8 December 2019'),
 			weeks: 8,
+			calendars: {},
 			events: {},
-			colours: {},
-			colourStatuses: {},
 			locationReplacers: {},
 			mapsLink: '',
 			days: [],
@@ -46,10 +44,9 @@ export default class Calendar extends React.Component<{
 			today: Calendar.getEventDate(Date.now()),
 			start: new Date(props.settings.start || '6 October 2019'),
 			finish: new Date(props.settings.finish || '8 December 2019'),
+			calendars: {},
 			weeks: props.settings.weeks || 8,
 			events: {},
-			colours: {},
-			colourStatuses: {},
 			locationReplacers: props.settings.locationReplacers,
 			mapsLink: props.settings.mapsLink,
 			days: props.settings.days
@@ -141,14 +138,14 @@ export default class Calendar extends React.Component<{
 							let day = (
 								<td id={timestamp.toString()} key={timestamp.toString()} className={today ? this.props.styles.today : this.props.styles.cell}>
 									<div>
-										{this.state.events[timestamp] && !Object.values(this.state.events[timestamp]).every(e => !this.state.colourStatuses[e.color]) ? this.state.events[timestamp]
+										{this.state.events[timestamp] && !Object.values(this.state.events[timestamp]).every(e => !this.state.calendars[e.calendarID].status) ? this.state.events[timestamp]
 											.sort((a, b) => {
 												if (a.start.getHours() !== b.start.getHours()) return a.start.getHours() - b.start.getHours();
 												else return a.start.getMinutes() - b.start.getMinutes();
 											})
 											.map((event, i) => {
 												return (
-													<div className={this.props.styles.event} key={[timestamp, i].join('.')} style={this.state.colourStatuses[event.color] ? {} : {
+													<div className={this.props.styles.event} key={[timestamp, i].join('.')} style={this.state.calendars[event.calendarID].status ? {} : {
 														display: 'none'
 													}}>
 														<div className={this.props.styles.eventHeader}>
@@ -156,7 +153,7 @@ export default class Calendar extends React.Component<{
 																<span className={[this.props.styles.status, 'toolContainer'].join(' ')} style={{
 																	color: event.color
 																}}>⬤
-																	<span className='tooltip'>{this.state.colours[event.color]}</span>
+																	<span className='tooltip'>{this.state.calendars[event.calendarID].status}</span>
 																</span>
 																{event.facebookEvent ? <a className={this.props.styles.eventTitle} href={event.facebookEvent}>
 																	{event.title}
@@ -198,6 +195,7 @@ export default class Calendar extends React.Component<{
 	}
 
 	renderEvents(calendarIDs: StringDictionary, state: CalendarState): Promise<void[]> {
+		let calendars: ParsedCalendarDictionary = {};
 		let colours: StringDictionary = {};
 		return Promise.all(Object.keys(calendarIDs).map((calendarId) => {
 			return axios({
@@ -219,58 +217,57 @@ export default class Calendar extends React.Component<{
 					let data = res.data as GoogleCalendar;
 					return data;
 				})
-				.then((data: GoogleCalendar): [string, GoogleEvent[]] => {
-					return [data.summary, data.items];
+				.then((data: GoogleCalendar): [ParsedCalendarDictionary, GoogleEvent[]] => {
+					if (!calendars[calendarId]) calendars[calendarId] = {
+						id: calendarId,
+						name: data.summary,
+						description: data.description || '',
+						color: calendarIDs[calendarId],
+						status: true
+					};
+					return [calendars, data.items];
 				})
-				.then(([calendarName, events]: [string, GoogleEvent[]]): [StringDictionary, Event[]] => {
-					let res = events.map((event) => {			
-						let color = calendarIDs[calendarId];
-						if (!colours[color]) colours[color] = calendarName;
-						return new Event(event, calendarName, color, state);
-					});
-					return [colours, res];
+				.then(([calendars, events]: [ParsedCalendarDictionary, GoogleEvent[]]): [ParsedCalendarDictionary, Event[]] => {
+					let res = events.map((event) => new Event(calendars[calendarId], event, state));
+					return [calendars, res];
 				})
-				.then(([colours, events]: [StringDictionary, Event[]]): [StringDictionary, EventDictionary] => {
-					let dates = state.events;
-					events.forEach((event) => {
+				.then(([calendars, dates]: [ParsedCalendarDictionary, Event[]]): [ParsedCalendarDictionary, EventDictionary] => {
+					let events = state.events;
+					dates.forEach((event) => {
 						let date = Calendar.getEventDate(event.start);
-						if (!dates[date]) dates[date] = [];
-						dates[date].push(event);
+						if (!events[date]) events[date] = [];
+						events[date].push(event);
 					});
-					return [colours, dates];
+					return [calendars, events];
 				})
-				.then(([colours, events]: [StringDictionary, EventDictionary]) => {
-					let colourStatuses = Object.keys(colours).reduce((acc: BooleanDictionary, curr: string) => {
-						acc[curr] = true;
-						return acc;
-					}, {} as BooleanDictionary);
-					this.setState({colours, colourStatuses, events});
+				.then(([calendars, events]: [ParsedCalendarDictionary, EventDictionary]): void => {
+					this.setState({calendars, events});
 				})
 				.catch(console.error);
 		}));
 	}
 
-	private updateColourStatuses = (color: string): void => {
-		let colourStatuses = Object.assign({}, this.state.colourStatuses);
-		colourStatuses[color] = !colourStatuses[color];
-		this.setState({
-			colourStatuses
-		});
+	private updateColourStatuses = (calendarID: string): void => {
+		let calendars = Object.assign({}, this.state.calendars);
+		calendars[calendarID].status = !calendars[calendarID].status;
+		this.setState({ calendars });
 	}
 
 	renderKey(): ReactElement {
-		let sorted = Object.entries(this.state.colours).sort((a, b) => {
-			if (a[1] < b[1]) return -1;
-			else if (a[1] > b[1]) return 1;
+		let sorted = Object.entries(this.state.calendars).sort((a, b) => {
+			if (a[1].name < b[1].name) return -1;
+			else if (a[1].name > b[1].name) return 1;
 			else return 0;
 		});
 		return <div className={this.props.styles.key}>
-			{sorted.map(([color, calendarName], i) => {
+			{sorted.map(([calendarID, parsedCalendar], i) => {
 				return <div className={this.props.styles.key} key={['keyElement', i].join('.')}>
-					<span className={this.props.styles.status} onClick={() => this.updateColourStatuses(color)} style={{ color }}>
-						{this.state.colourStatuses[color] ? '\u2b24' : '\u2b58'}
+					<span className={this.props.styles.status} onClick={() => this.updateColourStatuses(calendarID)} style={{
+						color: parsedCalendar.color
+					}}>
+						{parsedCalendar.status ? '\u2b24' : '\u2b58'}
 					</span>
-					<h4>{'\u200b ' + calendarName}</h4>
+					<h4>{'\u200b ' + parsedCalendar.name}</h4>
 				</div>;
 			})}
 		</div>;
