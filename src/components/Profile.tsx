@@ -26,7 +26,7 @@ export default class Profile extends React.Component<ProfileProps> {
 								let [text, href] = line.split(',');
 								if (!href) return <h3>{text}</h3>;
 								return (
-									<h3>
+									<h3 key={['text', i].join('.')}>
 										<a key={[text.slice(0, 5), i].join('.')} href={href} target='_blank' rel='noopener noreferrer'>{text}</a>
 									</h3>
 								);
