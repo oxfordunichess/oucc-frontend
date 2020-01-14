@@ -2,6 +2,7 @@ import React, { ReactElement } from 'react';
 import './App.scss';
 import {BrowserRouter as Router, Route, Redirect, Switch} from 'react-router-dom';
 
+import MobileHeader from './Header/mobile';
 import Header from './Header/index';
 import Page from './pages/Page';
 import News from './pages/News';
@@ -13,6 +14,7 @@ import { GithubFile, IndexData } from './interfaces';
 
 import cached from './assets/index.json';
 import { SessionContext } from './utils/contexts';
+import { isMobile } from './utils/auth';
 
 export default class App extends React.Component<{}, {
 	index: IndexData,
@@ -109,7 +111,7 @@ export default class App extends React.Component<{}, {
 					if (v.redirect) return <Redirect to={v.redirect} />;
 					return (
 						<SessionContext.Provider value={this.state.sessionID}>
-							<Page {...props} page={v.file || k} title={v.title} />;	
+							<Page {...props} page={v.file || k} title={v.title} />
 						</SessionContext.Provider>
 					);
 				}} />
@@ -122,7 +124,7 @@ export default class App extends React.Component<{}, {
 						if (location.pathname === '/articleData.json') return JSON.stringify(this.state.articles, null, 4);
 						return (
 							<>
-								<Header articles={this.state.articles} />
+								{isMobile() ? <MobileHeader /> : <Header articles={this.state.articles} />}
 								<Switch location={location}>
 									{markdownPaths}
 									<Route exact path='/' render={(props) => <Page {...props} page='main' />} />

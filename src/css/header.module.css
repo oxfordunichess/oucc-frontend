@@ -6,6 +6,19 @@
 	overflow-y: visible;
 }
 
+@media only screen and (max-width: 480px) {
+	div.header {		
+		min-height: 35px;
+		grid-template-rows: 35px;
+	}
+	div.bannerContainer {
+		min-height: 35px;
+	}
+	div.banner {
+		height: 35px;
+	}
+}
+
 .bannerContainer {
 	min-height: 90px;
 	width: 100vw;
@@ -32,6 +45,7 @@
 	align-items: flex-start;
 	align-content: flex-start;
 	background-color: #002147;
+	color: white;
 }
 
 .nav {
@@ -197,4 +211,74 @@
 
 .newsFeed div.runner a {
 	padding: 0 20px;
+}
+
+/* MOBILE MENU */
+
+.mobileHeader {
+	grid-column: 1 / span 3;
+	color: white;
+	height: 35px;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.mobileMenu {
+	position: fixed;
+	z-index: 1;
+	bottom: 30px;
+	right: 30px;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+}
+
+.mobileLinks {
+	display: flex;
+	flex-direction: column;
+}
+
+.mobileThumbContainer {
+	height: 120px;
+	width: 120px;
+	overflow: hidden;
+	background-position: 0px 0px;
+	cursor: pointer;
+	box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.4);
+}
+
+.mobileThumbContainer > img {
+	width: 120px;
+}
+
+.mobileSection {
+	display: flex;
+	flex-direction: column;
+	background-color: #ff2200;
+	width: 120px;
+}
+
+.mobileSection > div {
+	display: flex;
+	min-height: 40px;
+	border: 1px gray solid;
+	box-sizing: border-box;
+}
+
+.mobileSection .dropParent {
+	display: flex;
+	flex-direction: column;
+	padding: 10px 10px 10px 0;
+	width: 100%;
+	box-sizing: border-box;
+	text-align: right;
+	justify-content: center;
+	color: white;
+}
+
+.mobileSection .dropChild {	
+	background-color: #002147;
 }

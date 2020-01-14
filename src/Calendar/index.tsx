@@ -125,78 +125,80 @@ export default class Calendar extends React.Component<CalendarProps, {
 			weeks.push(curr);
 		}
 		return (
-			<table className={this.props.styles.table}>
-				<thead>
-					<tr>
-						{[this.props.settings.title, ...this.props.settings.days].map((day, i) => {
-							return <th scope='column' key={[day, i].join('.')} className={i ? '' : this.props.styles.firstColumn}>{day}</th>;
+			<div className={this.props.styles.tableContainer}>
+				<table className={this.props.styles.table}>
+					<thead>
+						<tr>
+							{[this.props.settings.title, ...this.props.settings.days].map((day, i) => {
+								return <th scope='column' key={[day, i].join('.')} className={i ? '' : this.props.styles.firstColumn}>{day}</th>;
+							})}
+						</tr>
+					</thead>
+					<tbody>						
+						{weeks.map((week, i) => {
+							let days = [];
+							for (let i = 0; i < 7; i++) {
+								let date = new Date(new Date(week).setDate(week.getDate() + i));
+								let timestamp = Calendar.getEventDate(date);
+								let today = false;
+								if (this.state.today === timestamp) today = true;
+								let day = (
+									<td id={timestamp.toString()} key={timestamp.toString()} className={today ? this.props.styles.today : this.props.styles.cell}>
+										<div>
+											{this.state.events[timestamp] && !Object.values(this.state.events[timestamp]).every(e => !this.state.calendars[e.calendarID].status) ? this.state.events[timestamp]
+												.sort((a, b) => {
+													if (a.start.getHours() !== b.start.getHours()) return a.start.getHours() - b.start.getHours();
+													else return a.start.getMinutes() - b.start.getMinutes();
+												})
+												.map((event, i) => {
+													return (
+														<div className={this.props.styles.event} key={[timestamp, i].join('.')} style={this.state.calendars[event.calendarID].status ? {} : {
+															display: 'none'
+														}}>
+															<div className={this.props.styles.eventHeader}>
+																<h4 className={[this.props.styles.eventName].join(' ')}>
+																	<span className={[this.props.styles.status, this.props.styles.toolContainer].join(' ')} style={{
+																		color: event.color
+																	}}>⬤
+																		<span className={this.props.styles.tooltip}>{event.calendarName}</span>
+																	</span>
+																	{event.facebookEvent ? <a className={this.props.styles.eventTitle} href={event.facebookEvent}>
+																		{event.title}
+																	</a> : event.title}
+																</h4>
+															</div>
+															<div>
+																<h5>
+																	{Calendar.getDisplayTime(event.start)}
+																	{' '}
+																	{event.map ?
+																		<a href={event.map} rel='noopener noreferrer' target='_blank'>
+																			{event.location}
+																		</a>
+																	: event.location}
+																	{'\n'}
+																	{event.description || null}
+																</h5>
+															</div>
+														</div>
+													);
+												})
+												: <div className={this.props.styles.dateNumber}>{date.getDate()}</div>}
+										</div>
+									</td>
+								);
+								days.push(day);
+							}
+							return <tr key={'week.' + i}>
+								<th scope='row' className={this.props.styles.firstColumn}>
+									{'Week ' + i + '\n' + week.toDateString().slice(4, 10)}
+								</th>
+								{days}						
+							</tr>;
 						})}
-					</tr>
-				</thead>
-				<tbody>						
-					{weeks.map((week, i) => {
-						let days = [];
-						for (let i = 0; i < 7; i++) {
-							let date = new Date(new Date(week).setDate(week.getDate() + i));
-							let timestamp = Calendar.getEventDate(date);
-							let today = false;
-							if (this.state.today === timestamp) today = true;
-							let day = (
-								<td id={timestamp.toString()} key={timestamp.toString()} className={today ? this.props.styles.today : this.props.styles.cell}>
-									<div>
-										{this.state.events[timestamp] && !Object.values(this.state.events[timestamp]).every(e => !this.state.calendars[e.calendarID].status) ? this.state.events[timestamp]
-											.sort((a, b) => {
-												if (a.start.getHours() !== b.start.getHours()) return a.start.getHours() - b.start.getHours();
-												else return a.start.getMinutes() - b.start.getMinutes();
-											})
-											.map((event, i) => {
-												return (
-													<div className={this.props.styles.event} key={[timestamp, i].join('.')} style={this.state.calendars[event.calendarID].status ? {} : {
-														display: 'none'
-													}}>
-														<div className={this.props.styles.eventHeader}>
-															<h4 className={[this.props.styles.eventName].join(' ')}>
-																<span className={[this.props.styles.status, this.props.styles.toolContainer].join(' ')} style={{
-																	color: event.color
-																}}>⬤
-																	<span className={this.props.styles.tooltip}>{event.calendarName}</span>
-																</span>
-																{event.facebookEvent ? <a className={this.props.styles.eventTitle} href={event.facebookEvent}>
-																	{event.title}
-																</a> : event.title}
-															</h4>
-														</div>
-														<div>
-															<h5>
-																{Calendar.getDisplayTime(event.start)}
-																{' '}
-																{event.map ?
-																	<a href={event.map} rel='noopener noreferrer' target='_blank'>
-																		{event.location}
-																	</a>
-																: event.location}
-																{'\n'}
-																{event.description || null}
-															</h5>
-														</div>
-													</div>
-												);
-											})
-											: <div className={this.props.styles.dateNumber}>{date.getDate()}</div>}
-									</div>
-								</td>
-							);
-							days.push(day);
-						}
-						return <tr key={'week.' + i}>
-							<th scope='row' className={this.props.styles.firstColumn}>
-								{'Week ' + i + '\n' + week.toDateString().slice(4, 10)}
-							</th>
-							{days}						
-						</tr>;
-					})}
-				</tbody>
-			</table>
+					</tbody>
+				</table>
+			</div>
 		);
 	}
 
@@ -280,10 +282,10 @@ export default class Calendar extends React.Component<CalendarProps, {
 
 	render(): ReactElement {
 		return (
-			<>
+			<div className={this.props.styles.container}>
 				{this.renderKey()}
 				{this.renderFrame()}
-			</>
+			</div>
 		);
 	}
 

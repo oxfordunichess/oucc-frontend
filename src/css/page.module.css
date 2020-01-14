@@ -15,7 +15,7 @@
 .main {
 	width: 100%;
 	height: calc(100vh - 140px);
-	overflow: scroll;
+	overflow-y: scroll;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -25,13 +25,17 @@
 	display: flex;
 	flex-direction: column;
 	width: 61.8%;
+	overflow-x: visible;
 }
 
 .wide {
 	width: 100%;
 }
 
-@media (max-width: 480px) {
+@media only screen and (max-width: 480px) {
+	.main {
+		height: calc(100vh - 35px);
+	}
 	.page {
 		padding: 0 5px;
 	}

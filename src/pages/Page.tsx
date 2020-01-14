@@ -93,7 +93,7 @@ export default class Page extends React.Component<PageProps, {
 								/>
 							</div>;
 						})}		
-					</div>;		
+					</div>
 				</div>
 			</>
 		);
