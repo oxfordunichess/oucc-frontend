@@ -8,25 +8,22 @@
     "news": {
         "redirect": "/curr_news"
     },
-    "events": {
-        "redirect": "/varsity"
-    },
     "termcard/ht20": {
         "redirect": "/termcard"
     },
     "1stTeam": {
         "title": "First Team",
-        "parent": "leagues",
+        "parent": "termcard",
         "description": "If you are interested in playing please contact Filip Mihov at filip.mihov@balliol.ox.ac.uk"
     },
     "2ndTeam": {
         "title": "Second Team",
-        "parent": "leagues",
+        "parent": "termcard",
         "description": "If you are interested in playing please contact Kevin Henbest at kevin.henbest@chem.ox.ac.uk"
     },
     "3rdTeam": {
         "title": "Third Team",
-        "parent": "leagues",
+        "parent": "termcard",
         "description": "If you are interested in playing please contact Boris Gusev at boris.gusev@st-hildas.ox.ac.uk."
     },
     "archive": {
@@ -34,10 +31,20 @@
         "parent": "news",
         "description": "Oxford University Chess Club news archive"
     },
-    "classes": {
-        "title": "Classes",
-        "parent": "leagues",
+    "teaching": {
+        "title": "Teaching",
+        "parent": "termcard",
         "description": "We currently run two squads. Both are at Christ Church, from 5:30pm-6:30pm, held in different rooms. They are as follows:"
+    },
+    "cuppers": {
+        "title": "Cuppers",
+        "parent": "play",
+        "description": "2020 Cuppers League"
+    },
+    "club": {
+        "title": "Club Nights",
+        "parent": "termcard",
+        "description": "Weekly clubnights at the Oxford University Chess Club are held on a Wednesday"
     },
     "committee": {
         "title": "Committee",
@@ -54,14 +61,9 @@
         "parent": "news",
         "description": "OUCC will host a celebration for the 150th anniversary. All alumni of the OUCC are invited to come. This celebration will likely be hosted in the 1st or 2nd weekend of May 2019. To see everyone who has been invited so far click here. If you know the contact details of someone not contacted yet please let us know immediately."
     },
-    "other_events": {
-        "title": "Other Events",
-        "parent": "tournament"
-    },
-    "leagues": {
-        "title": "Leagues",
-        "parent": "leagues",
-        "description": "The Oxford University Chess Club enters three teams in the Oxfordshire league, starting from 2016/2017. The first team resides in the top division and caters for strong and experienced players, the second team, in division 2, caters for intermediate players and the third team, in division 4 is suitable for beginners."
+    "events": {
+        "title": "Events",
+        "parent": "events"
     },
     "maillists": {
         "title": "Mailing Lists",
@@ -83,6 +85,11 @@
         "parent": "contact",
         "description": "If you have any questions or wish to contact the club then please complete the form below and we will get back to you as soon as possible."
     },
+    "socials": {
+        "title": "Socials",
+        "parent": "events",
+        "description": "OUCC Socials"
+    },
     "sponsors": {
         "title": "Sponsors",
         "parent": "sponsors",
@@ -91,23 +98,23 @@
     "termcard": {
         "file": "termcard_hilary",
         "title": "Termcard",
-        "parent": "leagues",
+        "parent": "termcard",
         "description": "Hilary Termcard for the Oxford University Chess Club"
     },
     "termcard/mt19": {
         "file": "termcard_michaelmas",
         "title": "Termcard",
-        "parent": "leagues",
+        "parent": "termcard",
         "description": "Michaelmas Termcard for the Oxford University Chess Club"
     },
-    "tournament": {
-        "title": "Tournament",
-        "parent": "tournament",
-        "description": "OUCC intents to organise a tournament in hilary or trinity 2019. All details regarding this will be made available here."
+    "tournaments": {
+        "title": "External Tournaments",
+        "parent": "events",
+        "description": "A list of constantly updated playing opportunities of external tournaments."
     },
     "varsity": {
         "title": "Varsity",
-        "parent": "tournament",
+        "parent": "events",
         "description": "The annual Varsity match takes place on the 7th week of Hilary Term against the Cambridge University Chess Club."
     },
     "venues": {
