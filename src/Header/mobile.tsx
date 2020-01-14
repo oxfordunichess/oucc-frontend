@@ -61,7 +61,7 @@ export default class Header extends React.Component<{}, {
 					</div>
 				</div>
 				<div className={styles.mobileMenu}>
-					<div className={[styles.mobileLinks, this.state.expanded ? styles.mobileLinksShown : ''].join(' ')}>
+					{this.state.expanded ? <div className={[styles.mobileLinks, this.state.expanded ? styles.mobileLinksShown : ''].join(' ')}>
 						{Object.entries(this.state.navigation).map(([link, [_s, name, ...parents]], i) => {
 							return (
 								<div key={[name, i].join('.')} className={styles.mobileSection} >
@@ -86,7 +86,7 @@ export default class Header extends React.Component<{}, {
 								</div>
 							);
 						})}
-					</div>
+					</div> : null}
 					<div className={styles.mobileThumbContainer} onClick={this.toggleThumb}>
 						<img src={process.env.PUBLIC_URL + '/images/oucclogo.jpg'} alt='' />
 					</div>

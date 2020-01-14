@@ -231,13 +231,13 @@
 	position: fixed;
 	bottom: 30px;
 	right: 30px;
+	height: auto;
 	display: flex;
 	flex-direction: column;
 	align-items: flex-end;
 }
 
 .mobileLinks {
-	z-index: 1;
 	display: flex;
 	flex-direction: column;
 	animation: contract-down 0.5s forwards;
@@ -254,6 +254,7 @@
 	}
 	to {
 		transform: translate(0, 0%) scale(1, 1);
+		z-index: 1;
 	}
 }
 
@@ -264,6 +265,7 @@
 	to {
 		transform: translate(0, 100%) scale(0.9, 0);
 		visibility: hidden;
+		z-index: -1;
 	}
 }
 
