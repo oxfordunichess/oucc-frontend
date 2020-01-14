@@ -34,14 +34,16 @@
 	width: 100%;
 }
 
-@media only screen and (max-width: 480px) {
-	.main {
-		height: calc(100vh - 35px);
-	}
-	.page {
+
+.mobileMain {
+	height: calc(100vh - 35px);
+}
+
+@media only screen and (max-width: 480px) {	
+	.mobilePage {
 		padding: 0 5px;
 	}
-	.section {
+	.mobileSection {
 		width: 100%;
 	}
 }
@@ -87,6 +89,12 @@
 	display: block;
 	max-width: calc(100vw * 0.6180340 / 2);
 	margin: 20px auto;
+}
+
+@media only screen and (max-width: 480px) {
+	.main img {
+		max-width: 100%;
+	}
 }
 
 .main hr {

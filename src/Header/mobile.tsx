@@ -44,6 +44,7 @@ export default class Header extends React.Component<{}, {
 
 	private toggleThumb = () => {
 		this.setState({
+			subnav: '',
 			expanded: !this.state.expanded
 		});
 	}
@@ -51,17 +52,17 @@ export default class Header extends React.Component<{}, {
 	render(): ReactElement {
 		return (
 			<>
-				<div className={styles.header}>
-					<div className={styles.bannerContainer}>
-						<div className={styles.banner}>
-							<div className={styles.mobileHeader}>
+				<div className={[styles.header, styles.mobileHeader].join(' ')}>
+					<div className={[styles.bannerContainer, styles.mobileContainer].join(' ')}>
+						<div className={[styles.banner, styles.mobileBanner].join(' ')}>
+							<div className={styles.mobileTextContainer}>
 								Oxford University Chess Club
 							</div>
 						</div>
 					</div>
 				</div>
 				<div className={styles.mobileMenu}>
-					{this.state.expanded ? <div className={[styles.mobileLinks, this.state.expanded ? styles.mobileLinksShown : ''].join(' ')}>
+					{this.state.expanded ? <div className={[styles.mobileLinks, this.state.expanded ? styles.mobileLinksShown : styles.mobileLinksHidden].join(' ')}>
 						{Object.entries(this.state.navigation).map(([link, [_s, name, ...parents]], i) => {
 							return (
 								<div key={[name, i].join('.')} className={styles.mobileSection} >
@@ -82,10 +83,14 @@ export default class Header extends React.Component<{}, {
 											}) : null}
 										</>
 									}
-									
 								</div>
 							);
 						})}
+						<div className={styles.mobileSection} >
+							<Link className={styles.dropParent} to={'/'}>
+								Home
+							</Link>
+						</div>
 					</div> : null}
 					<div className={styles.mobileThumbContainer} onClick={this.toggleThumb}>
 						<img src={process.env.PUBLIC_URL + '/images/oucclogo.jpg'} alt='' />

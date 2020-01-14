@@ -9,6 +9,7 @@ import { parseHtml } from '../utils/plugins';
 import { SessionContext } from '../utils/contexts';
 import { StaticContext } from 'react-router';
 import { RouteComponentProps } from 'react-router-dom';
+import { isMobile } from '../utils/auth';
 
 const styles = require('../css/page.module.css');
 
@@ -54,7 +55,7 @@ export default class Page extends React.Component<PageProps, {
 	componentDidMount() {
 		Page.getPage(this.props.page, this.context)
 			.then((page: string) => {
-				this.setState({page});
+				this.setState({ page });
 			});
 	}
 
@@ -69,14 +70,15 @@ export default class Page extends React.Component<PageProps, {
 				<Helmet>
 					<title>{title}</title>
 				</Helmet>
-				<div className={styles.page}>
-					<div className={styles.main}>
+				<div className={[styles.page, isMobile() ? styles.mobilePage : ''].join(' ')}>
+					<div className={[styles.main, isMobile() ? styles.mobileMain : ''].join(' ')}>
 						{sections.map((section, i) => {
 							return <div
 								key={['section', i].join('.')}
 								className={[
 									styles.section,
-									this.state.wide ? styles.wide : ''
+									this.state.wide ? styles.wide : '',
+									isMobile() ? styles.mobileSection : ''
 								].join(' ')}
 							>
 								<Markdown

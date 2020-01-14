@@ -11,6 +11,7 @@ import { parseHtml } from '../utils/plugins';
 import * as regexes from '../utils/regexes';
 import { SessionContext } from '../utils/contexts';
 import { server } from '../utils/axios';
+import { isMobile } from '../utils/auth';
 
 const styles = require('../css/page.module.css');
 
@@ -74,7 +75,8 @@ export default class News extends React.Component<NewsProps, {
 					key={id}
 					className={[
 						styles.section,
-						this.state.wide ? styles.wide : ''
+						this.state.wide ? styles.wide : '',
+						isMobile() ? styles.mobileSection : ''
 					].join(' ')}
 				>
 					<Markdown
@@ -105,8 +107,10 @@ export default class News extends React.Component<NewsProps, {
 					{data.description ? <meta name='description' content={data.description} /> : null}
 					{data.image ? <meta property='og:image' content={data.image} /> : null}
 				</Helmet>
-				<div className={styles.page} >
-					<div className={styles.main}>{components}</div>
+				<div className={[styles.page, isMobile() ? styles.mobilePage : ''].join(' ')}>
+					<div className={[styles.main, isMobile() ? styles.mobileMain : ''].join(' ')}>
+						{components}
+					</div>
 				</div>
 			</>
 		);

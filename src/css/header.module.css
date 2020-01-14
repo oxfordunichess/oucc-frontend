@@ -6,19 +6,6 @@
 	overflow-y: visible;
 }
 
-@media only screen and (max-width: 480px) {
-	div.header {		
-		min-height: 35px;
-		grid-template-rows: 35px;
-	}
-	div.bannerContainer {
-		min-height: 35px;
-	}
-	div.banner {
-		height: 35px;
-	}
-}
-
 .bannerContainer {
 	min-height: 90px;
 	width: 100vw;
@@ -213,9 +200,20 @@
 	padding: 0 20px;
 }
 
-/* MOBILE MENU */
+/* MOBILE HEADER */
 
-.mobileHeader {
+div.mobileHeader {		
+	min-height: 35px;
+	grid-template-rows: 35px;
+}
+div.mobileContainer {
+	min-height: 35px;
+}
+div.mobileBanner {
+	height: 35px;
+}
+
+.mobileTextContainer {
 	grid-column: 1 / span 3;
 	color: white;
 	height: 35px;
@@ -225,6 +223,8 @@
 	justify-content: center;
 	align-items: center;
 }
+
+/* MOBILE MENU */
 
 .mobileMenu {
 	z-index: 1;
@@ -240,21 +240,23 @@
 .mobileLinks {
 	display: flex;
 	flex-direction: column;
-	animation: contract-down 0.5s forwards;
+	visibility: visible;
 }
 
 .mobileLinksShown {
-	visibility: visible;
 	animation: expand-up 0.5s forwards;
+}
+
+.mobileLinksHidden {
+	animation: contract-down 3s forwards;
 }
 
 @keyframes expand-up {
 	from {
-		transform: translate(0, 100%) scale(0.9, 0);
+		transform: translate(0, 80%) scale(1, 0);
 	}
 	to {
 		transform: translate(0, 0%) scale(1, 1);
-		z-index: 1;
 	}
 }
 
@@ -263,9 +265,7 @@
 		transform: translate(0, 0%) scale(1, 1);
 	}
 	to {
-		transform: translate(0, 100%) scale(0.9, 0);
-		visibility: hidden;
-		z-index: -1;
+		transform: translate(0, 80%) scale(1, 0);
 	}
 }
 
@@ -292,7 +292,7 @@
 
 .mobileSection > div {
 	display: flex;
-	min-height: 40px;
+	min-height: 30px;
 	border: 1px gray solid;
 	box-sizing: border-box;
 }
