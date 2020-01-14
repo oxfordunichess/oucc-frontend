@@ -5,7 +5,7 @@ import { GithubCommit } from '../interfaces';
 
 import { capitalise } from '../utils/prototype';
 
-import axios from 'axios';
+import axios from '../utils/axios';
 
 export default class Table extends React.Component<{
 	src: string,
@@ -22,7 +22,6 @@ export default class Table extends React.Component<{
 
 	static getData(file: string, sessionID: string): any {
 		return axios({
-			baseURL: 'https://oxfordunichess.github.io/oucc-backend/',
 			url: file,
 			params: {sessionID}
 		})

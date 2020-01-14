@@ -11,8 +11,8 @@ body {
 	background-color: #f0f0f0;
 	font-family: trebuchet ms, trebuchet, arial, helvetica, geneva, sans-serif;
 	overflow-x: hidden;
+	-ms-overflow-style: none;
 }
-
 ::-webkit-scrollbar {
 	display: none;
 }

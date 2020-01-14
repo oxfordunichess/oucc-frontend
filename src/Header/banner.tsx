@@ -1,9 +1,8 @@
 import React, { ReactElement, RefObject } from 'react';
 import { Link } from 'react-router-dom';
 import { Side, NavCache, NavigationData } from './interfaces';
-import axios from 'axios';
+import axios from '../utils/axios';
 import { SessionContext } from '../utils/contexts';
-axios.defaults.baseURL = 'https://oxfordunichess.github.io/oucc-backend/';
 
 const styles = require('../css/header.module.css');
 
@@ -17,7 +16,7 @@ export default class Banner extends React.Component <{}, {
 	static contextType = SessionContext;
 	public context: React.ContextType<typeof SessionContext>;
 
-	private _nav: NavCache;
+	private _nav?: NavCache;
 	private navLeft: RefObject<HTMLDivElement> = React.createRef();
 	private navRight: RefObject<HTMLDivElement> = React.createRef();
 
@@ -40,6 +39,7 @@ export default class Banner extends React.Component <{}, {
 	private navLeave(): void {
 		this.setState({subnav: ''});	
 	}
+
 	private renderNav(side: Side): ReactElement {
 		if (!this._nav) this._nav = {};
 		let width = side === 'left' ? this.state.navLeft : this.state.navRight;

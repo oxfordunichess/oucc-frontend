@@ -3,10 +3,10 @@ import { StaticContext } from 'react-router';
 import { RouteComponentProps } from 'react-router-dom';
 import * as regexes from '../utils/regexes';
 import Event from './event';
-import axios from 'axios';
+import axios from '../utils/axios';
 
-import { GoogleCalendar, GoogleEvent, StringDictionary, EventDictionary, CalendarSettings, StyleDictionary, CalendarState, ParsedCalendarDictionary } from './interfaces';
-import { BooleanDeserialise, BooleanSerialise } from '../utils/prototype';
+import { GoogleCalendar, StringDictionary, EventDictionary, CalendarSettings, StyleDictionary, CalendarState, ParsedCalendarDictionary } from './interfaces';
+import { BooleanDeserialise } from '../utils/prototype';
 
 interface CalendarProps extends RouteComponentProps<any, StaticContext, any> {
 	settings: CalendarSettings,

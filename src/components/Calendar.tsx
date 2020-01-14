@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import axios from 'axios';
+import axios from '../utils/axios';
 import Calendar from '../Calendar';
 import { CalendarSettings, StringDictionary } from '../Calendar/interfaces';
 import { CalendarProps } from '../pages/interfaces';

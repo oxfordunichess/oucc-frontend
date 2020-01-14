@@ -8,13 +8,11 @@ import News from './pages/News';
 import Contact from './pages/Contact';
 import NotFound from './pages/NotFound';
 import * as regexes from './utils/regexes';
-import axios from 'axios';
+import axios from './utils/axios';
 import { GithubFile, IndexData } from './interfaces';
 
 import cached from './assets/index.json';
 import { SessionContext } from './utils/contexts';
-
-axios.defaults.baseURL = 'https://oxfordunichess.github.io/oucc-backend/';
 
 export default class App extends React.Component<{}, {
 	index: IndexData,
@@ -30,8 +28,7 @@ export default class App extends React.Component<{}, {
 
 	static getArticle(pathname: string, sessionID?: string): Promise<string> {
 		return axios({
-			baseURL: 'https://oxfordunichess.github.io/oucc-backend/news/',
-			url: pathname,
+			url: 'news/' + pathname,
 			params: { sessionID },
 			method: 'GET',
 			maxRedirects: 5
@@ -98,7 +95,7 @@ export default class App extends React.Component<{}, {
 		axios.defaults.params = {};
 		axios.defaults.params.sessionID = this.state.sessionID;
 		Promise.all([
-			App.getIndex(this.state.sessionID).then(index => index ?? this.setState({index})),
+			App.getIndex(this.state.sessionID).then(index => index ? this.setState({index}) : null),
 			App.fetchArticles(this.state.sessionID).then(articles => this.setState({articles}))
 		]);
 	}
@@ -107,21 +104,22 @@ export default class App extends React.Component<{}, {
 		let markdownPaths = Object.entries(this.state.index).map(([k, v]) => {
 			if (k.startsWith('_') || typeof v !== 'object') return null;
 			return (
-					<Route exact path={'/' + k} key={k + '_route'} render={(props) => {
-						if (v.open) window.open(v.open);
-						if (v.redirect) return <Redirect to={v.redirect} />;
-						return (
-							<SessionContext.Provider value={this.state.sessionID}>
-								<Page {...props} page={v.file || k} title={v.title} />;	
-							</SessionContext.Provider>
-						);
-					}} />
+				<Route exact path={'/' + k} key={k + '_route'} render={(props) => {
+					if (v.open) window.open(v.open);
+					if (v.redirect) return <Redirect to={v.redirect} />;
+					return (
+						<SessionContext.Provider value={this.state.sessionID}>
+							<Page {...props} page={v.file || k} title={v.title} />;	
+						</SessionContext.Provider>
+					);
+				}} />
 			);
 		});
 		return (
 			<SessionContext.Provider value={this.state.sessionID}>
 				<Router basename={process.env.PUBLIC_URL}>
 					<Route render={({location}) => {
+						if (location.pathname === '/articleData.json') return JSON.stringify(this.state.articles, null, 4);
 						return (
 							<>
 								<Header articles={this.state.articles} />

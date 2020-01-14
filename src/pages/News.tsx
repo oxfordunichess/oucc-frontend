@@ -10,6 +10,7 @@ import { RouterLink } from '../utils/components';
 import { parseHtml } from '../utils/plugins';
 import * as regexes from '../utils/regexes';
 import { SessionContext } from '../utils/contexts';
+import { server } from '../utils/axios';
 
 const styles = require('../css/page.module.css');
 
@@ -84,7 +85,7 @@ export default class News extends React.Component<NewsProps, {
 							link: RouterLink
 						}}
 						transformImageUri={(uri) => {
-							if (uri.startsWith('.') || uri.startsWith('/')) uri = url.resolve('https://oxfordunichess.github.io/oucc-backend/data/', uri);
+							if (uri.startsWith('.') || uri.startsWith('/')) uri = url.resolve(server + 'data/', uri);
 							return uri;
 						}}
 					/>

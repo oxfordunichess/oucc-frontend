@@ -4,12 +4,11 @@ import {Helmet} from 'react-helmet';
 import url from 'url';
 
 import {RouterLink} from '../utils/components';
-import axios from 'axios';
+import axios, { server } from '../utils/axios';
 import { parseHtml } from '../utils/plugins';
 import { SessionContext } from '../utils/contexts';
 import { StaticContext } from 'react-router';
 import { RouteComponentProps } from 'react-router-dom';
-axios.defaults.baseURL = 'https://oxfordunichess.github.io/oucc-backend/';
 
 const styles = require('../css/page.module.css');
 
@@ -88,7 +87,7 @@ export default class Page extends React.Component<PageProps, {
 										link: RouterLink
 									}}
 									transformImageUri={(uri) => {
-										if (uri.startsWith('.') || uri.startsWith('/')) uri = url.resolve('https://oxfordunichess.github.io/oucc-backend/data/', uri);
+										if (uri.startsWith('.') || uri.startsWith('/')) uri = url.resolve(server + 'data/', uri);
 										return uri;
 									}}
 								/>
