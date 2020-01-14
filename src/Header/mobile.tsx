@@ -16,8 +16,8 @@ export default class Header extends React.Component<{}, {
 	public context: React.ContextType<typeof SessionContext>;
 
 	public state = {
-		subnav: 'events',
-		expanded: true,
+		subnav: '',
+		expanded: false,
 		navigation: {} as NavigationData
 	}
 
@@ -73,7 +73,7 @@ export default class Header extends React.Component<{}, {
 										</Link> :
 										<>
 											<div className={styles.dropParent} onClick={() => this.navToggle(link)}>
-												{parents.length ? this.state.subnav === 'link' ? '△' : '▽' : ''} {name}
+												{parents.length ? this.state.subnav === link ? '▽' : '▷' : ''} {name}
 											</div>
 											{this.state.subnav === link ? (parents).map(([link, name]) => {
 												return (
