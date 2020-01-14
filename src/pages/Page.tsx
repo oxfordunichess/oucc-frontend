@@ -55,7 +55,9 @@ export default class Page extends React.Component<PageProps, {
 	componentDidMount() {
 		Page.getPage(this.props.page, this.context)
 			.then((page: string) => {
-				this.setState({ page });
+				let wide = false;
+				if (page.toLowerCase().includes('<calendar')) wide = true;
+				this.setState({ page, wide });
 			});
 	}
 
