@@ -61,9 +61,7 @@ export default class Header extends React.Component<{}, {
 					</div>
 				</div>
 				<div className={styles.mobileMenu}>
-					<div className={styles.mobileLinks} style={{
-						visibility: this.state.expanded ? 'visible' : 'hidden'
-					}}>
+					<div className={[styles.mobileLinks, this.state.expanded ? styles.mobileLinksShown : ''].join(' ')}>
 						{Object.entries(this.state.navigation).map(([link, [_s, name, ...parents]], i) => {
 							return (
 								<div key={[name, i].join('.')} className={styles.mobileSection} >
