@@ -97,7 +97,7 @@
 	color: white;
 }
 
-.dropChild {
+.section .dropChild {
 	height: auto;
 	visibility: hidden;
 	z-index: 1;

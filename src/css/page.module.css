@@ -39,6 +39,17 @@
 	height: calc(100vh - 35px);
 }
 
+.mobileMain {
+	display: flex;
+	flex-direction: column;
+	padding-bottom: 30px;
+}
+
+.mobileSection {
+	display: flex;
+	flex-direction: column;
+}
+
 @media only screen and (max-width: 480px) {	
 	.mobilePage {
 		padding: 0 5px;

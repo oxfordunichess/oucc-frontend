@@ -13,7 +13,7 @@ import { SessionContext } from '../utils/contexts';
 import { server } from '../utils/axios';
 import { isMobile } from '../utils/auth';
 
-const styles = require('../css/page.module.css');
+import styles from '../css/page.module.css';
 
 interface NewsProps extends RouteComponentProps<any, StaticContext, any> {
 	title: string
