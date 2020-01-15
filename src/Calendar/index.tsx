@@ -204,7 +204,8 @@ export default class Calendar extends React.Component<CalendarProps, {
 
 	renderEvents(calendarIDs: StringDictionary, state: CalendarState): Promise<void[]> {
 		let calendars: ParsedCalendarDictionary = {};
-		let query = BooleanDeserialise(this.props.location.search.toString().slice(1));
+		let search = this.props.location.search.toString().slice(1) || '';
+		let query = BooleanDeserialise(search);
 		return Promise.all(Object.keys(calendarIDs).map(async (calendarId) => {
 			try {
 				let res = await axios({

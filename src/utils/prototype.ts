@@ -14,11 +14,14 @@ export function getIDFromTitle(str: string): string {
 }
 
 export function BooleanDeserialise(str: string): {[key: number]: boolean, [key: string]: boolean} {
-	return Object.fromEntries(str
+	return str
 		.split('&')
 		.map(q => q.split('='))
-		.map(([k, v]) => v === 'false' ? [k, false] : [k, true])
-	);
+		.map(([k, v]): [string, boolean] => v === 'false' ? [k, false] : [k, true])
+		.reduce((acc, [k, v]) => {
+			acc[k] = v;
+			return acc;
+		}, {} as {[key: number]: boolean, [key: string]: boolean});
 }
 
 export function BooleanSerialise(obj: {[key: number]: boolean, [key: string]: boolean}): string {
