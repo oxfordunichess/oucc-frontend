@@ -4,6 +4,7 @@ import React, { ReactElement } from 'react';
 import Profile from '../components/Profile';
 import Table from '../components/Table';
 import Calendar from '../components/Calendar';
+import Form, { FormProps } from '../components/Form';
 import { ProfileProps, parseHTMLElement, CalendarProps, htmlParser as def } from '../pages/interfaces';
 import { StaticContext } from 'react-router';
 import { RouteComponentProps } from 'react-router-dom';
@@ -44,6 +45,15 @@ export function parseHtml(props?: RouteComponentProps<any, StaticContext, any>, 
 				},
 				processNode: (node: parseHTMLElement, children: parseHTMLElement[]): ReactElement => {
 					return <Profile {...node.attribs as ProfileProps}/>;
+				}
+			},
+			{
+				// Custom <Profile> processing
+				shouldProcessNode:(node: parseHTMLElement): boolean => {
+					return node.name === 'form';
+				},
+				processNode: (node: parseHTMLElement, children: parseHTMLElement[]): ReactElement => {
+					return <Form {...node.attribs as FormProps}/>;
 				}
 			},
 			{

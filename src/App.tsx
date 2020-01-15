@@ -6,7 +6,6 @@ import MobileHeader from './Header/mobile';
 import Header from './Header/index';
 import Page from './pages/Page';
 import News from './pages/News';
-import Contact from './pages/Contact';
 import NotFound from './pages/NotFound';
 import * as regexes from './utils/regexes';
 import axios from './utils/axios';
@@ -15,6 +14,7 @@ import { GithubFile, IndexData } from './interfaces';
 import cached from './assets/index.json';
 import { SessionContext } from './utils/contexts';
 import { isMobile } from './utils/auth';
+import Package from '../package.json';
 
 export default class App extends React.Component<{}, {
 	index: IndexData,
@@ -121,19 +121,24 @@ export default class App extends React.Component<{}, {
 			<SessionContext.Provider value={this.state.sessionID}>
 				<Router basename={process.env.PUBLIC_URL}>
 					<Route render={({location}) => {
-						if (location.pathname === '/articleData.json') return JSON.stringify(this.state.articles, null, 4);
-						return (
-							<>
-								{isMobile() ? <MobileHeader /> : <Header articles={this.state.articles} />}
-								<Switch location={location}>
-									{markdownPaths}
-									<Route exact path='/' render={(props) => <Page {...props} page='main' />} />
-									<Route exact path='/curr_news' render={(props) => <News {...props} title='Current News' articles={this.state.articles} />}/>
-									<Route exact path='/contact' render={() => <Contact title='Contact' />}/>
-									<Route path='*' component={NotFound} status={404} />
-								</Switch>
-							</>
-						);
+						switch (location.pathname) {
+							case ('/articleData.json'):
+								return JSON.stringify(this.state.articles, null, 4);
+							case ('/version'):
+								return Package.version;
+							default:
+								return (
+									<>
+										{isMobile() ? <MobileHeader /> : <Header articles={this.state.articles} />}
+										<Switch location={location}>
+											{markdownPaths}
+											<Route exact path='/' render={(props) => <Page {...props} page='main' />} />
+											<Route exact path='/curr_news' render={(props) => <News {...props} title='Current News' articles={this.state.articles} />}/>
+											<Route path='*' component={NotFound} status={404} />
+										</Switch>
+									</>
+								);
+					}
 					}}/>
 				</Router>
 			</SessionContext.Provider>
