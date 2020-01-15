@@ -82,19 +82,10 @@
 	width: 100%;
 }
 
-.section:hover {
-	background: #002147;
-}
-
-.section > a.selected {	
-	background: #002147;
-	border-right: 5px solid #002147;
-}
-
 .section > .dropParent {
 	display: flex;
 	font-size: 24px;
-	padding: 0 4vw;
+	padding: 10px 1vw;
 	cursor: pointer;
 	border-right: 5px solid #ff2200;
 	box-sizing: border-box;
@@ -104,11 +95,6 @@
 	justify-content: center;
 	align-items: center;
 	color: white;
-}
-
-.section:hover .dropChild {
-	visibility: visible;
-	animation: expand-down 0.5s forwards;
 }
 
 .dropChild {
@@ -126,7 +112,24 @@
 	-ms-user-select: none;
 }
 
+.section:hover .dropChild {
+	visibility: visible;
+	animation: expand-down 0.5s forwards;
+	background: #002147;
+	border-bottom: 1px solid gray;
+}
+
+.section > a.selected {	
+	background: #002147;
+	border-right: 5px solid #002147;
+}
+
+.section > .dropChild.selected {
+	border-right: 5px solid grey;
+}
+
 .section > .dropParent:hover {
+	background: #002147;
 	border-right: 5px solid #002147;
 }
 
