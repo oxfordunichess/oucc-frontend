@@ -44,7 +44,7 @@ export default class Header extends React.Component<{}, {
 
 	private toggleThumb = () => {
 		this.setState({
-			subnav: '',
+			subnav: 'members',
 			expanded: !this.state.expanded
 		});
 	}
