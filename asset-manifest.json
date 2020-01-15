@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/oucc-frontend/static/css/main.f8d2cf62.chunk.css",
-    "main.js": "/oucc-frontend/static/js/main.3c276316.chunk.js",
-    "main.js.map": "/oucc-frontend/static/js/main.3c276316.chunk.js.map",
+    "main.js": "/oucc-frontend/static/js/main.b7b5410e.chunk.js",
+    "main.js.map": "/oucc-frontend/static/js/main.b7b5410e.chunk.js.map",
     "runtime-main.js": "/oucc-frontend/static/js/runtime-main.38735d8b.js",
     "runtime-main.js.map": "/oucc-frontend/static/js/runtime-main.38735d8b.js.map",
     "static/js/2.e1523e11.chunk.js": "/oucc-frontend/static/js/2.e1523e11.chunk.js",
     "static/js/2.e1523e11.chunk.js.map": "/oucc-frontend/static/js/2.e1523e11.chunk.js.map",
     "index.html": "/oucc-frontend/index.html",
-    "precache-manifest.98a7be570a88ed67f3112e57372f3e44.js": "/oucc-frontend/precache-manifest.98a7be570a88ed67f3112e57372f3e44.js",
+    "precache-manifest.245f954529dc3345e9a6849fc6802608.js": "/oucc-frontend/precache-manifest.245f954529dc3345e9a6849fc6802608.js",
     "service-worker.js": "/oucc-frontend/service-worker.js",
     "static/css/main.f8d2cf62.chunk.css.map": "/oucc-frontend/static/css/main.f8d2cf62.chunk.css.map",
     "static/js/2.e1523e11.chunk.js.LICENSE": "/oucc-frontend/static/js/2.e1523e11.chunk.js.LICENSE"
@@ -17,6 +17,6 @@
     "static/js/runtime-main.38735d8b.js",
     "static/js/2.e1523e11.chunk.js",
     "static/css/main.f8d2cf62.chunk.css",
-    "static/js/main.3c276316.chunk.js"
+    "static/js/main.b7b5410e.chunk.js"
   ]
 }
