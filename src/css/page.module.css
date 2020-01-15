@@ -1,5 +1,7 @@
 .page {
 	position: fixed;
+	height: calc(100vh - 140px);
+	overflow-y: scroll;
 	margin: auto;
 	padding: 0 30px;
 	width: 100vw;
@@ -14,8 +16,6 @@
 
 .main {
 	width: 100%;
-	height: calc(100vh - 140px);
-	overflow-y: scroll;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -35,7 +35,7 @@
 }
 
 
-.mobileMain {
+.mobilePage {
 	height: calc(100vh - 35px);
 }
 
