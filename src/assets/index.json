@@ -2,6 +2,9 @@
     "members": {
         "redirect": "/membership"
     },
+    "home": {
+        "redirect": "/"
+    },
     "index.html": {
         "redirect": "/"
     },
@@ -35,6 +38,11 @@
         "title": "Teaching",
         "parent": "termcard",
         "description": "We currently run two squads. Both are at Christ Church, from 5:30pm-6:30pm, held in different rooms. They are as follows:"
+    },
+    "contact": {
+        "title": "Contact",
+        "parent": "contact",
+        "description": "Contact the OUCC"
     },
     "cuppers": {
         "title": "Cuppers",
