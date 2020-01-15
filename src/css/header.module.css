@@ -82,8 +82,9 @@
 	width: 100%;
 }
 
-.section:hover {	
+.section:hover, .section > a.selected {	
 	background: #002147;
+	border-right: 5px solid #002147;
 }
 
 .section > .dropParent {
@@ -93,6 +94,8 @@
 	cursor: pointer;
 	border-right: 5px solid #ff2200;
 	box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
 	text-align: center;
 	justify-content: center;
 	align-items: center;

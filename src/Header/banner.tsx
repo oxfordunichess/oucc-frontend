@@ -1,10 +1,10 @@
-import React, { ReactElement, RefObject } from 'react';
+import React, { ReactElement } from 'react';
 import { Link } from 'react-router-dom';
 import { Side, NavCache, NavigationData } from './interfaces';
 import axios from '../utils/axios';
 import { SessionContext } from '../utils/contexts';
 
-const styles = require('../css/header.module.css');
+import styles from '../css/header.module.css';
 
 export default class Banner extends React.Component <{}, {
 	subnav: string,
@@ -35,6 +35,7 @@ export default class Banner extends React.Component <{}, {
 	}
 
 	private renderNav(side: Side): ReactElement {
+		let current = window.location.pathname;
 		if (!this._nav) this._nav = {};
 		let nav = (
 			<div
@@ -43,7 +44,7 @@ export default class Banner extends React.Component <{}, {
 				{side !== 'left' ? null : <div className={styles.section}>
 					<div className={styles.spacer} />
 				</div>}
-				{Object.entries(this.state.navigation).map(([link, [s, name, ...parents]], i) => {
+				{Object.entries(this.state.navigation).map(([link, [s, name, ...children]], i) => {
 					if (s !== side) return null;
 					return (
 						<div
@@ -54,15 +55,17 @@ export default class Banner extends React.Component <{}, {
 							onMouseLeave={() => this.navLeave()}
 						>
 							<Link
-								className={styles.dropParent}
+								className={[
+									styles.dropParent,
+									current.includes(link) || (children.length && children.some(c => c[0] === current)) ? styles.selected : ''
+								].join(' ')}
 								key={link} to={'/' + link}>{name}
 							</Link>
-							{parents.length && this.state.subnav === link ? (parents).map(([link, name]) => {
+							{children.length && this.state.subnav === link ? (children).map(([link, name]) => {
 								return (
 									<Link key={link.slice(1)} to={link} className={[
 										styles.dropParent,
 										styles.dropChild,
-										window.location.pathname.includes(link.slice(1)) ? styles.selected : ''
 									].join(' ')}>
 										{name}
 									</Link>
