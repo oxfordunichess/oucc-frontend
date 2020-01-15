@@ -61,7 +61,7 @@ export default class Banner extends React.Component <{}, {
 								].join(' ')}
 								key={link} to={'/' + link}>{name}
 							</Link>
-							{children.length /*&& this.state.subnav === link*/ ? (children).map(([link, name]) => {
+							{children.length && this.state.subnav === link ? (children).map(([link, name]) => {
 								return (
 									<Link key={link.slice(1)} to={link} className={[
 										styles.dropParent,
