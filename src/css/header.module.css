@@ -82,7 +82,11 @@
 	width: 100%;
 }
 
-.section:hover, .section > a.selected {	
+.section:hover {
+	background: #002147;
+}
+
+.section > a.selected {	
 	background: #002147;
 	border-right: 5px solid #002147;
 }
