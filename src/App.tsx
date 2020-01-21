@@ -106,12 +106,18 @@ export default class App extends React.Component<{}, {
 		let markdownPaths = Object.entries(this.state.index).map(([k, v]) => {
 			if (k.startsWith('_') || typeof v !== 'object') return null;
 			return (
-				<Route exact path={'/' + k} key={k + '_route'} render={(props) => {
+				<Route exact path={`/${v.private ? 'private/' : ''}${k}`} key={k + '_route'} render={(props) => {
 					if (v.open) window.open(v.open);
 					if (v.redirect) return <Redirect to={v.redirect} />;
+					let page = k;
+					if (v.file) page = v.file;
 					return (
 						<SessionContext.Provider value={this.state.sessionID}>
-							<Page {...props} page={v.file || k} title={v.title} />
+							<Page
+								{...props}
+								page={page}
+								title={v.title}
+							/>
 						</SessionContext.Provider>
 					);
 				}} />

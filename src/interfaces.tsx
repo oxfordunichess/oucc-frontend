@@ -1,3 +1,5 @@
+export const __esModule = true;
+
 export interface GithubFile {
 	name: string,
 	sha: string,
@@ -51,6 +53,7 @@ interface IndexElement {
 	redirect?: string;
 	open?: string;
 	file?: string
+	private?: boolean
 }
 
 export interface IndexData {
