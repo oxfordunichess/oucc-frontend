@@ -1,6 +1,3 @@
-const Parse = require('../../util/parse');
-const Embed = require('../../util/embed');
-const rp = require('request-promise');
 const qs = require('querystring');
 
 const config = {
@@ -18,7 +15,7 @@ const config = {
 	}
 };
 
-export default class FEN extends Parse {
+export default class FEN  {
 
 	/**
 	 * String used to compile (lazy-load) a regex
