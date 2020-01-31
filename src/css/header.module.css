@@ -33,6 +33,7 @@
 	align-content: flex-start;
 	background-color: #002147;
 	color: white;
+	font-family: 'Josefin Sans';
 }
 
 /* NAV TREE */
@@ -84,7 +85,6 @@
 
 .section > .dropParent {
 	display: flex;
-	font-size: 24px;
 	padding: 10px 1vw;
 	cursor: pointer;
 	border-right: 5px solid #ff2200;
@@ -95,6 +95,7 @@
 	justify-content: center;
 	align-items: center;
 	color: white;
+	font-size: 20px;
 }
 
 .section .dropChild {
@@ -104,7 +105,6 @@
 	padding: 20px 0;
 	cursor: pointer;
 	border-right: 5px solid gray;
-	font-size: 20px;
 
 	user-select: none;
 	-webkit-user-select: none;
@@ -112,29 +112,27 @@
 	-ms-user-select: none;
 }
 
-.section:hover .dropChild {
+.section:hover .dropParent {
 	visibility: visible;
-	animation: expand-down 0.5s forwards;
 	background: #002147;
-	border-bottom: 1px solid gray;
-}
-
-.section > a.selected {	
-	background: #002147;
-	border-right: 5px solid #002147;
-}
-
-.section > .dropChild.selected {
 	border-right: 5px solid grey;
 }
 
+.section:hover .dropChild {
+	animation: expand-down 0.5s forwards;
+	border-bottom: 1px solid gray;
+}
+
 .section > .dropParent:hover {
-	background: #002147;
-	border-right: 5px solid #002147;
+	background: green;
 }
 
 .section > .dropChild:hover {
-	border-right: 5px solid green;
+	border-right: 5px solid grey;
+}
+
+.section > .selected {
+	background: #002147;
 }
 
 
@@ -169,6 +167,7 @@
 	box-shadow: 0 10px 5px rgba(0, 0, 0, 0.4);
 	position: relative;
 	overflow: none;
+	font-family: 'Josefin Sans';
 }
 
 .newsFeed div.intro {
@@ -185,7 +184,7 @@
 	margin: 0 30px 0 0;
 	font-size: 12;
 	border-right: 1px solid black;
-	max-width: calc(100vw - 210px)
+	max-width: calc(100vw - 210px);
 }
 
 .newsFeed div.runner > div {
