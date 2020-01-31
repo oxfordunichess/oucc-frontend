@@ -3,6 +3,7 @@ import React, { ReactElement } from 'react';
 
 import Profile from '../components/Profile';
 import Table from '../components/Table';
+import { FEN } from '../components/Chess';
 import Calendar from '../components/Calendar';
 import Form, { FormProps } from '../components/Form';
 import { ProfileProps, parseHTMLElement, CalendarProps, htmlParser as def } from '../pages/interfaces';
@@ -22,6 +23,7 @@ export function parseHtml(props?: RouteComponentProps<any, StaticContext, any>, 
 			{
 				// Custom <Table> processing
 				shouldProcessNode: function (node: parseHTMLElement): boolean {
+					console.log(node.name);
 					return node.name === 'data-table';
 				},
 				processNode: function (node: parseHTMLElement, children: parseHTMLElement[]): ReactElement {
@@ -57,8 +59,18 @@ export function parseHtml(props?: RouteComponentProps<any, StaticContext, any>, 
 				}
 			},
 			{
+				// Custom <Profile> processing
+				shouldProcessNode:(node: parseHTMLElement): boolean => {
+					return node.name === 'fen';
+				},
+				processNode: (node: parseHTMLElement, children: parseHTMLElement[]): ReactElement => {
+					return <FEN {...node.attribs as {src: string}}/>;
+				}
+			},
+			{
 				// Anything else
-				shouldProcessNode: function (): boolean {
+				shouldProcessNode: function (node: parseHTMLElement): boolean {
+					console.log(node.name);
 					return true;
 				},
 				processNode: processNodeDefinitions.processDefaultNode as (node: Node, children: Node[]) => ReactElement

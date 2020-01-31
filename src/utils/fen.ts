@@ -1,4 +1,4 @@
-const qs = require('querystring');
+import qs from 'querystring';
 
 const config = {
 	board: "icy_sea",
@@ -15,7 +15,7 @@ const config = {
 	}
 };
 
-export default class FEN  {
+export default class FEN {
 
 	/**
 	 * String used to compile (lazy-load) a regex
@@ -37,20 +37,23 @@ export default class FEN  {
             '(\\+[0-3]\\+[0-3])?'; //three-check extra group, may or may not exist
 	}
 
+	private static _regex: RegExp;
 	static get regex (): RegExp {
 		if (FEN._regex) return FEN._regex;
 		return FEN._regex = new RegExp(FEN.regexString);
 	}
 
-	async run() {
+	constructor (public argument: string) {
 		if (!this.fen) throw 'Invalid FEN!';
+	}
+
+	toJSON() {
 		return {
 			colour: this.colour,
-			hint: this.hint,
-			href: this.analysisURL,
-			image: this.imageURL,
+			analysisURL: this.analysisURL,
+			imageURL: this.imageURL,
 			description: this.description
-		}
+		};
 	}
 
 	/* The difficulty here is, not parsing the url to the analysis board, which thank to lichess is just some variant of their analysis url followed by the fen,
@@ -93,6 +96,7 @@ export default class FEN  {
 		return 'white';
 	}
 
+	private _flip: boolean;
 	get flip(): boolean {
 		if (this._flip) return this._flip;
 		if (this.variant === 'racing-kings') return false;
@@ -129,16 +133,8 @@ export default class FEN  {
 		if (!/^crazyhouse|threeCheck$/.test(this.variant)) return '';
 		let winhandstring, binhandstring;
 		if (this.variant === 'crazyhouse') {
-			let winhand = this.inhand[1].split(''); //converts them to arrays of each character
-			let binhand = this.inhand[2].split(''); //white in-hand pieces, black in-hand pieces
-			for (let i = 0; i < winhand.length; i++) {
-				winhand[i] = this.Search.emojis.get('white' + winhand[i].toLowerCase());
-			}
-			for (let i = 0; i < binhand.length; i++) {
-				binhand[i] = this.Search.emojis.get('black' + binhand[i]);
-			}
-			winhandstring = winhand.join(' ');
-			binhandstring = binhand.join(' ');
+			winhandstring = this.inhand[1].split('').join(' '); //converts them to arrays of each character
+			binhandstring = this.inhand[2].split('').join(' '); //white in-hand pieces, black in-hand pieces
 		} else if (this.variant === 'threeCheck') {
 			winhandstring = 'White checks: ' + ('+'.repeat(this.checks[1]) || '').bold();
 			binhandstring = 'Black checks: ' + ('+'.repeat(this.checks[2]) || '').bold();
