@@ -9,6 +9,7 @@ import Form, { FormProps } from '../components/Form';
 import { ProfileProps, parseHTMLElement, CalendarProps, htmlParser as def } from '../pages/interfaces';
 import { StaticContext } from 'react-router';
 import { RouteComponentProps } from 'react-router-dom';
+import Album, { AlbumProps } from '../components/Image';
 
 const htmlParser: def = require('react-markdown/plugins/html-parser');
 const HtmlToReact = require('html-to-react');
@@ -21,9 +22,19 @@ export function parseHtml(props?: RouteComponentProps<any, StaticContext, any>, 
 		isValidNode: (node: parseHTMLElement) => node.type !== 'script',
 		processingInstructions: [
 			{
+				// Custom album processing
+				shouldProcessNode: function (node: parseHTMLElement): boolean {
+					if (node.name === 'grid') return true;
+					if (node.name === 'carousel') return true;
+					return false;
+				},
+				processNode: function (node: parseHTMLElement, children: parseHTMLElement[]): ReactElement {
+					return <Album {...node.attribs as AlbumProps} type={node.name as 'grid' | 'carousel'} />;
+				}
+			},
+			{
 				// Custom <Table> processing
 				shouldProcessNode: function (node: parseHTMLElement): boolean {
-					console.log(node.name);
 					return node.name === 'data-table';
 				},
 				processNode: function (node: parseHTMLElement, children: parseHTMLElement[]): ReactElement {
@@ -70,7 +81,6 @@ export function parseHtml(props?: RouteComponentProps<any, StaticContext, any>, 
 			{
 				// Anything else
 				shouldProcessNode: function (node: parseHTMLElement): boolean {
-					console.log(node.name);
 					return true;
 				},
 				processNode: processNodeDefinitions.processDefaultNode as (node: Node, children: Node[]) => ReactElement

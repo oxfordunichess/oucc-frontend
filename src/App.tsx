@@ -2,6 +2,8 @@ import React, { ReactElement } from 'react';
 import './App.scss';
 import {BrowserRouter as Router, Route, Redirect, Switch} from 'react-router-dom';
 
+import './index.d.ts';
+
 import MobileHeader from './Header/mobile';
 import Header from './Header/index';
 import Page from './pages/Page';
