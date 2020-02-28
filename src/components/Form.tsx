@@ -74,7 +74,6 @@ export class Jotform extends React.Component<JotFormProps> {
 				case "setHeight":
 					iframe.style.height = args[1] + "px";
 					if (this.container && this.container.current) this.container.current.style.height = (Number(args[1]) - 48) + 'px';
-					console.log(iframe.style.height, this.container.current.style.height)
 					break;
 				case "collapseErrorPage":
 					if (iframe.clientHeight > window.innerHeight) {
