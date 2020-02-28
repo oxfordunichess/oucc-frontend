@@ -103,3 +103,7 @@
 .carousel div:hover {
 	cursor: pointer;
 }
+
+.jotform {
+	overflow: hidden;
+}

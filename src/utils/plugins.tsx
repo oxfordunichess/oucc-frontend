@@ -5,7 +5,7 @@ import Profile from '../components/Profile';
 import Table from '../components/Table';
 import { FEN } from '../components/Chess';
 import Calendar from '../components/Calendar';
-import Form, { FormProps } from '../components/Form';
+import Form, { FormProps, Jotform, JotFormProps } from '../components/Form';
 import { ProfileProps, parseHTMLElement, CalendarProps, htmlParser as def } from '../pages/interfaces';
 import { StaticContext } from 'react-router';
 import { RouteComponentProps } from 'react-router-dom';
@@ -61,7 +61,7 @@ export function parseHtml(props?: RouteComponentProps<any, StaticContext, any>, 
 				}
 			},
 			{
-				// Custom <Profile> processing
+				// Custom <Form> processing
 				shouldProcessNode:(node: parseHTMLElement): boolean => {
 					return node.name === 'form';
 				},
@@ -70,7 +70,16 @@ export function parseHtml(props?: RouteComponentProps<any, StaticContext, any>, 
 				}
 			},
 			{
-				// Custom <Profile> processing
+				// Custom <Jotform> processing
+				shouldProcessNode:(node: parseHTMLElement): boolean => {
+					return node.name === 'jotform';
+				},
+				processNode: (node: parseHTMLElement, children: parseHTMLElement[]): ReactElement => {
+					return <Jotform {...node.attribs as JotFormProps}/>;
+				}
+			},
+			{
+				// Custom <FEN> processing
 				shouldProcessNode:(node: parseHTMLElement): boolean => {
 					return node.name === 'fen';
 				},
