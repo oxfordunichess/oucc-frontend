@@ -1,25 +1,29 @@
 {
   "files": {
-    "main.css": "/oucc-frontend/static/css/main.57d488e0.chunk.css",
-    "main.js": "/oucc-frontend/static/js/main.10e55095.chunk.js",
-    "main.js.map": "/oucc-frontend/static/js/main.10e55095.chunk.js.map",
+    "main.css": "/oucc-frontend/static/css/main.e4ddcbdb.chunk.css",
+    "main.js": "/oucc-frontend/static/js/main.7d38f3fd.chunk.js",
+    "main.js.map": "/oucc-frontend/static/js/main.7d38f3fd.chunk.js.map",
     "runtime-main.js": "/oucc-frontend/static/js/runtime-main.38735d8b.js",
     "runtime-main.js.map": "/oucc-frontend/static/js/runtime-main.38735d8b.js.map",
     "static/css/2.27bda2a2.chunk.css": "/oucc-frontend/static/css/2.27bda2a2.chunk.css",
-    "static/js/2.690d5f0f.chunk.js": "/oucc-frontend/static/js/2.690d5f0f.chunk.js",
-    "static/js/2.690d5f0f.chunk.js.map": "/oucc-frontend/static/js/2.690d5f0f.chunk.js.map",
+    "static/js/2.de33a95c.chunk.js": "/oucc-frontend/static/js/2.de33a95c.chunk.js",
+    "static/js/2.de33a95c.chunk.js.map": "/oucc-frontend/static/js/2.de33a95c.chunk.js.map",
     "index.html": "/oucc-frontend/index.html",
-    "precache-manifest.02ff3b15a6fc415b2556f5adba06b7bf.js": "/oucc-frontend/precache-manifest.02ff3b15a6fc415b2556f5adba06b7bf.js",
+    "precache-manifest.67588eb24401fdcb0265292e2f32d798.js": "/oucc-frontend/precache-manifest.67588eb24401fdcb0265292e2f32d798.js",
     "service-worker.js": "/oucc-frontend/service-worker.js",
     "static/css/2.27bda2a2.chunk.css.map": "/oucc-frontend/static/css/2.27bda2a2.chunk.css.map",
-    "static/css/main.57d488e0.chunk.css.map": "/oucc-frontend/static/css/main.57d488e0.chunk.css.map",
-    "static/js/2.690d5f0f.chunk.js.LICENSE": "/oucc-frontend/static/js/2.690d5f0f.chunk.js.LICENSE"
+    "static/css/main.e4ddcbdb.chunk.css.map": "/oucc-frontend/static/css/main.e4ddcbdb.chunk.css.map",
+    "static/js/2.de33a95c.chunk.js.LICENSE": "/oucc-frontend/static/js/2.de33a95c.chunk.js.LICENSE",
+    "static/media/facebook.png": "/oucc-frontend/static/media/facebook.2c121c2e.png",
+    "static/media/linkedin.png": "/oucc-frontend/static/media/linkedin.b424c19c.png",
+    "static/media/mail.png": "/oucc-frontend/static/media/mail.ebed66a8.png",
+    "static/media/twitter.png": "/oucc-frontend/static/media/twitter.b835b27b.png"
   },
   "entrypoints": [
     "static/js/runtime-main.38735d8b.js",
     "static/css/2.27bda2a2.chunk.css",
-    "static/js/2.690d5f0f.chunk.js",
-    "static/css/main.57d488e0.chunk.css",
-    "static/js/main.10e55095.chunk.js"
+    "static/js/2.de33a95c.chunk.js",
+    "static/css/main.e4ddcbdb.chunk.css",
+    "static/js/main.7d38f3fd.chunk.js"
   ]
 }
