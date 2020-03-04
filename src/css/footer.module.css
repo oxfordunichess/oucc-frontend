@@ -1,0 +1,17 @@
+.footer {
+	display: flex;
+	flex-direction: horizontal;
+	height: 50px;
+}
+
+.link {
+	padding: 0 15px;
+}
+
+.image {
+	height: 50px;
+}
+
+.image:hover {
+	opacity: 0.6;
+}

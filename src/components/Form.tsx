@@ -1,4 +1,4 @@
-import React, { ReactElement, CSSProperties, RefObject } from 'react';
+import React, { ReactElement, RefObject } from 'react';
 import styles from '../css/components.module.css';
 
 export interface FormProps {

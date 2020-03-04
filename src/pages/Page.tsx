@@ -10,6 +10,7 @@ import { SessionContext } from '../utils/contexts';
 import { StaticContext } from 'react-router';
 import { RouteComponentProps } from 'react-router-dom';
 import { isMobile } from '../utils/auth';
+import Footer from '../components/Footer';
 
 const styles = require('../css/page.module.css');
 
@@ -97,7 +98,8 @@ export default class Page extends React.Component<PageProps, {
 									}}
 								/>
 							</div>;
-						})}		
+						})}
+						<Footer />	
 					</div>
 				</div>
 			</>

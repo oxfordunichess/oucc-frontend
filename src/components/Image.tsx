@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { Carousel as RRC, CarouselProps as rrcProps } from 'react-responsive-carousel';
+import { Carousel as RRC } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import Gallery from 'react-photo-gallery';
 import Lightbox, { Modal, ModalGateway } from 'react-images';

@@ -14,6 +14,7 @@ import { server } from '../utils/axios';
 import { isMobile } from '../utils/auth';
 
 import styles from '../css/page.module.css';
+import Footer from '../components/Footer';
 
 interface NewsProps extends RouteComponentProps<any, StaticContext, any> {
 	title: string
@@ -110,6 +111,7 @@ export default class News extends React.Component<NewsProps, {
 				<div className={[styles.page, isMobile() ? styles.mobilePage : ''].join(' ')}>
 					<div className={[styles.main, isMobile() ? styles.mobileMain : ''].join(' ')}>
 						{components}
+						<Footer />
 					</div>
 				</div>
 			</>

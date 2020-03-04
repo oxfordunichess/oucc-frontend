@@ -44,7 +44,7 @@ export default class FEN {
 	}
 
 	constructor (public argument: string) {
-		if (!this.fen) throw 'Invalid FEN!';
+		if (!this.fen) throw new Error('Invalid FEN!');
 	}
 
 	toJSON() {

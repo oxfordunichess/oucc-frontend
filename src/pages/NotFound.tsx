@@ -1,6 +1,7 @@
 import React, {ReactElement} from 'react';
 import {Link} from 'react-router-dom';
 import {Helmet} from 'react-helmet';
+import Footer from '../components/Footer';
 
 export default class NotFound extends React.Component<{
 	title: string
@@ -15,7 +16,8 @@ export default class NotFound extends React.Component<{
 				<div id='main'>
 					<h1>404: Not found</h1>
 					<h3><Link to='/'>Return to home</Link></h3>
-				</div>
+				</div>				
+				<Footer />	
 			</>
 		);
 	}
