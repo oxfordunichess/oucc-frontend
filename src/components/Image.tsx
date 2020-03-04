@@ -7,6 +7,7 @@ import { PhotoProps } from 'react-photo-gallery';
 import styles from '../css/components.module.css';
 import axios, { server } from '../utils/axios';
 import url from 'url';
+import { imageExt } from '../utils/regexes';
 
 export default function Album(props: AlbumProps) {
 
@@ -52,9 +53,14 @@ export default function Album(props: AlbumProps) {
 					return data.map((entry: GithubContentData, index: number) => {
 						let filename = entry.path.split('/').pop() as string;
 						let extension = filename.split('.').pop() as string;
+						if (!imageExt.test(extension)) return null;
 						let text = filename.slice(0, filename.length - extension.length - 1);
 						let [name, customRatioSrc] = text.split('_');
-						let customRatio = customRatioSrc ? customRatioSrc.split('.').map(v => parseInt(v)) : ratio;
+						let customRatio = ratio;
+						if (customRatioSrc) {
+							if (customRatioSrc.split('.').length === 2) customRatio = customRatioSrc.split('.').map(v => parseInt(v)) as [number, number];
+							else if (customRatioSrc && customRatioSrc.split(',').length === 2) customRatio = customRatioSrc.split(',').map(v => parseInt(v)) as [number, number];
+						}
 						return {
 							index,
 							src: url.resolve(server, entry.path),
@@ -63,7 +69,7 @@ export default function Album(props: AlbumProps) {
 							height: customRatio[1],
 							title: name
 						};
-					});
+					}).filter((v: Object | null) => v);
 				})
 				.then(setPhotos)
 				.catch((e) => {
@@ -72,20 +78,19 @@ export default function Album(props: AlbumProps) {
 				});
 		}
 	}
-
 	return (
 		<div
 			className={props.type === 'grid' ? styles.grid : styles.carousel}
 		>
 			{!photos.length ? null : props.type === 'grid' ?
-				<Gallery
+				<Gallery	// Grid
 					photos={photos}
 					onClick={props.enableLightbox !== false ? openLightbox : () => {}}
 					margin={props.margin || 2}
 					columns={3}
 					targetRowHeight={props.height || 200}
 				/> :
-				<RRC
+				<RRC		//React-Reponsive-Carousel
 					onClickItem={props.enableLightbox !== false ? openLightbox : () => {}}
 					infiniteLoop={true}
 					useKeyboardArrows={true}
@@ -121,6 +126,7 @@ export default function Album(props: AlbumProps) {
 							<Lightbox
 								onClose={closeLightbox}
 								currentImage={currentImage}
+								currentIndex={currentImage}
 								views={photos.map(x => ({
 									...x,
 									caption: x.title
