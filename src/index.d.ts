@@ -12,3 +12,13 @@ declare module 'react-images' {
 	}
 }
 */
+
+declare module 'lichess' {
+	declare class lichess {
+		setToken(token: string): lichess
+		teams: {
+			join(id: string): Promise<null>
+		}
+	}
+	export default lichess;
+}

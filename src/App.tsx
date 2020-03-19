@@ -1,6 +1,7 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, ReactNode } from 'react';
 import './App.scss';
-import {BrowserRouter as Router, Route, Redirect, Switch} from 'react-router-dom';
+import { Root, Routes } from 'react-static';
+import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
 
 import './index.d.ts';
 
@@ -9,11 +10,12 @@ import Header from './Header/index';
 import Page from './pages/Page';
 import News from './pages/News';
 import NotFound from './pages/NotFound';
+import Auth from './pages/Auth';
 import * as regexes from './utils/regexes';
 import axios from './utils/axios';
 import { GithubFile, IndexData } from './interfaces';
 
-import cached from './assets/index.json';
+import cachedPages from './assets/index.json';
 import { SessionContext } from './utils/contexts';
 import { isMobile } from './utils/auth';
 import Package from '../package.json';
@@ -25,7 +27,7 @@ export default class App extends React.Component<{}, {
 }> {
 	
 	public state = {
-		index: cached as IndexData,
+		index: cachedPages as IndexData,
 		articles: [] as string[],
 		sessionID: Math.random().toString(16).slice(2)
 	}
@@ -125,28 +127,68 @@ export default class App extends React.Component<{}, {
 				}} />
 			);
 		});
+		let routeMap = new Map() as Map<string, ReactNode>;
+		Object.entries(this.state.index).forEach(([k, v]) => {
+			if (k.startsWith('_') || typeof v !== 'object') return null;
+			routeMap.set(k, (
+				<Route exact path={`/${v.private ? 'private/' : ''}${k}`} key={k + '_route'} render={(props) => {
+					if (v.open) window.open(v.open);
+					if (v.redirect) return <Redirect to={v.redirect} />;
+					let page = k;
+					if (v.file) page = v.file;
+					return (
+						<SessionContext.Provider value={this.state.sessionID}>
+							<Page
+								{...props}
+								page={page}
+								title={v.title}
+							/>
+						</SessionContext.Provider>
+					);
+				}} />
+			));
+		});
 		return (
 			<SessionContext.Provider value={this.state.sessionID}>
-				<Router basename={process.env.PUBLIC_URL}>
+				<Router basename={process.env.PUBLIC_URL}> {/*
+					<Root>
+						<Switch>
+							<Route path='/articleData.json' render={() => JSON.stringify(this.state.articles, null, 4)} />
+							<Route path='version' render={() => Package.version} />
+							<Routes render={({routePath}) => {
+								return routeMap.get(routePath) || null;
+							}} />}
+							<Route exact path='/' render={(props) => <Page {...props} page='main' />} />
+							<Route exact path='/curr_news' render={(props) => <News {...props} title='Current News' articles={this.state.articles} />}/>
+							<Route path='*' component={NotFound} status={404} />
+						</Switch>
+					</Root>*/}
 					<Route render={({location}) => {
-						switch (location.pathname) {
-							case ('/articleData.json'):
-								return JSON.stringify(this.state.articles, null, 4);
-							case ('/version'):
-								return Package.version;
-							default:
-								return (
-									<>
-										{isMobile() ? <MobileHeader /> : <Header articles={this.state.articles} />}
-										<Switch location={location}>
-											{markdownPaths}
-											<Route exact path='/' render={(props) => <Page {...props} page='main' />} />
-											<Route exact path='/curr_news' render={(props) => <News {...props} title='Current News' articles={this.state.articles} />}/>
-											<Route path='*' component={NotFound} status={404} />
-										</Switch>
-									</>
-								);
-					}
+						
+						return (
+							<>
+								{(() => {
+									switch (location.pathname) {
+										case ('/articleData.json'):
+											return null;
+										case ('/version'):
+											return null;
+										default:
+											if (isMobile()) return <MobileHeader />;
+											else return <Header articles={this.state.articles} />;
+									}
+								})()}
+								<Switch location={location}>
+									{markdownPaths}
+									<Route exact path='/' render={(props) => <Page {...props} page='main' />} />
+									<Route exact path='/articleData.json' render={() => JSON.stringify(this.state.articles, null, 4)} />
+									<Route exact path='version' render={() => Package.version} />
+									<Route exact path='/curr_news' render={(props) => <News {...props} title='Current News' articles={this.state.articles} />}/>
+									<Route exact path='/callback/:service/' render={(props) => <Auth {...props} />} />
+									<Route path='*' component={NotFound} status={404} />
+								</Switch>
+							</>
+						);
 					}}/>
 				</Router>
 			</SessionContext.Provider>
