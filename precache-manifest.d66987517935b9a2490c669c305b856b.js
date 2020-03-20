@@ -1,27 +1,27 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "5b607a39b45a88c7f0ee2a5491ecc918",
+    "revision": "1faad22d1389012766991cbf123f5992",
     "url": "/oucc-frontend/index.html"
   },
   {
-    "revision": "350df6e4ffc860bdfecc",
+    "revision": "b247c3a416d22de98fab",
     "url": "/oucc-frontend/static/css/2.27bda2a2.chunk.css"
   },
   {
-    "revision": "8a00edb92d0a431cd89b",
+    "revision": "466b1bef6aa47aaedbb9",
     "url": "/oucc-frontend/static/css/main.75372cae.chunk.css"
   },
   {
-    "revision": "350df6e4ffc860bdfecc",
-    "url": "/oucc-frontend/static/js/2.4f7756e4.chunk.js"
+    "revision": "b247c3a416d22de98fab",
+    "url": "/oucc-frontend/static/js/2.01112ccd.chunk.js"
   },
   {
     "revision": "34b09ae2ec784496a96adeb84585ee04",
-    "url": "/oucc-frontend/static/js/2.4f7756e4.chunk.js.LICENSE"
+    "url": "/oucc-frontend/static/js/2.01112ccd.chunk.js.LICENSE"
   },
   {
-    "revision": "8a00edb92d0a431cd89b",
-    "url": "/oucc-frontend/static/js/main.b253a310.chunk.js"
+    "revision": "466b1bef6aa47aaedbb9",
+    "url": "/oucc-frontend/static/js/main.379787c7.chunk.js"
   },
   {
     "revision": "ca74435e406ebc7a3e78",
