@@ -10,7 +10,10 @@ import Header from './Header/index';
 import Page from './pages/Page';
 import News from './pages/News';
 import NotFound from './pages/NotFound';
-import Auth from './pages/Auth';
+
+import Callback from './Auth/Callback';
+import Auth from './Auth/Auth';
+
 import * as regexes from './utils/regexes';
 import axios from './utils/axios';
 import { GithubFile, IndexData } from './interfaces';
@@ -184,7 +187,8 @@ export default class App extends React.Component<{}, {
 									<Route exact path='/articleData.json' render={() => JSON.stringify(this.state.articles, null, 4)} />
 									<Route exact path='version' render={() => Package.version} />
 									<Route exact path='/curr_news' render={(props) => <News {...props} title='Current News' articles={this.state.articles} />}/>
-									<Route exact path='/callback/:service/' render={(props) => <Auth {...props} />} />
+									<Route exact path='/auth' render={() => <Auth />} />
+									<Route exact path='/callback/:service/' render={(props) => <Callback {...props} />} />
 									<Route path='*' component={NotFound} status={404} />
 								</Switch>
 							</>
