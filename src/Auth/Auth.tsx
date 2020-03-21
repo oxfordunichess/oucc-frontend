@@ -1,17 +1,17 @@
 import React, {ReactElement, useState} from 'react';
 
-import sha256 from 'sha256';
+//import sha256 from 'sha256';
 
-import {Helmet} from 'react-helmet';
+import { Helmet } from 'react-helmet';
 import Footer from '../components/Footer';
 import { isMobile } from '../utils/auth';
-import MD5 from 'md5';
+//import MD5 from 'md5';
 
 import styles from '../css/page.module.css';
 import componentStyles from '../css/components.module.css';
-import { lichess } from './config';
+//import { lichess } from './config';
 import axios from '../utils/axios';
-import { capitalise } from '../utils/prototype';
+//import { capitalise } from '../utils/prototype';
 /*
 const transporter = nodemailer.createTransport({
 	service: 'gmail',
@@ -78,7 +78,7 @@ function sendMail(email: string) {
 		});
 	});
 }
-*/
+*/ /*
 function generateLink(email: string): string {
 	return 'https://oauth.lichess.org/oauth/authorize?' + [
 		'response_type=code',
@@ -87,7 +87,7 @@ function generateLink(email: string): string {
 		'scope=team:write',
 		'state=' + email + '|' + sha256(email)
 	].join('&')
-}
+}*/
 
 export default function Auth(): ReactElement {
 

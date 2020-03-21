@@ -23,6 +23,7 @@ export default function Album(props: AlbumProps) {
 		let customRatio = customRatioSrc ? customRatioSrc.split('.').map(v => parseInt(v)) : ratio;
 		return {
 			index,
+			source: url.resolve(server, src),
 			src: url.resolve(server, src),
 			srcSet: url.resolve(server, src),
 			width: customRatio[0],
@@ -124,8 +125,6 @@ export default function Album(props: AlbumProps) {
 					{!viewerIsOpen ?  null : (
 						<Modal onClose={closeLightbox}>
 							<Lightbox
-								onClose={closeLightbox}
-								currentImage={currentImage}
 								currentIndex={currentImage}
 								views={photos.map(x => ({
 									...x,
@@ -141,6 +140,7 @@ export default function Album(props: AlbumProps) {
 }
 
 interface Image {
+	source: string
 	src: string
 	title: string
 	width: number

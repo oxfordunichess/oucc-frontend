@@ -1,6 +1,6 @@
 import React, { ReactElement, ReactNode } from 'react';
 import './App.scss';
-import { Root, Routes } from 'react-static';
+//import { Root, Routes } from 'react-static';
 import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
 
 import './index.d.ts';

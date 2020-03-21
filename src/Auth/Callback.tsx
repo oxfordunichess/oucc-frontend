@@ -2,11 +2,11 @@ import React, { ReactElement } from 'react';
 import { Helmet } from 'react-helmet';
 import Footer from '../components/Footer';
 
-import simpleOauth from 'simple-oauth2';
-import lichess from 'lichess';
+//import simpleOauth from 'simple-oauth2';
+//import lichess from 'lichess';
 import { isDev, isMobile } from '../utils/auth';
 import axios from '../utils/axios';
-import * as config from './config';
+//import * as config from './config';
 
 import styles from '../css/page.module.css';
 
@@ -23,7 +23,7 @@ interface Token {
  * https://oauth.lichess.org/oauth/authorize?response_type=code&client_id=5vJ1ikA0qNR21fk7&redirect_uri=http://localhost:3000/callback/lichess&scope=team:write&state=aloysius.lip@chch.ox.ac.uk
  * https://oauth.lichess.org/oauth/authorize?response_type=code&client_id=LwK306sbKWFHIzlV&redirect_uri=http://users.ox.ac.uk/~chess/callback/lichess&scope=team:write&state=aloysius.lip@chch.ox.ac.uk;
  * */
-
+/*
 const oauth2 = simpleOauth.create({
 	client: {
 		id: config.lichess.id,
@@ -35,7 +35,7 @@ const oauth2 = simpleOauth.create({
 		authorizePath: config.lichess.authorizePath,
 	},
 });
-
+*/
 export default class Auth extends React.Component<{
 	match: {
 		params: {
