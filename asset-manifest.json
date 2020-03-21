@@ -1,29 +1,29 @@
 {
   "files": {
-    "main.css": "/oucc-frontend/static/css/main.75372cae.chunk.css",
-    "main.js": "/oucc-frontend/static/js/main.379787c7.chunk.js",
-    "main.js.map": "/oucc-frontend/static/js/main.379787c7.chunk.js.map",
-    "runtime-main.js": "/oucc-frontend/static/js/runtime-main.38735d8b.js",
-    "runtime-main.js.map": "/oucc-frontend/static/js/runtime-main.38735d8b.js.map",
-    "static/css/2.27bda2a2.chunk.css": "/oucc-frontend/static/css/2.27bda2a2.chunk.css",
-    "static/js/2.01112ccd.chunk.js": "/oucc-frontend/static/js/2.01112ccd.chunk.js",
-    "static/js/2.01112ccd.chunk.js.map": "/oucc-frontend/static/js/2.01112ccd.chunk.js.map",
-    "index.html": "/oucc-frontend/index.html",
-    "precache-manifest.d66987517935b9a2490c669c305b856b.js": "/oucc-frontend/precache-manifest.d66987517935b9a2490c669c305b856b.js",
-    "service-worker.js": "/oucc-frontend/service-worker.js",
-    "static/css/2.27bda2a2.chunk.css.map": "/oucc-frontend/static/css/2.27bda2a2.chunk.css.map",
-    "static/css/main.75372cae.chunk.css.map": "/oucc-frontend/static/css/main.75372cae.chunk.css.map",
-    "static/js/2.01112ccd.chunk.js.LICENSE": "/oucc-frontend/static/js/2.01112ccd.chunk.js.LICENSE",
-    "static/media/facebook.png": "/oucc-frontend/static/media/facebook.2c121c2e.png",
-    "static/media/linkedin.png": "/oucc-frontend/static/media/linkedin.b424c19c.png",
-    "static/media/mail.png": "/oucc-frontend/static/media/mail.ebed66a8.png",
-    "static/media/twitter.png": "/oucc-frontend/static/media/twitter.b835b27b.png"
+    "main.css": "/~chess/static/css/main.686b9537.chunk.css",
+    "main.js": "/~chess/static/js/main.6c8e2ccd.chunk.js",
+    "main.js.map": "/~chess/static/js/main.6c8e2ccd.chunk.js.map",
+    "runtime-main.js": "/~chess/static/js/runtime-main.10081b2b.js",
+    "runtime-main.js.map": "/~chess/static/js/runtime-main.10081b2b.js.map",
+    "static/css/2.e49e09ab.chunk.css": "/~chess/static/css/2.e49e09ab.chunk.css",
+    "static/js/2.898e4fb4.chunk.js": "/~chess/static/js/2.898e4fb4.chunk.js",
+    "static/js/2.898e4fb4.chunk.js.map": "/~chess/static/js/2.898e4fb4.chunk.js.map",
+    "index.html": "/~chess/index.html",
+    "precache-manifest.75eb9b3cf915984761c8e94e2c504a05.js": "/~chess/precache-manifest.75eb9b3cf915984761c8e94e2c504a05.js",
+    "service-worker.js": "/~chess/service-worker.js",
+    "static/css/2.e49e09ab.chunk.css.map": "/~chess/static/css/2.e49e09ab.chunk.css.map",
+    "static/css/main.686b9537.chunk.css.map": "/~chess/static/css/main.686b9537.chunk.css.map",
+    "static/js/2.898e4fb4.chunk.js.LICENSE.txt": "/~chess/static/js/2.898e4fb4.chunk.js.LICENSE.txt",
+    "static/media/facebook.png": "/~chess/static/media/facebook.2c121c2e.png",
+    "static/media/linkedin.png": "/~chess/static/media/linkedin.b424c19c.png",
+    "static/media/mail.png": "/~chess/static/media/mail.ebed66a8.png",
+    "static/media/twitter.png": "/~chess/static/media/twitter.b835b27b.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.38735d8b.js",
-    "static/css/2.27bda2a2.chunk.css",
-    "static/js/2.01112ccd.chunk.js",
-    "static/css/main.75372cae.chunk.css",
-    "static/js/main.379787c7.chunk.js"
+    "static/js/runtime-main.10081b2b.js",
+    "static/css/2.e49e09ab.chunk.css",
+    "static/js/2.898e4fb4.chunk.js",
+    "static/css/main.686b9537.chunk.css",
+    "static/js/main.6c8e2ccd.chunk.js"
   ]
 }
