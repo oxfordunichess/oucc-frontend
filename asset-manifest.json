@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/~chess/static/css/main.686b9537.chunk.css",
-    "main.js": "/~chess/static/js/main.6c8e2ccd.chunk.js",
-    "main.js.map": "/~chess/static/js/main.6c8e2ccd.chunk.js.map",
+    "main.css": "/~chess/static/css/main.3acb9074.chunk.css",
+    "main.js": "/~chess/static/js/main.679a4e61.chunk.js",
+    "main.js.map": "/~chess/static/js/main.679a4e61.chunk.js.map",
     "runtime-main.js": "/~chess/static/js/runtime-main.10081b2b.js",
     "runtime-main.js.map": "/~chess/static/js/runtime-main.10081b2b.js.map",
     "static/css/2.e49e09ab.chunk.css": "/~chess/static/css/2.e49e09ab.chunk.css",
-    "static/js/2.898e4fb4.chunk.js": "/~chess/static/js/2.898e4fb4.chunk.js",
-    "static/js/2.898e4fb4.chunk.js.map": "/~chess/static/js/2.898e4fb4.chunk.js.map",
+    "static/js/2.930495a7.chunk.js": "/~chess/static/js/2.930495a7.chunk.js",
+    "static/js/2.930495a7.chunk.js.map": "/~chess/static/js/2.930495a7.chunk.js.map",
     "index.html": "/~chess/index.html",
-    "precache-manifest.75eb9b3cf915984761c8e94e2c504a05.js": "/~chess/precache-manifest.75eb9b3cf915984761c8e94e2c504a05.js",
+    "precache-manifest.57278b9c727dd3b92d343c10932ae522.js": "/~chess/precache-manifest.57278b9c727dd3b92d343c10932ae522.js",
     "service-worker.js": "/~chess/service-worker.js",
     "static/css/2.e49e09ab.chunk.css.map": "/~chess/static/css/2.e49e09ab.chunk.css.map",
-    "static/css/main.686b9537.chunk.css.map": "/~chess/static/css/main.686b9537.chunk.css.map",
-    "static/js/2.898e4fb4.chunk.js.LICENSE.txt": "/~chess/static/js/2.898e4fb4.chunk.js.LICENSE.txt",
+    "static/css/main.3acb9074.chunk.css.map": "/~chess/static/css/main.3acb9074.chunk.css.map",
+    "static/js/2.930495a7.chunk.js.LICENSE.txt": "/~chess/static/js/2.930495a7.chunk.js.LICENSE.txt",
     "static/media/facebook.png": "/~chess/static/media/facebook.2c121c2e.png",
     "static/media/linkedin.png": "/~chess/static/media/linkedin.b424c19c.png",
     "static/media/mail.png": "/~chess/static/media/mail.ebed66a8.png",
@@ -22,8 +22,8 @@
   "entrypoints": [
     "static/js/runtime-main.10081b2b.js",
     "static/css/2.e49e09ab.chunk.css",
-    "static/js/2.898e4fb4.chunk.js",
-    "static/css/main.686b9537.chunk.css",
-    "static/js/main.6c8e2ccd.chunk.js"
+    "static/js/2.930495a7.chunk.js",
+    "static/css/main.3acb9074.chunk.css",
+    "static/js/main.679a4e61.chunk.js"
   ]
 }
