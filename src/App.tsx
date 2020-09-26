@@ -23,6 +23,10 @@ import { SessionContext } from './utils/contexts';
 import { isMobile } from './utils/auth';
 import Package from '../package.json';
 
+for (let [k, v] of Object.entries(cachedPages)) {
+	if ('redirect' in v) delete cachedPages[k as keyof typeof cachedPages];
+}
+
 export default class App extends React.Component<{}, {
 	index: IndexData,
 	articles: string[],
