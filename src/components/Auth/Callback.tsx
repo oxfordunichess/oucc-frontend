@@ -1,14 +1,14 @@
 import React, { ReactElement } from 'react';
 import { Helmet } from 'react-helmet';
-import Footer from '../components/Footer';
+import Footer from '../Footer';
 
 //import simpleOauth from 'simple-oauth2';
 //import lichess from 'lichess';
-import { isDev, isMobile } from '../utils/auth';
-import axios from '../utils/axios';
+import { isDev, isMobile } from '../../utils/auth';
+import axios from '../../utils/axios';
 //import * as config from './config';
 
-import styles from '../css/page.module.css';
+import styles from '../../css/page.module.css';
 
 interface Token {
 	scopes: string

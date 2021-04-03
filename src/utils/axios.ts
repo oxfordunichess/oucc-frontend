@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const allowDev = true;
+const allowDev = false;
 
 export const devServer = 'http://localhost:8081/';
 

@@ -1,10 +1,10 @@
 import React, { ReactElement } from 'react';
 import { Link } from 'react-router-dom';
 import { NavigationData } from './interfaces';
-import { SessionContext } from '../utils/contexts';
-import axios from '../utils/axios';
+import { SessionContext } from '../../utils/contexts';
+import axios from '../../utils/axios';
 
-import styles from '../css/header.module.css';
+import styles from '../../css/header.module.css';
 
 export default class Header extends React.Component<{}, {
 	subnav: string,

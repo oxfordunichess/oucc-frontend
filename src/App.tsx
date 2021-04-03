@@ -5,14 +5,14 @@ import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-d
 
 import './index.d.ts';
 
-import MobileHeader from './Header/mobile';
-import Header from './Header/index';
+import MobileHeader from './components/Header/mobile';
+import Header from './components/Header/index';
 import Page from './pages/Page';
 import News from './pages/News';
 import NotFound from './pages/NotFound';
 
-import Callback from './Auth/Callback';
-import Auth from './Auth/Auth';
+import Callback from './components/Auth/Callback';
+import Auth from './components/Auth/Auth';
 
 import * as regexes from './utils/regexes';
 import axios from './utils/axios';

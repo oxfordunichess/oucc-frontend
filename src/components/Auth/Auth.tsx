@@ -3,14 +3,14 @@ import React, {ReactElement, useState} from 'react';
 //import sha256 from 'sha256';
 
 import { Helmet } from 'react-helmet';
-import Footer from '../components/Footer';
-import { isMobile } from '../utils/auth';
+import Footer from '../Footer';
+import { isMobile } from '../../utils/auth';
 //import MD5 from 'md5';
 
-import styles from '../css/page.module.css';
-import componentStyles from '../css/components.module.css';
+import styles from '../../css/page.module.css';
+import componentStyles from '../../css/components.module.css';
 //import { lichess } from './config';
-import axios from '../utils/axios';
+import axios from '../../utils/axios';
 //import { capitalise } from '../utils/prototype';
 /*
 const transporter = nodemailer.createTransport({

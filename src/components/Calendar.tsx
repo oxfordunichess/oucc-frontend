@@ -1,57 +1,33 @@
 import React, { ReactElement } from 'react';
 import axios from '../utils/axios';
-import Calendar from '../Calendar';
-import { CalendarSettings, StringDictionary } from '../Calendar/interfaces';
-import { CalendarProps } from '../pages/interfaces';
+import Calendar, { CalendarProps, CalendarSettings } from 'reactjs-google-calendar';
+import { google } from './Auth/config';
 
-export default class Header extends React.Component<CalendarProps, {
-	styles: StringDictionary,
-	settings: CalendarSettings
-}> {
+interface Settings {
+	calendarIDs: {[key: string]: string}
+	mapsLink: string
+	locationReplacers: {[key: string]: string}
+}
+export default function Header({ settings, start, finish, weeks, title }: {
+	settings: Settings
+	start: string
+	finish: string
+	weeks: string
+	title: string
+}) {
 
-	state = {
-		styles: (() => {
-			try {
-				return require('../css/' + this.props.styles) as StringDictionary;
-			} catch (e) {
-				return {} as StringDictionary;
-			}
-		})(),
-		settings: {
-			calendarIDs: {} as StringDictionary,
-			mapsLink: '',
-			locationReplacers: {} as StringDictionary,
-			start: this.props.start,
-			finish: this.props.finish,
-			weeks: parseInt(this.props.weeks),
-			title: this.props.title,
-			days: []
-		} as CalendarSettings
-	}
-
-	getSettings(url: string): Promise<any> {
-		if (!url) return Promise.reject();
-		return axios({
-			baseURL: 'https://oxfordunichess.github.io/oucc-backend/',
-			url,
-			params: {
-				sessionID: this.props.sessionID
-			}
-		})
-			.then(res => res.data)
-			.catch(console.error);
-	}
-
-	componentDidMount() {
-		this.getSettings(this.props.settings)
-			.then((settings) => this.setState({settings: Object.assign(this.state.settings, settings)}))
-			.catch(() => {})
-	}
-
-	render(): ReactElement {
-		return (
-			<Calendar {...this.props} settings={this.state.settings} styles={this.state.styles}/>
-		);
-	}
+	return (
+		<Calendar
+			calendars={settings.calendarIDs}
+			start={new Date(start)}
+			finish={new Date(finish)}
+			weeks={parseInt(weeks)}
+			title={title}
+			settings={{
+				...settings,
+				APIkey: google
+			}}
+		/>
+	);
 
 }
