@@ -1,5 +1,4 @@
 import React, { ReactElement } from 'react';
-import axios from '../utils/axios';
 import Calendar, { CalendarProps, CalendarSettings } from 'reactjs-google-calendar';
 import { google } from './Auth/config';
 

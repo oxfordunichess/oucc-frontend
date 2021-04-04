@@ -1,0 +1,9 @@
+.link, .link:link, .link:active, .link:visited {
+    color: black;
+    text-decoration: none;
+}
+
+.link:hover:not(:empty):not(.noHover)  {
+    color: white;
+    background-color: green;
+}

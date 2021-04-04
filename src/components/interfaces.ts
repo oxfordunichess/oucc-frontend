@@ -46,3 +46,23 @@ export interface CalendarProps extends RouteComponentProps<any, StaticContext, a
 	title: string,
 	sessionID?: string
 }
+
+interface IndexElement {
+	title?: string;
+	parent?: string;
+	description?: string
+	redirect?: string;
+	open?: string;
+	file?: string
+	private?: boolean
+}
+
+export interface IndexData {
+	[key: string]: IndexElement;
+}
+
+export interface Article {
+	title: string
+	image: string
+	description: string
+}

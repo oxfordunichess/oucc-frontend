@@ -1,117 +1,91 @@
-import React, { ReactElement } from 'react';
-import { Link } from 'react-router-dom';
+import React, { ReactElement, useMemo } from 'react';
+import { useRouter } from 'next/router';
+import cx from 'classnames';
+import { Link } from 'utils/link';
 import { Side, NavCache, NavigationData } from './interfaces';
-import axios from '../../utils/axios';
-import { SessionContext } from '../../utils/contexts';
 
-import styles from '../../css/header.module.css';
+const styles = require('../../css/header.module.css');
 
-export default class Banner extends React.Component <{}, {
-	subnav: string,
+interface BannerProps {
 	navigation: NavigationData,
-}> {
+}
+export default function Banner(props: BannerProps) {
 
-	static contextType = SessionContext;
-	public context: React.ContextType<typeof SessionContext>;
+	const navigation = props.navigation;
 
-	private _nav?: NavCache;
+	return (
+		<div className={styles.bannerContainer}>
+			<div className={styles.banner}>
+				<Nav side='left' {...{ navigation }} />
+				<Link className={styles.oucc_logo} href='/' style={{
+					backgroundImage: 'url(/images/oucclogo.jpg)',
+					overflowY: 'visible'
+				}}/>
+				<Nav side='right' {...{ navigation }} />
+			</div>
+		</div>
+	);
+}
 
-	public state = {
-		subnav: 'members',
-		navigation: {} as NavigationData,
-	}
+export function Nav({ side, navigation }: {
+	side: Side
+	navigation: NavigationData
+}): ReactElement {
 
-	private navToggle(subnav: string): void {
-		if (this.state.subnav === subnav) this.navLeave();
-		else this.navEnter(subnav);
-	}
+	const router = useRouter();
 
-	private navEnter(subnav: string): void {
-		this.setState({subnav});
-	}
+	const current = useMemo(() => {
+		for (let [k, v] of Object.entries(navigation)) {
+			if (router.asPath.startsWith('/' + k)) return k;
+			let arr = v.slice(2) as [string, string][];
+			for (let [path] of arr) {
+				if (router.asPath.startsWith(path)) {
+					return k;
+				}
+			}
+		}
+		return '';
+	}, [router]);
 
-	private navLeave(): void {
-		this.setState({subnav: ''});	
-	}
-
-	private renderNav(side: Side): ReactElement {
-		let current = window.location.pathname;
-		if (!this._nav) this._nav = {};
-		let nav = (
-			<div
-				className={styles.nav + ' ' + styles[side]}
-			>
-				{side !== 'left' ? null : <div className={styles.section}>
-					<div className={styles.spacer} />
-				</div>}
-				{Object.entries(this.state.navigation).map(([link, [s, name, ...children]], i) => {
-					if (s !== side) return null;
-					return (
-						<div
-							key={[name, i].join('.')}
-							className={styles.section}
-							onClick={() => this.navToggle(link)}
-							onMouseEnter={() => this.navEnter(link)}
-							onMouseLeave={() => this.navLeave()}
-						>
-							<Link
-								className={[
-									styles.dropParent,
-									current.includes(link) || (children.length && children.some(c => c[0] === current)) ? styles.selected : ''
-								].join(' ')}
-								key={link} to={'/' + link}>{name}
-							</Link>
-							{children.length && this.state.subnav === link ? (children).map(([link, name]) => {
+	return (
+		<div
+			className={styles.nav + ' ' + styles[side]}
+		>
+			{side !== 'left' ? null : <div className={styles.section}>
+				<div className={styles.spacer} />
+			</div>}
+			{Object.entries(navigation).map(([link, [s, name, ...children]], i) => {
+				if (s !== side) return null;
+				return (
+					<div key={[name, i].join('.')} className={styles.section}>
+						<Link
+							className={cx(styles.dropParent, {
+								[styles.selected]: current === link 
+							})}
+							key={link} href={'/' + link}>{name}
+						</Link>
+						<div className={styles.dropChildren}>
+							{children.map(([link, name]) => {
 								return (
-									<Link key={link.slice(1)} to={link} className={[
+									<Link key={link.slice(1)} href={link} className={cx(
 										styles.dropParent,
 										styles.dropChild,
-										current.includes(link) ? styles.selected : ''	
-									].join(' ')}>
+										{
+											[styles.selected]: current === link
+										}
+									)}>
 										{name}
 									</Link>
 								);
-							}) : null}
+							})}
 						</div>
-					);
-				})}
-				{side !== 'right' ? null : <div className={styles.section}>
-					<div className={styles.spacer} />
-				</div>}
-			</div>
-		);
-		if (Object.keys(this.state.navigation).length) return this._nav[side] = nav;
-		else return nav;
-	}
+					</div>
+				);
+			})}
+			{side !== 'right' ? null : <div className={styles.section}>
+				<div className={styles.spacer} />
+			</div>}
+		</div>
+	);
 
-	private getNavigationData(): Promise<NavigationData> {
-		return axios({
-			url: 'navigation.json',
-			params: {sessionID: this.context}
-		 })
-			.then(res => res.data)
-			.catch(console.error);
-	}
-
-	componentDidMount(): void {
-		this.getNavigationData()
-			.then((navigation) => {
-				if (navigation) this.setState({ navigation });
-			});
-	}
-
-	render(): ReactElement {
-		return (
-			<div className={styles.bannerContainer}>
-				<div className={styles.banner}>
-					{this.renderNav('left')}
-					<Link className={styles.oucc_logo} to='/' style={{
-						backgroundImage: `url(${process.env.PUBLIC_URL}/images/oucclogo.jpg`,
-						overflowY: 'visible'
-					}}/>
-					{this.renderNav('right')}
-				</div>
-			</div>
-		);
-	}
 }

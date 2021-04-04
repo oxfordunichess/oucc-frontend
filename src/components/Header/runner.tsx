@@ -1,37 +1,62 @@
-import React, {ReactElement} from 'react';
-import * as regexes from '../../utils/regexes';
+import React, { MutableRefObject, ReactElement, useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react';
+import { Link } from 'utils/link';
+import * as regexes from 'utils/regexes';
 const fps = 60;
-const styles = require('../../css/header.module.css');
+const styles = require('css/header.module.css');
 
-export default class Runner extends React.Component<{
+export default function Runner(props: {
 	articles: string[];
-}, {
-	navigation: object;
-	feedPosition: number;
-	width: number;
-}> {
+}) {
 
-	public state = {
-		navigation: {},
-		feedPosition: 0,
-		width: 0
+	const [width, setWidth] = useState(0);
+	const [feedPosition, updateFeedPosition] = useReducer((state: number) => {
+		return state - 0.5;
+	}, 0);
+	const modPosition = useMemo(() => feedPosition & width ? feedPosition % (2 * width) : 0, [feedPosition, width]);
+
+	const runnerRef = useRef(null as HTMLDivElement);
+	const dummyRef = useRef(null as HTMLDivElement);
+
+	useEffect(() => {
+		if (!runnerRef.current) return;
+		setWidth(runnerRef.current.scrollWidth);
+	}, [setWidth, runnerRef, props.articles]);
+
+	useEffect(() => {
+		let x = setInterval(updateFeedPosition, 1000 / fps);
+		return () => clearInterval(x);
+	}, [updateFeedPosition]);
+
+	return (
+		<div className={styles.newsFeed}>
+			<div className={styles.intro}>
+				Latest News: 
+			</div>
+			<div></div>
+			<div className={styles.runner} ref={runnerRef}>
+				<div style={feedPosition ? { left: modPosition + 'px' } : {}}>
+					<NewsFeed feedPosition={-feedPosition} width={width} articles={props.articles} myRefs={{ runnerRef, dummyRef }} />
+				</div>
+				<div style={feedPosition ? { left: (modPosition + width) + 'px' } : {}}>
+					<NewsFeed feedPosition={-feedPosition} width={width} articles={props.articles} myRefs={{ runnerRef, dummyRef }} />
+				</div>
+			</div>
+		</div>
+	);
+
+}
+
+function NewsFeed(props: {
+	feedPosition?: number,
+	width: number
+	articles: string[]
+	myRefs: {
+		[key: string]: MutableRefObject<HTMLDivElement>
 	}
+}) {
 
-	static setSection(_location: Location, id: string): string {
-		return process.env.PUBLIC_URL + '/curr_news#' + id;
-	}
-
-	getNewsFeed(inc?: number): ReactElement[] | null {
-		let x = this.state.width;
-		let y = window.innerWidth;
-		return this.props.articles.map((text: string, i: number): ReactElement => {
-			let offsets = inc ? Object.entries(this.refs)
-				.filter(([k]): boolean => k.startsWith('feed'))
-				.map(([_k, v]): number => {
-					return (v as HTMLElement).offsetLeft - this.state.width
-				})
-			: [];
-			let transformation = inc ? (inc + offsets[i] - y) % x + y - offsets[i] : 0;
+	return <>
+		{props.articles.map((text: string, i: number): ReactElement => {
 			if (typeof text !== 'string') return null;
 			if (!text || typeof text.split !== 'function') {
 				console.error('Bad Markdown document:\n', text);
@@ -44,53 +69,15 @@ export default class Runner extends React.Component<{
 				header = header.slice(1);
 			}
 			let id = header.match(regexes.letters).join('-').toLowerCase();
+			
 			return (
-				<div key={id + '.container'} style={inc ? {
-					transform: `translate3d(${transformation}px, 0, 0)`
-				} : {}}>
-					<a href={Runner.setSection(window.location, id)} ref={'feed' + i} key={id}>
+				<div key={id + '.container'}>
+					<Link href={'#' + id} key={id}>
 						{header}
-					</a>
+					</Link>
 					{' • '}
 				</div>
 			);
-		});
-	}
-
-	componentDidUpdate(): void {
-		if (this.state.width) return;
-		if (this.refs.dummy && (this.refs.dummy as HTMLElement).scrollWidth) this.setState({
-			width: (this.refs.dummy as HTMLElement).scrollWidth
-		});
-	}
-
-	async componentDidMount(): Promise<void> {
-		setInterval(() => {
-			let feedPosition = this.state.feedPosition;
-			this.setState({
-				feedPosition: feedPosition + 0.5
-			});
-		}, 1000 / fps);
-	}
-
-	render(): ReactElement {
-		return (
-			<div className={styles.newsFeed}>
-				<div className={styles.intro}>
-					Latest News: 
-				</div>
-				<div></div>
-				<div className={styles.runner}>
-					<div ref='runner'>
-						{this.getNewsFeed(-this.state.feedPosition)}
-					</div>
-					<div ref='dummy' style={{
-						visibility: 'hidden'
-					}}>
-						{this.getNewsFeed()}
-					</div>
-				</div>
-			</div>
-		);
-	}
+		})}
+	</>;
 }

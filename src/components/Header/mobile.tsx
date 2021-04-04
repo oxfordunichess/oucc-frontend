@@ -1,10 +1,10 @@
 import React, { ReactElement } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'utils/link';
 import { NavigationData } from './interfaces';
-import { SessionContext } from '../../utils/contexts';
-import axios from '../../utils/axios';
+import { SessionContext } from 'utils/contexts';
+import axios from 'utils/axios';
 
-import styles from '../../css/header.module.css';
+const styles = require('../../css/header.module.css');
 
 export default class Header extends React.Component<{}, {
 	subnav: string,
@@ -67,7 +67,7 @@ export default class Header extends React.Component<{}, {
 							return (
 								<div key={[name, i].join('.')} className={styles.mobileSection} >
 									{!parents.length ?
-										<Link className={styles.dropParent} to={'/' + link}>
+										<Link className={styles.dropParent} href={'/' + link}>
 											{name}
 										</Link> :
 										<>
@@ -76,7 +76,7 @@ export default class Header extends React.Component<{}, {
 											</div>
 											{this.state.subnav === link ? (parents).map(([link, name]) => {
 												return (
-													<Link key={link.slice(1)} className={[styles.dropParent, styles.dropChild].join(' ')} to={link}>
+													<Link key={link.slice(1)} className={[styles.dropParent, styles.dropChild].join(' ')} href={link}>
 														{name}
 													</Link>
 												);
@@ -87,13 +87,13 @@ export default class Header extends React.Component<{}, {
 							);
 						})}
 						<div className={styles.mobileSection} >
-							<Link className={styles.dropParent} to={'/'}>
+							<Link className={styles.dropParent} href={'/'}>
 								Home
 							</Link>
 						</div>
 					</div> : null}
 					<div className={styles.mobileThumbContainer} onClick={this.toggleThumb}>
-						<img src={process.env.PUBLIC_URL + '/images/oucclogo.jpg'} alt='' />
+						<img src={'/images/oucclogo.jpg'} alt='' />
 					</div>
 				</div>
 			</>

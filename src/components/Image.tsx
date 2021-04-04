@@ -2,7 +2,6 @@ import React, { useState, useCallback } from 'react';
 import { Carousel as RRC } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import Gallery from 'react-photo-gallery';
-import Lightbox, { Modal, ModalGateway } from 'react-images';
 import { PhotoProps } from 'react-photo-gallery';
 import styles from '../css/components.module.css';
 import axios, { server } from '../utils/axios';
@@ -120,21 +119,6 @@ export default function Album(props: AlbumProps) {
 					})}
 				</RRC>
 			}
-			{props.enableLightbox !== false ? (
-				<ModalGateway>
-					{!viewerIsOpen ?  null : (
-						<Modal onClose={closeLightbox}>
-							<Lightbox
-								currentIndex={currentImage}
-								views={photos.map(x => ({
-									...x,
-									caption: x.title
-								}))}
-							/>
-						</Modal>
-					)}
-				</ModalGateway>
-			) : null}
 		</div>
 	);
 }

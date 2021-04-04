@@ -1,15 +1,14 @@
 import React, { ReactElement } from 'react';
 import Papa from 'papaparse';
-import { TableJSON } from '../pages/interfaces';
-import { GithubCommit } from '../interfaces';
+import { TableJSON } from './interfaces';
+import { GithubCommit } from './github.interfaces';
 
 import { capitalise } from '../utils/prototype';
 
 import axios from '../utils/axios';
 
 export default class Table extends React.Component<{
-	src: string,
-	sessionID: string
+	src: string
 }, {
 	table: ReactElement,
 	date: Date | null
@@ -20,10 +19,9 @@ export default class Table extends React.Component<{
 		date: null as Date | null
 	}
 
-	static getData(file: string, sessionID: string): any {
+	static getData(file: string): any {
 		return axios({
-			url: file,
-			params: {sessionID}
+			url: file
 		})
 			.then(res => res.data)
 			.catch((e) => {
