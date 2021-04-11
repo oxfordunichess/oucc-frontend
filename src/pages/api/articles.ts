@@ -10,9 +10,6 @@ const handler: NextApiHandler = async (req, res) => {
 export function getNews(): Promise<string[]> {
 	return axios({
 		baseURL: 'https://api.github.com/repos/oxfordunichess/oucc-backend/',
-		headers: {
-			Authorization: `token ${process.env.GITHUB_SECRET}`
-		},
 		url: 'contents/news/',
 		method: 'get',
 		maxRedirects: 5

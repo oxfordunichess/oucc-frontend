@@ -1,6 +1,7 @@
 .header {
 	position: fixed;
 	height: 140px;
+	width: 100%;
 	top: 0px;
 	z-index: 1;
 	display: grid;
@@ -206,6 +207,7 @@
 	display: inherit;
 	position: relative;
 	left: 0px;
+	will-change: left;
 }
 
 .newsFeed div.runner a {

@@ -1,3 +1,4 @@
+import { CalendarGivenProps } from 'components/interfaces';
 import { createContext, ReactNode, Context, ReactElement } from 'react';
 
 
@@ -20,5 +21,6 @@ export default function Contexts({ values, children }: {
 
 const MobileContext = createContext(false);
 const SessionContext = createContext('');
+const CalendarContext = createContext(null as null | CalendarGivenProps);
 
-export { SessionContext, MobileContext };
+export { SessionContext, MobileContext, CalendarContext };

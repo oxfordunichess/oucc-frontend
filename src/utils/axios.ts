@@ -20,12 +20,19 @@ axios.interceptors.request.use(async (c) => {
 	// this has been documented to be unreliable, so we wipe these cookies
 	// and implement the cookie store ourselves.
 	//await AsyncStorage.clear()
-	return Object.assign(c, {
+	let x = Object.assign({}, c, {
+		headers: {
+			...(process.env.GITHUB_SECRET ? {
+				Authorization: `token ${process.env.GITHUB_SECRET}`
+			} : {}),
+			...c.headers
+		},
 		params: {
 			...c.params,
 			sessionID
 		}
 	});
+	return x;
 
 });
 

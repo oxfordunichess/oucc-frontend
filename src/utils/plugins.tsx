@@ -6,7 +6,7 @@ import Table from '../components/Table';
 import { FEN } from '../components/Chess';
 import Calendar from '../components/Calendar';
 import Form, { FormProps, Jotform, JotFormProps } from '../components/Form';
-import { ProfileProps, parseHTMLElement, CalendarProps, htmlParser as def } from '../components/interfaces';
+import { ProfileProps, parseHTMLElement, htmlParser as def } from '../components/interfaces';
 import Album, { AlbumProps } from '../components/Image';
 
 const htmlParser: def = require('react-markdown/plugins/html-parser');
@@ -45,7 +45,7 @@ export function parseHtml() {
 					return node.name === 'calendar';
 				},
 				processNode: function (node: parseHTMLElement, children: parseHTMLElement[]): ReactElement {
-					return <Calendar {...node.attribs as CalendarProps} />;
+					return <Calendar {...node.attribs as any} />;
 				}
 			},
 			{

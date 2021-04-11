@@ -1,19 +1,15 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useContext } from 'react';
 import Calendar, { CalendarProps, CalendarSettings } from 'reactjs-google-calendar';
-import { google } from './Auth/config';
+import { CalendarContext } from 'utils/contexts';
 
-interface Settings {
-	calendarIDs: {[key: string]: string}
-	mapsLink: string
-	locationReplacers: {[key: string]: string}
-}
-export default function Header({ settings, start, finish, weeks, title }: {
-	settings: Settings
+export default function CalendarComponent({ start, finish, weeks, title }: {
 	start: string
 	finish: string
 	weeks: string
 	title: string
 }) {
+
+	const settings = useContext(CalendarContext);
 
 	return (
 		<Calendar
@@ -24,8 +20,9 @@ export default function Header({ settings, start, finish, weeks, title }: {
 			title={title}
 			settings={{
 				...settings,
-				APIkey: google
+				APIkey: process.env.NEXT_PUBLIC_GOOGLE_API
 			}}
+			onError={console.error}
 		/>
 	);
 

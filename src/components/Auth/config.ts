@@ -8,5 +8,3 @@ export const lichess = {
 	tokenPath: '/oauth',
 	authorizePath: '/oauth/authorize'
 };
-
-export const google = 'AIzaSyDahTZUtTKORUdsOY3H7BEeOXbwye0nBHI';

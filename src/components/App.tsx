@@ -5,7 +5,7 @@ import Head from 'next/head';
 import MobileHeader from './Header/mobile';
 import Header from './Header/index';
 
-import Contexts, { MobileContext } from 'utils/contexts';
+import Contexts, { CalendarContext, MobileContext } from 'utils/contexts';
 import { updateMobile } from 'utils/auth';
 import Footer from './Footer';
 import { NavigationData } from './Header/interfaces';
@@ -15,6 +15,7 @@ interface AppProps {
 	description?: string
 	articles: string[]
 	navigation: NavigationData
+	calendar?: null | Calendar
 	children: ReactNode
 }
 
@@ -39,7 +40,8 @@ export default function App(props: AppProps) {
 			<meta name="description" content={props.description} />
 		</Head>
 		<Contexts values={[
-			[MobileContext, isMobile]
+			[MobileContext, isMobile],
+			[CalendarContext, props.calendar]
 		]}>
 			{showHeader ?
 				isMobile ?

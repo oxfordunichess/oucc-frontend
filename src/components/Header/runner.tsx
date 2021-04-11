@@ -12,15 +12,16 @@ export default function Runner(props: {
 	const [feedPosition, updateFeedPosition] = useReducer((state: number) => {
 		return state - 0.5;
 	}, 0);
-	const modPosition = useMemo(() => feedPosition & width ? feedPosition % (2 * width) : 0, [feedPosition, width]);
+	const leftPosition = useMemo(() => feedPosition & width ? (feedPosition - width) % (2 * width) + width : 0, [feedPosition, width]);
+	const rightPosition = useMemo(() => feedPosition & width ? feedPosition % (2 * width) : 0, [feedPosition, width]);
 
 	const runnerRef = useRef(null as HTMLDivElement);
 	const dummyRef = useRef(null as HTMLDivElement);
 
 	useEffect(() => {
-		if (!runnerRef.current) return;
-		setWidth(runnerRef.current.scrollWidth);
-	}, [setWidth, runnerRef, props.articles]);
+		if (!dummyRef.current) return;
+		setWidth(dummyRef.current.scrollWidth);
+	}, [setWidth, dummyRef, props.articles]);
 
 	useEffect(() => {
 		let x = setInterval(updateFeedPosition, 1000 / fps);
@@ -34,11 +35,11 @@ export default function Runner(props: {
 			</div>
 			<div></div>
 			<div className={styles.runner} ref={runnerRef}>
-				<div style={feedPosition ? { left: modPosition + 'px' } : {}}>
-					<NewsFeed feedPosition={-feedPosition} width={width} articles={props.articles} myRefs={{ runnerRef, dummyRef }} />
+				<div style={{  left: leftPosition + 'px' }} ref={dummyRef}>
+					<NewsFeed feedPosition={-feedPosition} width={width} articles={props.articles} />
 				</div>
-				<div style={feedPosition ? { left: (modPosition + width) + 'px' } : {}}>
-					<NewsFeed feedPosition={-feedPosition} width={width} articles={props.articles} myRefs={{ runnerRef, dummyRef }} />
+				<div style={{ left: rightPosition + 'px' }}>
+					<NewsFeed feedPosition={-feedPosition} width={width} articles={props.articles} />
 				</div>
 			</div>
 		</div>
@@ -50,9 +51,6 @@ function NewsFeed(props: {
 	feedPosition?: number,
 	width: number
 	articles: string[]
-	myRefs: {
-		[key: string]: MutableRefObject<HTMLDivElement>
-	}
 }) {
 
 	return <>

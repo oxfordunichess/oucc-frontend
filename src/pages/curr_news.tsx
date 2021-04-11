@@ -3,6 +3,7 @@ import Markdown from 'react-markdown';
 import cx from 'classnames';
 
 import Head from 'next/head';
+import Img from 'next/image';
 
 import { Link } from 'utils/link';
 import { parseHtml } from 'utils/plugins';
@@ -10,7 +11,6 @@ import * as regexes from 'utils/regexes';
 import axios, { server } from 'utils/axios';
 
 const styles = require('css/page.module.css');
-import { updateHash } from 'utils/prototype';
 import { MobileContext } from 'utils/contexts';
 import { GetStaticProps } from 'next';
 import { getNews } from './api/articles';
@@ -50,22 +50,24 @@ export default function News(props: NewsProps) {
 				<div				
 					id={id}
 					key={id}
-					className={cx(styles.section, {
-						[styles.mobileSection]: isMobile
-					})}
+					className={styles.section}
 				>
 					<Markdown
 						source={joined}
 						escapeHtml={false}
 						astPlugins={[parseHtml()]}
 						renderers={{
-							link: Link
+							link: Link,
+							img: Img
 						}}
 						transformImageUri={(uri) => {
 							if (uri.startsWith('.') || uri.startsWith('/')) uri = new URL(uri, server + 'data/').href;
 							return uri;
 						}}
 					/>
+					<script type='text/markdown'>
+						{joined}
+					</script>
 					<hr />
 				</div>
 			);

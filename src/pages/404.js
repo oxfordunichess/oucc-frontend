@@ -3,6 +3,7 @@ import Head from 'next/head';
 
 import { Link } from 'utils/link';
 import Footer from 'components/Footer';
+import App from 'components/App';
 
 export default function NotFound() {
 	

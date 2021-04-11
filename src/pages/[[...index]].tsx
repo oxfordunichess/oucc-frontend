@@ -1,21 +1,19 @@
 import React, { useContext, useMemo } from 'react';
 import Markdown from 'react-markdown';
-import url from 'url';
-import { StaticContext } from 'react-router';
-import { RouteComponentProps } from 'react-router-dom';
+import cx from 'classnames';
 import { GetStaticPaths, GetStaticProps } from 'next';
 
 import { Link } from 'utils/link';
 import axios, { server } from 'utils/axios';
 import { parseHtml } from 'utils/plugins';
 import { MobileContext } from 'utils/contexts';
-import { IndexData } from 'components/interfaces';
+import { CalendarGivenProps, IndexData } from 'components/interfaces';
 import { getNews } from './api/articles';
 import { getNavigation } from './api/navigation';
 
 const styles = require('../css/page.module.css');
 
-interface PageProps extends RouteComponentProps<any, StaticContext, any> {
+interface PageProps {
 	title?: string
 	description?: string
 	page: string
@@ -32,8 +30,12 @@ export default function Page(props: PageProps) {
 	const isMobile = useContext(MobileContext);
 
 	return (
-		<div className={[styles.page, isMobile ? styles.mobilePage : ''].join(' ')}>
-			<div className={[styles.main, isMobile ? styles.mobileMain : ''].join(' ')}>
+		<div className={cx(styles.page, {
+			[styles.mobilePage]: isMobile 
+		})}>
+			<div className={cx(styles.main, {
+				[styles.mobileMain]: isMobile
+			})}>
 				{sections.map((section, i) => {
 					return <div
 						key={['section', i].join('.')}
@@ -51,7 +53,7 @@ export default function Page(props: PageProps) {
 								link: Link
 							}}
 							transformImageUri={(uri) => {
-								if (uri.startsWith('.') || uri.startsWith('/')) uri = url.resolve(server + 'data/', uri);
+								if (uri.startsWith('.') || uri.startsWith('/')) uri = new URL('data/' + uri, server).href;
 								return uri;
 							}}
 						/>
@@ -74,10 +76,12 @@ export const getStaticPaths: GetStaticPaths = async (ctx) => {
 			params: { index }
 		};
 	});
+	
 	return { paths, fallback: true };
 }
 
 export const getStaticProps: GetStaticProps = async (ctx) => {
+	
 	const data = await axios({ url: '/index.json' })
 		.then(res => res.data) as IndexData;
 	let index = ctx.params!.index;
@@ -86,24 +90,33 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 		index || ['main'];
 	let k = indexArr.join('/');
 	let v = data[k];
+
 	if (!v) return {
 		notFound: true
 	};
 
 	if (v.redirect) {
 		return {
-			redirect: v.redirect,
-			props: {
-				index: []
+			redirect: {
+				destination: v.redirect,
+				permanent: true
 			}
 		};
 	}
 
 	let file = v.file || k;
-	let page = await axios({ url: `/pages/${file}.md` }).then(r => r.data);
+	let page: string = await axios({ url: `/pages/${file}.md` }).then(r => r.data);
 	if (!page) return {
 		notFound: true
 	};
+
+	let calendar = null as CalendarGivenProps;
+	if (page.includes('<Calendar')) {
+		calendar = await axios({ url: '/calendar.json' }).then(r => r.data);
+		if (!calendar) return {
+			notFound: true
+		}
+	}
 
 	const articles = await getNews();
 	const navigation = await getNavigation();
@@ -115,7 +128,8 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 			navigation,
 			title: v.title,
 			description: v.description,
-			metaData: v
+			metaData: v,
+			calendar
 		},
 		revalidate: 1
 	};
