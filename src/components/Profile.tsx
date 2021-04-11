@@ -1,8 +1,8 @@
 import React, {ReactElement} from 'react';
 import url from 'url';
-import { ProfileProps } from '../pages/interfaces';
-import * as regexes from '../utils/regexes';
-import { server } from '../utils/axios';
+import { ProfileProps } from './interfaces';
+import * as regexes from 'utils/regexes';
+import { server } from 'utils/axios';
 
 const styles = require('../css/components.module.css');
 

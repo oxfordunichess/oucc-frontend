@@ -1,11 +1,6 @@
 .page {
-	position: fixed;
-	height: calc(100vh - 140px);
-	overflow-y: scroll;
 	margin: auto;
-	padding: 0 30px;
-	width: 100vw;
-	background: white;
+	width: 100%;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -27,7 +22,7 @@
 .section {
 	display: flex;
 	flex-direction: column;
-	width: 61.8%;
+	max-width: 980px;
 	overflow-x: visible;
 }
 

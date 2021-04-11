@@ -46,22 +46,3 @@ export interface GithubCommit {
 	comments_url: string;
 	parents: CommitParent;
 }
-
-interface IndexElement {
-	title?: string;
-	parent?: string;
-	redirect?: string;
-	open?: string;
-	file?: string
-	private?: boolean
-}
-
-export interface IndexData {
-	[key: string]: string | IndexElement;
-}
-
-export interface Article {
-	title: string
-	image: string
-	description: string
-}

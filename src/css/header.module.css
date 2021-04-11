@@ -1,5 +1,8 @@
 .header {
-	min-height: 140px;
+	position: fixed;
+	height: 140px;
+	width: 100%;
+	top: 0px;
 	z-index: 1;
 	display: grid;
 	grid-template-rows: 90px 50px;
@@ -83,7 +86,7 @@
 	width: 100%;
 }
 
-.section > .dropParent {
+.section .dropParent {
 	display: flex;
 	padding: 10px 1vw;
 	cursor: pointer;
@@ -100,7 +103,6 @@
 
 .section .dropChild {
 	height: auto;
-	visibility: hidden;
 	z-index: 1;
 	padding: 20px 0;
 	cursor: pointer;
@@ -113,26 +115,35 @@
 }
 
 .section:hover .dropParent {
-	visibility: visible;
 	background: #002147;
 	border-right: 5px solid grey;
+}
+
+.dropChildren {
+	position: relative;
+	display: grid;
+	grid-auto-rows: 65px;
+	grid-auto-flow: row;
+	animation: expand-down 0.5s forwards;
+}
+.section:not(:hover) .dropChildren {
+	display: none;
 }
 
 .section:hover .dropChild {
-	animation: expand-down 0.5s forwards;
 	border-bottom: 1px solid gray;
 }
 
-.section > .dropParent:hover {
+.section .dropParent:hover {
 	background: green;
 }
 
-.section > .dropChild:hover {
+.dropChild:hover {
 	border-right: 5px solid grey;
 }
 
-.section > .selected {
-	background: #002147;
+.section .selected {
+	background: darkgreen;
 }
 
 
@@ -168,6 +179,7 @@
 	position: relative;
 	overflow: none;
 	font-family: 'Josefin Sans';
+	background-color: #f0f0f0;
 }
 
 .newsFeed div.intro {
@@ -185,10 +197,17 @@
 	font-size: 12;
 	border-right: 1px solid black;
 	max-width: calc(100vw - 210px);
+	position: relative;
+}
+.runner::-webkit-scrollbar {
+	display: none;
 }
 
 .newsFeed div.runner > div {
 	display: inherit;
+	position: relative;
+	left: 0px;
+	will-change: left;
 }
 
 .newsFeed div.runner a {

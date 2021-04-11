@@ -29,3 +29,10 @@ export function BooleanSerialise(obj: {[key: number]: boolean, [key: string]: bo
 		.map(([k, v]) => k.toString() + '=' + v.toString())
 		.join('&');
 }
+
+export function updateHash(id: number | string) {
+	if (typeof window === 'undefined') return;
+	if (typeof window.location === 'undefined') return;
+	console.log(typeof window);
+	window.location.hash = id.toString();
+}

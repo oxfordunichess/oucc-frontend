@@ -30,7 +30,7 @@
         ],
         "linebreak-style": [
             "error",
-            "windows"
+            "unix"
 		],
 		"no-console": "warn",
 		"no-unused-vars": "off",

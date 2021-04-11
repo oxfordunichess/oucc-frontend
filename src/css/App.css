@@ -1,6 +1,6 @@
 /* GENERIC SELECTORS */
 
-//@import url('https://fonts.googleapis.com/css?family=Bebas+Neue&display=swap');
+/*@import url('https://fonts.googleapis.com/css?family=Bebas+Neue&display=swap');*/
 @import url('https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap');
 
 * {
@@ -8,16 +8,13 @@
 	padding: 0;
 	border: 0;
 	text-decoration: none;
+	scroll-margin-top: 150px;
 }
 
 body {
-	background-color: #f0f0f0;
+	background: white;
 	font-family: trebuchet ms, trebuchet, arial, helvetica, geneva, sans-serif;
-	overflow-x: hidden;
-	-ms-overflow-style: none;
-}
-::-webkit-scrollbar {
-	display: none;
+	overflow-y: scroll;
 }
 
 #title {
@@ -58,8 +55,12 @@ body {
 }
 
 #main {
-	margin: 0 30px;
+	margin-top: 140px;
+	padding-top: 30px;
+	height: max-content;
+	width: 100%;
 	overflow-x: auto;
+	box-sizing: border-box;
 }
 
 #content {

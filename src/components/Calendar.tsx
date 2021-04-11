@@ -1,57 +1,29 @@
-import React, { ReactElement } from 'react';
-import axios from '../utils/axios';
-import Calendar from '../Calendar';
-import { CalendarSettings, StringDictionary } from '../Calendar/interfaces';
-import { CalendarProps } from '../pages/interfaces';
+import React, { ReactElement, useContext } from 'react';
+import Calendar, { CalendarProps, CalendarSettings } from 'reactjs-google-calendar';
+import { CalendarContext } from 'utils/contexts';
 
-export default class Header extends React.Component<CalendarProps, {
-	styles: StringDictionary,
-	settings: CalendarSettings
-}> {
+export default function CalendarComponent({ start, finish, weeks, title }: {
+	start: string
+	finish: string
+	weeks: string
+	title: string
+}) {
 
-	state = {
-		styles: (() => {
-			try {
-				return require('../css/' + this.props.styles) as StringDictionary;
-			} catch (e) {
-				return {} as StringDictionary;
-			}
-		})(),
-		settings: {
-			calendarIDs: {} as StringDictionary,
-			mapsLink: '',
-			locationReplacers: {} as StringDictionary,
-			start: this.props.start,
-			finish: this.props.finish,
-			weeks: parseInt(this.props.weeks),
-			title: this.props.title,
-			days: []
-		} as CalendarSettings
-	}
+	const settings = useContext(CalendarContext);
 
-	getSettings(url: string): Promise<any> {
-		if (!url) return Promise.reject();
-		return axios({
-			baseURL: 'https://oxfordunichess.github.io/oucc-backend/',
-			url,
-			params: {
-				sessionID: this.props.sessionID
-			}
-		})
-			.then(res => res.data)
-			.catch(console.error);
-	}
-
-	componentDidMount() {
-		this.getSettings(this.props.settings)
-			.then((settings) => this.setState({settings: Object.assign(this.state.settings, settings)}))
-			.catch(() => {})
-	}
-
-	render(): ReactElement {
-		return (
-			<Calendar {...this.props} settings={this.state.settings} styles={this.state.styles}/>
-		);
-	}
+	return (
+		<Calendar
+			calendars={settings.calendarIDs}
+			start={new Date(start)}
+			finish={new Date(finish)}
+			weeks={parseInt(weeks)}
+			title={title}
+			settings={{
+				...settings,
+				APIkey: process.env.NEXT_PUBLIC_GOOGLE_API
+			}}
+			onError={console.error}
+		/>
+	);
 
 }

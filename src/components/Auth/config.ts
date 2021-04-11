@@ -1,6 +1,6 @@
-import { isDev } from '../utils/auth';
+import { isDev } from '../../utils/auth';
 
-const lichess = {
+export const lichess = {
 	id: isDev() ? '5vJ1ikA0qNR21fk7' : 'LwK306sbKWFHIzlV',
 	secret: isDev() ? process.env.LICHESS_SECRET_BETA : process.env.LICHESS_SECRET,
 	redirectUri: (isDev() ? 'http://localhost:3000/' : 'http://users.ox.ac.uk/~chess/')  + 'callback/lichess',
@@ -8,5 +8,3 @@ const lichess = {
 	tokenPath: '/oauth',
 	authorizePath: '/oauth/authorize'
 };
-
-export { lichess };
