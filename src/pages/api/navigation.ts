@@ -2,5 +2,9 @@ import axios from 'utils/axios';
 
 export function getNavigation(): Promise<string[]> {
 	return axios({ url: '/navigation.json' })
-		.then(r => r.data);
+		.then(r => r.data)
+		.catch((e) => {
+			console.error(e);
+			return [];
+		});
 }

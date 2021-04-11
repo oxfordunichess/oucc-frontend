@@ -16,6 +16,10 @@ export function getNews(): Promise<string[]> {
 	})
 		.then(r => r.data)
 		.then(fetchArticles)
+		.catch((e) => {
+			console.error(e);
+			return [];
+		});
 }
 
 export default handler;
