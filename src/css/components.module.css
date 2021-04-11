@@ -73,6 +73,9 @@
 .grid {
 	visibility: visible;
 }
+.grid > div > div > div {
+	margin: 2px!important;
+}
 
 .carousel {
 	display: flex;

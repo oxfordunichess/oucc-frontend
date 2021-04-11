@@ -1,7 +1,14 @@
 .footer {
+	display: grid;
+	row-gap: 10px;
+	margin-bottom: 20px;
+}
+
+.icons {
 	display: flex;
-	flex-direction: horizontal;
+	flex-direction: row;
 	height: 50px;
+	justify-content: center;
 }
 
 .link {
@@ -14,4 +21,11 @@
 
 .image:hover {
 	opacity: 0.6;
+}
+
+.tag {
+	display: flex;
+	justify-content: center;
+	font-family: 'Josefin Sans';
+	font-weight: 500;
 }

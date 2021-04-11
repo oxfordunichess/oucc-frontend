@@ -1,4 +1,6 @@
 
+export const link = /^(?:https:\/\/)?(?:www.)?([a-z.]+\.[a-z.]+)\/?(?:.*)?$/;
+
 export const space = /\s+/g;
 
 export const letters = /\w+/g;

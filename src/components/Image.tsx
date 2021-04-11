@@ -1,13 +1,13 @@
 import React, { useState, useCallback } from 'react';
 import { Carousel as RRC } from 'react-responsive-carousel';
+import Img from 'next/image';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
-import Gallery from 'react-photo-gallery';
-import Lightbox, { Modal, ModalGateway } from 'react-images';
+import Gallery, { RenderImageProps } from 'react-photo-gallery';
 import { PhotoProps } from 'react-photo-gallery';
-import styles from '../css/components.module.css';
 import axios, { server } from '../utils/axios';
 import url from 'url';
 import { imageExt } from '../utils/regexes';
+const styles = require('../css/components.module.css');
 
 export default function Album(props: AlbumProps) {
 
@@ -79,6 +79,11 @@ export default function Album(props: AlbumProps) {
 				});
 		}
 	}
+
+	const renderImage = useCallback(({ index, left, top, photo}: RenderImageProps) => {
+		return <Img src={photo.src} width={photo.width} height={photo.height} />
+	}, []);
+
 	return (
 		<div
 			className={props.type === 'grid' ? styles.grid : styles.carousel}
@@ -89,6 +94,7 @@ export default function Album(props: AlbumProps) {
 					onClick={props.enableLightbox !== false ? openLightbox : () => {}}
 					margin={props.margin || 2}
 					columns={3}
+					renderImage={renderImage}
 					targetRowHeight={props.height || 200}
 				/> :
 				<RRC		//React-Reponsive-Carousel
@@ -111,30 +117,12 @@ export default function Album(props: AlbumProps) {
 						if (!x) return null;
 						return (
 							<div key={x.src + '.' + i.toString()}>
-								<img
-									src={x.src}
-									alt={x.alt}
-								></img>
+								<img src={x.src} alt={x.alt} />
 							</div>
 						)
 					})}
 				</RRC>
 			}
-			{props.enableLightbox !== false ? (
-				<ModalGateway>
-					{!viewerIsOpen ?  null : (
-						<Modal onClose={closeLightbox}>
-							<Lightbox
-								currentIndex={currentImage}
-								views={photos.map(x => ({
-									...x,
-									caption: x.title
-								}))}
-							/>
-						</Modal>
-					)}
-				</ModalGateway>
-			) : null}
 		</div>
 	);
 }
