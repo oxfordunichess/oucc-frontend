@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode, useEffect, useMemo, useState } from 'react';
+import React, { ReactNode, useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 
@@ -9,13 +9,14 @@ import Contexts, { CalendarContext, MobileContext } from 'utils/contexts';
 import { updateMobile } from 'utils/auth';
 import Footer from './Footer';
 import { NavigationData } from './Header/interfaces';
+import { CalendarGivenProps } from './interfaces';
 
 interface AppProps {
 	title?: string
 	description?: string
 	articles: string[]
 	navigation: NavigationData
-	calendar?: null | Calendar
+	calendar?: null | CalendarGivenProps
 	children: ReactNode
 }
 

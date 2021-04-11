@@ -4,10 +4,10 @@ import Img from 'next/image';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import Gallery, { RenderImageProps } from 'react-photo-gallery';
 import { PhotoProps } from 'react-photo-gallery';
-import styles from '../css/components.module.css';
 import axios, { server } from '../utils/axios';
 import url from 'url';
 import { imageExt } from '../utils/regexes';
+const styles = require('../css/components.module.css');
 
 export default function Album(props: AlbumProps) {
 

@@ -6,7 +6,7 @@
 
 .icons {
 	display: flex;
-	flex-direction: horizontal;
+	flex-direction: row;
 	height: 50px;
 	justify-content: center;
 }

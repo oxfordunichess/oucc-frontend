@@ -1,5 +1,6 @@
 import React, { ReactElement, RefObject } from 'react';
-import styles from '../css/components.module.css';
+
+const styles = require('css/components.module.css');
 
 export interface FormProps {
 	action: string

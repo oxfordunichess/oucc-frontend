@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from 'react';
+import React, { useContext, useEffect, useMemo } from 'react';
 import Markdown from 'react-markdown';
 import cx from 'classnames';
 import { GetStaticPaths, GetStaticProps } from 'next';
@@ -10,40 +10,40 @@ import { MobileContext } from 'utils/contexts';
 import { CalendarGivenProps, IndexData } from 'components/interfaces';
 import { getNews } from './api/articles';
 import { getNavigation } from './api/navigation';
+import { useRouter } from 'next/router';
 
 const styles = require('../css/page.module.css');
 
 interface PageProps {
 	title?: string
 	description?: string
+	redirect?: string
 	page: string
 }
 
 export default function Page(props: PageProps) {
 
+	const router = useRouter();
 	const wide = useMemo(() => {
 		return props.page?.toLowerCase().includes('<calendar');
 	}, [props.page]);
 
 	const sections = props.page?.trim().split('\n---\n') || [];
 
-	const isMobile = useContext(MobileContext);
+	useEffect(() => {
+		if (!props.redirect) return;
+		router.push(props.redirect);
+	}, [props.redirect, router]);
 
 	return (
-		<div className={cx(styles.page, {
-			[styles.mobilePage]: isMobile 
-		})}>
-			<div className={cx(styles.main, {
-				[styles.mobileMain]: isMobile
-			})}>
+		<div className={styles.page}>
+			<div className={styles.main}>
 				{sections.map((section, i) => {
 					return <div
 						key={['section', i].join('.')}
-						className={[
-							styles.section,
-							wide ? styles.wide : '',
-							isMobile ? styles.mobileSection : ''
-						].join(' ')}
+						className={cx(styles.section, {
+							[styles.wide]: wide
+						})}
 					>
 						<Markdown
 							source={section.trim()}
@@ -69,13 +69,14 @@ export const getStaticPaths: GetStaticPaths = async (ctx) => {
 	const data = await axios({ url: '/index.json' })
 		.then(res => res.data) as IndexData;
 	const paths = Object.entries(data).map(([k, v]) => {
+		if (k === 'index.html') return null;
 		let index = v.private ?
 			['private', ...k.split('/')] :
 			k.split('/');
 		return {
 			params: { index }
 		};
-	});
+	}).filter(v => v);
 	
 	return { paths, fallback: true };
 }
@@ -97,9 +98,8 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 
 	if (v.redirect) {
 		return {
-			redirect: {
-				destination: v.redirect,
-				permanent: true
+			props: {
+				redirect: v.redirect
 			}
 		};
 	}
@@ -127,7 +127,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 			articles,
 			navigation,
 			title: v.title,
-			description: v.description,
+			description: v.description || '',
 			metaData: v,
 			calendar
 		},
