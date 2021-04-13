@@ -30,8 +30,8 @@ export default function Table(props: {
 				return obj;
 			});
 		}
-		setBody(data);
-	}, [setBody]);
+		return data;
+	}, []);
 
 	const getDate = useCallback((file: string) => {
 		return axios({
@@ -55,7 +55,7 @@ export default function Table(props: {
 	}, [setDate]);
 
 	const GenerateTable = useCallback(function GenerateTable({ arr }: { arr: TableJSON[] }) {
-		if (!arr.length) return null;
+		if (!arr?.length) return null;
 		let keys = Object.keys(arr[0]);
 		return (
 			<table>
@@ -65,12 +65,14 @@ export default function Table(props: {
 					</tr>
 				</thead>
 				<tbody>
-					{arr.map((line) => {
+					{arr.map((line, i) => {
 						let id = Object.values(line)[0] ? Object.values(line)[0].toString().toLowerCase().replace(/\s+/g, '-') : null;
 						return (
-							<tr key={id} id={id} >{
-								keys.map((key, i) => <td key={[key, i].join('.')}>{key in line ? line[key] : null}</td>)
-							}</tr>
+							<tr key={[id, i].join('.')} id={id} >
+								{keys.map((key, j) => <td key={[key, j].join('.')}>
+									{key in line ? line[key] : null}
+								</td>)}
+							</tr>
 						);
 					})}
 				</tbody>
@@ -98,7 +100,7 @@ export default function Table(props: {
 		} catch (e) {
 			console.error(e);
 		}
-	}, [props.src]);
+	}, [props.src, setBody, getData]);
 
 	useEffect(() => {
 		updateData();
