@@ -35,10 +35,11 @@ export default function Page(props: PageProps) {
 		router.push(props.redirect);
 	}, [props.redirect, router]);
 
-	return (
+	return <>
 		<div className={styles.page}>
 			<div className={styles.main}>
 				{sections.map((section, i) => {
+					let src = section.trim();
 					return <div
 						key={['section', i].join('.')}
 						className={cx(styles.section, {
@@ -46,7 +47,7 @@ export default function Page(props: PageProps) {
 						})}
 					>
 						<Markdown
-							source={section.trim()}
+							source={src}
 							escapeHtml={false}
 							astPlugins={[parseHtml()]}
 							renderers={{
@@ -57,11 +58,14 @@ export default function Page(props: PageProps) {
 								return uri;
 							}}
 						/>
+						<script type='text/markdown'>
+							{src}
+						</script>
 					</div>;
 				})}
 			</div>
 		</div>
-	);
+	</>;
 }
 
 export const getStaticPaths: GetStaticPaths = async (ctx) => {
