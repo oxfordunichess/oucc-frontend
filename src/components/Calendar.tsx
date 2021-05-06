@@ -1,6 +1,8 @@
-import React, { ReactElement, useContext } from 'react';
-import Calendar, { CalendarProps, CalendarSettings } from 'reactjs-google-calendar';
+import React, { useContext } from 'react';
+import Calendar from 'reactjs-google-calendar';
 import { CalendarContext } from 'utils/contexts';
+
+const styles = require('css/calendar.module.css');
 
 export default function CalendarComponent({ start, finish, weeks, title }: {
 	start: string
@@ -23,6 +25,7 @@ export default function CalendarComponent({ start, finish, weeks, title }: {
 				APIkey: process.env.NEXT_PUBLIC_GOOGLE_API
 			}}
 			onError={console.error}
+			classNames={styles}
 		/>
 	);
 

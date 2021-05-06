@@ -1,6 +1,6 @@
 {
 	"name": "oucc-react",
-	"version": "2.0.0",
+	"version": "2.0.1",
 	"private": false,
 	"homepage_gh": "https://oxfordunichess.github.io/oucc-frontend/",
 	"homepage": "http://users.ox.ac.uk/oucc-frontend/",
@@ -36,7 +36,7 @@
 		"react-photo-gallery": "^8.0.0",
 		"react-responsive-carousel": "^3.1.51",
 		"react-router-dom": "^5.1.2",
-		"reactjs-google-calendar": "^2.1.3",
+		"reactjs-google-calendar": "^2.1.4",
 		"simple-oauth2": "^4.2.0"
 	},
 	"license": "MIT",
